@@ -6,64 +6,78 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1>Das beste Browsergame der Welt</h1>
+			<h1>Leviathalis</h1>
 		</div>
 		<div id="content">
 			<?
-			if (isset($_POST["submit"])) 
+			// Wenn Registrierungsformular abgeschickt
+			if (isset($_POST["register"])) 
 			{
+				// Wenn alle Felder ausgefüllt sind
 				if ((($_POST["name"] || $_POST["password"] || $_POST["passwordConfirm"]) != "")
+					// Wenn Der Name mehr als 2 Zeichen hat
 					&& (strlen($_POST["name"]) > 2)
+					// Wenn das Passwort mehr als 5 Zeichen hat
 					&& (strlen($_POST["password"]) > 5)
+					// Wenn das Passwort und die Bestätigung des Passworts identisch sind
 					&& ($_POST["password"] === $_POST["passwordConfirm"]))
 				{
-					mysql_connect("localhost","root","123"); //database connection
+					// Datenbankverbindung aufbauen
+					mysql_connect("localhost","root","123");
 					mysql_select_db("users");
-					 
+					
+					// Einzutragende Werte initialisieren
 					$name = $_POST["name"]; 
 					$password = $_POST["password"];
 					 
-					//inserting data order
+					// Daten in eine Tabelle abspeichern
 					$order = "INSERT INTO data
 								(name, password)
 								VALUES
 								('$name',
 								'$password')";
 					 
-					//declare in the order variable
-					$result = mysql_query($order);  //order executes
+					// War die Verbindung erfolgreich?
+					$result = mysql_query($order);
+					
+					// Wenn JA
 					if($result)
 					{
-						echo("<br>Erfolgreich angemeldet!");
-						//header ( 'Location: index.php' );
+						session_start();
+						$_SESSION["name"] = $_POST["name"];
+						header ( 'Location: index.php' );
 					}
+					// Wenn NEIN
 					else
 					{
-						echo("<br>Die Anmeldung schlug fehl.");
+						// Fehlermeldung über fehlgeschlagende Verbindung
+						echo("<span style=\"color:#FF0000;\"><b>Die Anmeldung schlug fehl. Ein Problem mit der Datenbank liegt vor. Bitte kontaktiere den Support in diesem Fall.</b></span><br />");
 					}
 				}
+				
+				// Fehlermeldungen für ungültige Eingaben im Formular
 				else
 				{
 					if (($_POST["name"] || $_POST["password"] || $_POST["passwordConfirm"]) == "")
 					{
-						echo "<span style=\"color:#FF0000;\">Du musst alle Felder ausfüllen.</span><br />";  
+						echo "<span style=\"color:#FF0000;\"><b>Du musst alle Felder ausfüllen.</b></span><br />";  
 					}
 					else
 					{
 						if (strlen($_POST["name"]) <= 2)
 						{
-							echo "<span style=\"color:#FF0000;\">Dein Nickname muss mindestens 3 Zeichen lang sein.</span><br />";  
+							echo "<span style=\"color:#FF0000;\"><b>Dein Nickname muss mindestens 3 Zeichen lang sein.</b></span><br />";  
 						}
 						
 						if (strlen($_POST["password"]) <= 5)
 						{
-							echo "<span style=\"color:#FF0000;\">Dein Passwort muss mindestens 6 Zeichen lang sein.</span><br />";  
+							echo "<span style=\"color:#FF0000;\"><b>Dein Passwort muss mindestens 6 Zeichen lang sein.</b></span><br />";  
 						}
 						else
 						{
 							if ($_POST["password"] != $_POST["passwordConfirm"])
 							{
-								echo "<span style=\"color:#FF0000;\">Die Passwörter sind nicht identisch.</span><br />";  
+								echo "<span style=\"color:#FF0000;\"><b>Die Passwörter sind nicht identisch.</b></span><br />";  
 							}
 						}
 					}
@@ -72,6 +86,7 @@
 			}
 			?>
 			<table>
+				<!-- Registrierungsformular -->
 				<form method="post" action="register.php">
 				<tr>
 				  <td>Name</td>
@@ -91,10 +106,12 @@
 				<tr>
 				  <td></td>
 				  <td align="right"><input type="submit"
-				  name="submit" value="Registrieren"></td>
+				  name="register" value="Registrieren"></td>
 				</tr>
 			</table>
 		</div>
+		
+		<!-- Footer -->
 		<div id="footer">
 			Copyright &copy; 2014 Marcel Gregoriadis
 		</div>
