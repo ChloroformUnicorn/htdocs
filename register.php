@@ -9,80 +9,108 @@
 			<h1>Leviathalis</h1>
 		</div>
 		<div id="content">
+
 			<?
-			// Wenn Registrierungsformular abgeschickt
-			if (isset($_POST["register"])) 
-			{
-				// Wenn alle Felder ausgefüllt sind
-				if ((($_POST["name"] || $_POST["password"] || $_POST["passwordConfirm"]) != "")
-					// Wenn Der Name mehr als 2 Zeichen hat
-					&& (strlen($_POST["name"]) > 2)
-					// Wenn das Passwort mehr als 5 Zeichen hat
-					&& (strlen($_POST["password"]) > 5)
-					// Wenn das Passwort und die Bestätigung des Passworts identisch sind
-					&& ($_POST["password"] === $_POST["passwordConfirm"]))
+				// Wenn Registrierungsformular abgeschickt
+				if (isset($_POST["register"])) 
 				{
 					// Datenbankverbindung aufbauen
 					include("db.inc.php");
-					
-					// Einzutragende Werte initialisieren
-					$name = $_POST["name"]; 
-					$password = $_POST["password"];
-					 
-					// Daten in eine Tabelle abspeichern
-					$order = "INSERT INTO users
-								(name, password)
-								VALUES
-								('$name',
-								'$password')";
-					 
-					// War die Verbindung erfolgreich?
-					$result = mysqli_query($db, $order);
-					
-					// Wenn JA
-					if($result)
+
+					// Auslesung der registrierten Nutzer in der Datenbank
+					$sql = "SELECT name FROM users";
+					$db_erg = mysqli_query( $db, $sql );
+					if ( ! $db_erg )
 					{
-						session_start();
-						$_SESSION["name"] = $_POST["name"];
-						header ( 'Location: index.php' );
+	  					die('Ungültige Abfrage: ' . mysqli_error());
 					}
-					// Wenn NEIN
-					else
+
+					$nameAvail = true;
+
+					// Jeder Datensatz wird darauf geprüft, ob er den selben NAMEN hat, wie der der sich gerade versucht anzumelden
+					while ($dsatz = mysqli_fetch_array($db_erg, MYSQL_ASSOC))
 					{
-						// Fehlermeldung über fehlgeschlagende Verbindung
-						echo "<span style=\"color:#FF0000;\"><b>Die Anmeldung schlug fehl. Ein Problem mit der Datenbank liegt vor. Bitte kontaktiere den Support in diesem Fall.</b></span><br />";
-					}
-				}
-				
-				// Fehlermeldungen für ungültige Eingaben im Formular
-				else
-				{
-					if (($_POST["name"] || $_POST["password"] || $_POST["passwordConfirm"]) == "")
-					{
-						echo "<span style=\"color:#FF0000;\"><b>Du musst alle Felder ausfüllen.</b></span><br />";  
-					}
-					else
-					{
-						if (strlen($_POST["name"]) <= 2)
+						// Name schon vergeben
+						if ($_POST["name"] == $dsatz['name'])
 						{
-							echo "<span style=\"color:#FF0000;\"><b>Dein Nickname muss mindestens 3 Zeichen lang sein.</b></span><br />";  
+							$nameAvail = false;
+							echo "<span style=\"color:#FF0000;\"><b>Dieser Name ist bereits vergeben.</b></span><br />";  
+						}
+					}
+
+					// Name noch verfügbar
+					if ($nameAvail == true)
+					{
+						// Wenn alle Felder ausgefüllt sind
+						if ((($_POST["name"] || $_POST["password"] || $_POST["passwordConfirm"]) != "")
+							// Wenn Der Name mehr als 2 Zeichen hat
+							&& (strlen($_POST["name"]) > 2)
+							// Wenn das Passwort mehr als 5 Zeichen hat
+							&& (strlen($_POST["password"]) > 5)
+							// Wenn das Passwort und die Bestätigung des Passworts identisch sind
+							&& ($_POST["password"] === $_POST["passwordConfirm"]))
+						{
+							
+							// Einzutragende Werte initialisieren
+							$name = $_POST["name"]; 
+							$password = $_POST["password"];
+							 
+							// Daten in eine Tabelle abspeichern
+							$order = "INSERT INTO users
+										(name, password)
+										VALUES
+										('$name',
+										'$password')";
+							 
+							// War die Verbindung erfolgreich?
+							$result = mysqli_query($db, $order);
+							
+							// Wenn JA
+							if($result)
+							{
+								session_start();
+								$_SESSION["name"] = $_POST["name"];
+								header ( 'Location: index.php' );
+							}
+
+							// Wenn NEIN
+							else
+							{
+								// Fehlermeldung über fehlgeschlagende Verbindung
+								echo "<span style=\"color:#FF0000;\"><b>Die Anmeldung schlug fehl. Ein Problem mit der Datenbank liegt vor. Bitte kontaktiere den Support in diesem Fall.</b></span><br />";
+							}
 						}
 						
-						if (strlen($_POST["password"]) <= 5)
-						{
-							echo "<span style=\"color:#FF0000;\"><b>Dein Passwort muss mindestens 6 Zeichen lang sein.</b></span><br />";  
-						}
+						// Fehlermeldungen für ungültige Eingaben im Formular
 						else
 						{
-							if ($_POST["password"] != $_POST["passwordConfirm"])
+							if (($_POST["name"] || $_POST["password"] || $_POST["passwordConfirm"]) == "")
 							{
-								echo "<span style=\"color:#FF0000;\"><b>Die Passwörter sind nicht identisch.</b></span><br />";  
+								echo "<span style=\"color:#FF0000;\"><b>Du musst alle Felder ausfüllen.</b></span><br />";  
+							}
+							else
+							{
+								if (strlen($_POST["name"]) <= 2)
+								{
+									echo "<span style=\"color:#FF0000;\"><b>Dein Nickname muss mindestens 3 Zeichen lang sein.</b></span><br />";  
+								}
+								
+								if (strlen($_POST["password"]) <= 5)
+								{
+									echo "<span style=\"color:#FF0000;\"><b>Dein Passwort muss mindestens 6 Zeichen lang sein.</b></span><br />";  
+								}
+								else
+								{
+									if ($_POST["password"] != $_POST["passwordConfirm"])
+									{
+										echo "<span style=\"color:#FF0000;\"><b>Die Passwörter sind nicht identisch.</b></span><br />";  
+									}
+								}
 							}
 						}
 					}
+					
 				}
-				
-			}
 			?>
 			<table>
 				<!-- Registrierungsformular -->
