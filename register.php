@@ -23,22 +23,21 @@
 					&& ($_POST["password"] === $_POST["passwordConfirm"]))
 				{
 					// Datenbankverbindung aufbauen
-					mysql_connect("localhost","root","123");
-					mysql_select_db("users");
+					include("db.inc.php");
 					
 					// Einzutragende Werte initialisieren
 					$name = $_POST["name"]; 
 					$password = $_POST["password"];
 					 
 					// Daten in eine Tabelle abspeichern
-					$order = "INSERT INTO data
+					$order = "INSERT INTO users
 								(name, password)
 								VALUES
 								('$name',
 								'$password')";
 					 
 					// War die Verbindung erfolgreich?
-					$result = mysql_query($order);
+					$result = mysqli_query($db, $order);
 					
 					// Wenn JA
 					if($result)
@@ -51,7 +50,7 @@
 					else
 					{
 						// Fehlermeldung über fehlgeschlagende Verbindung
-						echo("<span style=\"color:#FF0000;\"><b>Die Anmeldung schlug fehl. Ein Problem mit der Datenbank liegt vor. Bitte kontaktiere den Support in diesem Fall.</b></span><br />");
+						echo "<span style=\"color:#FF0000;\"><b>Die Anmeldung schlug fehl. Ein Problem mit der Datenbank liegt vor. Bitte kontaktiere den Support in diesem Fall.</b></span><br />";
 					}
 				}
 				
@@ -113,6 +112,7 @@
 		
 		<!-- Footer -->
 		<div id="footer">
+			<hr />
 			Copyright &copy; 2014 Marcel Gregoriadis
 		</div>
 	</div>
