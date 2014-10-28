@@ -5,7 +5,7 @@ body {
 
 #container {
 	background-color: white;
-	width: 1300px;
+	width: 1000px;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -21,12 +21,12 @@ body {
 }
 
 #login {
-	width: 500px;
+	width: 300px;
 	float: left;
 }
 
 #main {
-	width: 780px;
+	width: 680px;
 	float: right;
 }
 

@@ -41,14 +41,19 @@
 					// Name noch verfügbar
 					if ($nameAvail == true)
 					{
+						// Bedingungen
 						// Wenn alle Felder ausgefüllt sind
 						if ((($_POST["name"] || $_POST["password"] || $_POST["passwordConfirm"]) != "")
-							// Wenn Der Name mehr als 2 Zeichen hat
-							&& (21 > strlen($_POST["name"]) > 2)
-							// Wenn das Passwort mehr als 5 Zeichen hat
-							&& (strlen($_POST["password"]) > 5)
-							// Wenn das Passwort und die Bestätigung des Passworts identisch sind
-							&& ($_POST["password"] === $_POST["passwordConfirm"]))
+						// Wenn der Name mehr als 2 Zeichen hat
+						&& (strlen($_POST["name"]) > 2)
+						// Wenn der Name weniger als 20 Zeichen hat
+						&& (strlen($_POST["name"]) < 21)
+						// Wenn die E-Mail mehr als 5 Zeichen hat (a@b.cd)
+						&& (strlen($_POST["email"]) > 5)
+						// Wenn das Passwort mehr als 5 Zeichen hat
+						&& (strlen($_POST["password"]) > 5)
+						// Wenn das Passwort und die Bestätigung des Passworts identisch sind
+						&& ($_POST["password"] === $_POST["passwordConfirm"]))
 						{
 							
 							// Einzutragende Werte initialisieren
