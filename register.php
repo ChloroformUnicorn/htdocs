@@ -25,7 +25,7 @@
 	  					die('Ungültige Abfrage: ' . mysqli_error());
 					}
 
-					$nameAvail = true;
+					$isNameAvail = true;
 
 					// Jeder Datensatz wird darauf geprüft, ob er den selben NAMEN hat, wie der der sich gerade versucht anzumelden
 					while ($dsatz = mysqli_fetch_array($db_erg, MYSQL_ASSOC))
@@ -33,23 +33,26 @@
 						// Name schon vergeben
 						if ($_POST["name"] == $dsatz['name'])
 						{
-							$nameAvail = false;
+							$isNameAvail = false;
 							echo "<span style=\"color:#FF0000;\"><b>Dieser Name ist bereits vergeben.</b></span><br />";  
 						}
 					}
 
 					// Name noch verfügbar
-					if ($nameAvail == true)
+					if ($isNameAvail == true)
 					{
+							$name = $_POST["name"]; 
 						// Bedingungen
 						// Wenn alle Felder ausgefüllt sind
 						if ((($_POST["name"] || $_POST["password"] || $_POST["passwordConfirm"]) != "")
+						// Wenn der Name mit deutschen Buchstaben und Zeichen gebildet ist
+						&& (preg_match('~[0-9a-zA-Z]~', 'bob'))
 						// Wenn der Name mehr als 2 Zeichen hat
 						&& (strlen($_POST["name"]) > 2)
 						// Wenn der Name weniger als 20 Zeichen hat
 						&& (strlen($_POST["name"]) < 21)
-						// Wenn die E-Mail mehr als 5 Zeichen hat (a@b.cd)
-						&& (strlen($_POST["email"]) > 5)
+						// Wenn die E-Mail gültig ist
+						&& (filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) !== false)
 						// Wenn das Passwort mehr als 5 Zeichen hat
 						&& (strlen($_POST["password"]) > 5)
 						// Wenn das Passwort und die Bestätigung des Passworts identisch sind
@@ -58,7 +61,7 @@
 							
 							// Einzutragende Werte initialisieren
 							$name = $_POST["name"]; 
-							$email = $_POST["email"]; 
+							$email = $_POST["email"];
 							$password = $_POST["password"];
 							date_default_timezone_set('Europe/Berlin');
 							$date = date('Y-m-d H:i:s');
@@ -91,12 +94,18 @@
 						// Fehlermeldungen für ungültige Eingaben im Formular
 						else
 						{
-							if (($_POST["name"] || $_POST["password"] || $_POST["passwordConfirm"]) == "")
+							if (($_POST["name"] || $_POST["email"] || $_POST["password"] || $_POST["passwordConfirm"]) == "")
 							{
 								echo "<span style=\"color:#FF0000;\"><b>Du musst alle Felder ausfüllen.</b></span><br />";
 							}
 							else
 							{
+								if (!preg_match("[0-9a-zA-Z]", $_POST["name"]))
+								{
+									echo "<span style=\"color:#FF0000;\"><b>Dein Name ist nicht gültig.</b></span><br />";
+									echo $_POST["name"]; 
+								}
+
 								if (strlen($_POST["name"]) < 3)
 								{
 									echo "<span style=\"color:#FF0000;\"><b>Dein Nickname muss mindestens 3 Zeichen lang sein.</b></span><br />";  
@@ -105,6 +114,11 @@
 								if (strlen($_POST["name"]) > 20)
 								{
 									echo "<span style=\"color:#FF0000;\"><b>Dein Nickname darf nicht mehr als 20 Zeichen lang sein.</b></span><br />";  
+								}
+
+								if (filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) == false)
+								{
+									echo "<span style=\"color:#FF0000;\"><b>Die E-Mail Adresse ist nicht gültig.</b></span><br />";  
 								}
 								
 								if (strlen($_POST["password"]) < 6)
