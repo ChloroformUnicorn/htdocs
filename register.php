@@ -19,7 +19,7 @@
 
 					// Auslesung der registrierten Nutzer in der Datenbank
 					$sql = "SELECT name FROM users";
-					$db_erg = mysqli_query( $db, $sql );
+					$db_erg = mysqli_query($db, $sql);
 					if ( ! $db_erg )
 					{
 	  					die('Ungültige Abfrage: ' . mysqli_error());
@@ -44,7 +44,7 @@
 						// Wenn alle Felder ausgefüllt sind
 						if ((($_POST["name"] || $_POST["password"] || $_POST["passwordConfirm"]) != "")
 							// Wenn Der Name mehr als 2 Zeichen hat
-							&& (strlen($_POST["name"]) > 2)
+							&& (21 > strlen($_POST["name"]) > 2)
 							// Wenn das Passwort mehr als 5 Zeichen hat
 							&& (strlen($_POST["password"]) > 5)
 							// Wenn das Passwort und die Bestätigung des Passworts identisch sind
@@ -53,14 +53,16 @@
 							
 							// Einzutragende Werte initialisieren
 							$name = $_POST["name"]; 
+							$email = $_POST["email"]; 
 							$password = $_POST["password"];
+							date_default_timezone_set('Europe/Berlin');
+							$date = date('Y-m-d H:i:s');
 							 
 							// Daten in eine Tabelle abspeichern
 							$order = "INSERT INTO users
-										(name, password)
+										(name, email, password, creationDate)
 										VALUES
-										('$name',
-										'$password')";
+										('$name','$email','$password','$date')";
 							 
 							// War die Verbindung erfolgreich?
 							$result = mysqli_query($db, $order);
@@ -86,16 +88,21 @@
 						{
 							if (($_POST["name"] || $_POST["password"] || $_POST["passwordConfirm"]) == "")
 							{
-								echo "<span style=\"color:#FF0000;\"><b>Du musst alle Felder ausfüllen.</b></span><br />";  
+								echo "<span style=\"color:#FF0000;\"><b>Du musst alle Felder ausfüllen.</b></span><br />";
 							}
 							else
 							{
-								if (strlen($_POST["name"]) <= 2)
+								if (strlen($_POST["name"]) < 3)
 								{
 									echo "<span style=\"color:#FF0000;\"><b>Dein Nickname muss mindestens 3 Zeichen lang sein.</b></span><br />";  
 								}
+
+								if (strlen($_POST["name"]) > 20)
+								{
+									echo "<span style=\"color:#FF0000;\"><b>Dein Nickname darf nicht mehr als 20 Zeichen lang sein.</b></span><br />";  
+								}
 								
-								if (strlen($_POST["password"]) <= 5)
+								if (strlen($_POST["password"]) < 6)
 								{
 									echo "<span style=\"color:#FF0000;\"><b>Dein Passwort muss mindestens 6 Zeichen lang sein.</b></span><br />";  
 								}
@@ -118,6 +125,11 @@
 				<tr>
 				  <td>Name</td>
 				  <td><input type="text" name="name" size="20">
+				  </td>
+				</tr>
+				<tr>
+				  <td>E-Mail</td>
+				  <td><input type="text" name="email" size="20">
 				  </td>
 				</tr>
 				<tr>
