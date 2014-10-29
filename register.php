@@ -26,20 +26,28 @@
 					}
 
 					$isNameAvail = true;
+					$isEmailAvail = true;
 
-					// Jeder Datensatz wird darauf geprüft, ob er den selben NAMEN hat, wie der der sich gerade versucht anzumelden
+					// Jeder Datensatz wird darauf geprüft, ob er den selben NAMEN oder die selbe EMAIL hat, wie der der sich gerade versucht anzumelden
 					while ($dsatz = mysqli_fetch_array($db_erg, MYSQL_ASSOC))
 					{
-						// Name schon vergeben
+						// Ist der Name schon vergeben?
 						if ($_POST["name"] == $dsatz['name'])
 						{
 							$isNameAvail = false;
 							echo "<span style=\"color:#FF0000;\"><b>Dieser Name ist bereits vergeben.</b></span><br />";  
 						}
+
+						// Ist die E-Mail Adresse bereits registriert?
+						if ($_POST["email"] == $dsatz['email'])
+						{
+							$isEmailAvail = false;
+							echo "<span style=\"color:#FF0000;\"><b>Diese E-Mail ist bereits registriert.</b></span><br />";  
+						}
 					}
 
-					// Name noch verfügbar
-					if ($isNameAvail == true)
+					// Name und E-Mail noch verfügbar
+					if ($isNameAvail && $isEmailAvail)
 					{
 							$name = $_POST["name"]; 
 						// Bedingungen
@@ -48,7 +56,7 @@
 						// Wenn der Name gültig ist (erlaubte Zeichen, 3-20 Zeichen)
 						&& (preg_match('~^[0-9a-zA-ZäöüÄÖÜß_\-\.]{3,20}$~', $_POST["name"]))
 						// Wenn die E-Mail gültig ist
-						&& (filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) !== false)
+						&& (filter_var($_POST["email"], FILTER_VALIDATE_EMAIL))
 						// Wenn das Passwort mehr als 5 Zeichen hat
 						&& (strlen($_POST["password"]) > 5)
 						// Wenn das Passwort und die Bestätigung des Passworts identisch sind
