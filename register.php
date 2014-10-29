@@ -114,7 +114,6 @@
 							{	// Wenn der Name ungültig ist
 								if (!preg_match('~^[0-9a-zA-ZäöüÄÖÜß_\-\.]{3,20}$~', $name))
 								{
-									$name = "";
 									// Wenn der Name zu kurz ist
 									if (strlen($name) < 3)
 									{
@@ -129,6 +128,8 @@
 									{
 										echo "<span style=\"color:#FF0000;\"><b>Namen d&uuml;rfen nur deutsche Buchstaben, Zahlen, Punkte, Unter- und Bindestriche enthalten.</b></span><br />";
 									}
+									
+									$name = "";
 								}
 
 								// Wenn die E-Mail ungültig ist
