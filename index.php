@@ -12,9 +12,8 @@
 			<div id="login">
 				<h3>Anmelden</h3>
 				<?
-				// Session aufnehmen
 				session_start();
-				
+
 				if (isset($_POST["login"]))
 				{
 					// Datenbankverbindung aufbauen
@@ -23,7 +22,7 @@
 					$name = $_POST["name"];
 					$pw = $_POST["pw"];
 					// Suche in der Datenbank nach diesem User
-					$sql = "SELECT name, password FROM users WHERE name LIKE '$name'";
+					$sql = "SELECT name, password, id FROM users WHERE name LIKE '$name'";
 					$db_erg = mysqli_query($db, $sql);
 					if ( ! $db_erg )
 					{
@@ -37,7 +36,9 @@
 						// Ist das Passwort korrekt?
 						if ($row->password == $pw)
 						{
-							echo "Login erfolgreich.";
+							$id = $row->id;
+							$_SESSION["id"] = $id;
+							header ( 'Location: game.php' );
 						}
 						else
 						{
