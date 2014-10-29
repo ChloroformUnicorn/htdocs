@@ -22,12 +22,12 @@
 					$db_erg = mysqli_query($db, $sql);
 					if ( ! $db_erg )
 					{
-	  					die('Ungültige Abfrage: ' . mysqli_error());
+	  					die('UngÃ¼ltige Abfrage: ' . mysqli_error());
 					}
 
 					$isNameAvail = true;
 
-					// Jeder Datensatz wird darauf geprüft, ob er den selben NAMEN hat, wie der der sich gerade versucht anzumelden
+					// Jeder Datensatz wird darauf geprÃ¼ft, ob er den selben NAMEN hat, wie der der sich gerade versucht anzumelden
 					while ($dsatz = mysqli_fetch_array($db_erg, MYSQL_ASSOC))
 					{
 						// Name schon vergeben
@@ -38,24 +38,20 @@
 						}
 					}
 
-					// Name noch verfügbar
+					// Name noch verfÃ¼gbar
 					if ($isNameAvail == true)
 					{
 							$name = $_POST["name"]; 
 						// Bedingungen
-						// Wenn alle Felder ausgefüllt sind
+						// Wenn alle Felder ausgefÃ¼llt sind
 						if ((($_POST["name"] || $_POST["password"] || $_POST["passwordConfirm"]) != "")
-						// Wenn der Name mit deutschen Buchstaben und Zeichen gebildet ist
-						&& (preg_match('~[0-9a-zA-Z]~', 'bob'))
-						// Wenn der Name mehr als 2 Zeichen hat
-						&& (strlen($_POST["name"]) > 2)
-						// Wenn der Name weniger als 20 Zeichen hat
-						&& (strlen($_POST["name"]) < 21)
-						// Wenn die E-Mail gültig ist
+						// Wenn der Name gÃ¼ltig ist (erlaubte Zeichen, 3-20 Zeichen)
+						&& (preg_match('~^[0-9a-zA-ZÃ¤Ã¶Ã¼Ã„Ã–ÃœÃŸ_\-\.]{3,20}$~', $_POST["name"]))
+						// Wenn die E-Mail gÃ¼ltig ist
 						&& (filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) !== false)
 						// Wenn das Passwort mehr als 5 Zeichen hat
 						&& (strlen($_POST["password"]) > 5)
-						// Wenn das Passwort und die Bestätigung des Passworts identisch sind
+						// Wenn das Passwort und die BestÃ¤tigung des Passworts identisch sind
 						&& ($_POST["password"] === $_POST["passwordConfirm"]))
 						{
 							
@@ -86,50 +82,55 @@
 							// Wenn NEIN
 							else
 							{
-								// Fehlermeldung über fehlgeschlagende Verbindung
+								// Fehlermeldung Ã¼ber fehlgeschlagende Verbindung
 								echo "<span style=\"color:#FF0000;\"><b>Die Anmeldung schlug fehl. Ein Problem mit der Datenbank liegt vor. Bitte kontaktiere den Support in diesem Fall.</b></span><br />";
 							}
 						}
 						
-						// Fehlermeldungen für ungültige Eingaben im Formular
+						// Fehlermeldungen fÃ¼r ungÃ¼ltige Eingaben im Formular
 						else
 						{
 							if (($_POST["name"] || $_POST["email"] || $_POST["password"] || $_POST["passwordConfirm"]) == "")
 							{
-								echo "<span style=\"color:#FF0000;\"><b>Du musst alle Felder ausfüllen.</b></span><br />";
+								echo "<span style=\"color:#FF0000;\"><b>Du musst alle Felder ausf&uuml;llen.</b></span><br />";
 							}
 							else
-							{
-								if (!preg_match("[0-9a-zA-Z]", $_POST["name"]))
+							{	// Wenn der Name ungÃ¼ltig ist
+								if (!preg_match('~^[0-9a-zA-ZÃ¤Ã¶Ã¼Ã„Ã–ÃœÃŸ_\-\.]{3,20}$~', '$_POST["name"]'))
 								{
-									echo "<span style=\"color:#FF0000;\"><b>Dein Name ist nicht gültig.</b></span><br />";
-									echo $_POST["name"]; 
+									// Wenn der Name zu kurz ist
+									if (strlen($name) < 3)
+									{
+										echo "<span style=\"color:#FF0000;\"><b>Dein Name muss mindestens 3 Zeichen lang sein.</b></span><br />";
+									}
+									// Wenn der Name zu lang ist
+									else if (strlen($name) > 20)
+									{
+										echo "<span style=\"color:#FF0000;\"><b>Dein Name darf maximal 20 Zeichen lang sein.</b></span><br />";
+									}
+									else
+									{
+										echo "<span style=\"color:#FF0000;\"><b>Namen d&uuml;rfen nur deutsche Buchstaben, Zahlen, Punkte, Unter- und Bindestriche enthalten.</b></span><br />";
+									}
 								}
 
-								if (strlen($_POST["name"]) < 3)
-								{
-									echo "<span style=\"color:#FF0000;\"><b>Dein Nickname muss mindestens 3 Zeichen lang sein.</b></span><br />";  
-								}
-
-								if (strlen($_POST["name"]) > 20)
-								{
-									echo "<span style=\"color:#FF0000;\"><b>Dein Nickname darf nicht mehr als 20 Zeichen lang sein.</b></span><br />";  
-								}
-
+								// Wenn die E-Mail ungÃ¼ltig ist
 								if (filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) == false)
 								{
-									echo "<span style=\"color:#FF0000;\"><b>Die E-Mail Adresse ist nicht gültig.</b></span><br />";  
+									echo "<span style=\"color:#FF0000;\"><b>Die E-Mail Adresse ist nicht g&uuml;ltig.</b></span><br />";  
 								}
 								
+								// Wenn das Passwort nicht lang genug ist
 								if (strlen($_POST["password"]) < 6)
 								{
 									echo "<span style=\"color:#FF0000;\"><b>Dein Passwort muss mindestens 6 Zeichen lang sein.</b></span><br />";  
 								}
 								else
 								{
+									// Wenn die PasswÃ¶rter identisch sind
 									if ($_POST["password"] != $_POST["passwordConfirm"])
 									{
-										echo "<span style=\"color:#FF0000;\"><b>Die Passwörter sind nicht identisch.</b></span><br />";  
+										echo "<span style=\"color:#FF0000;\"><b>Die Passw&ouml;rter sind nicht identisch.</b></span><br />";  
 									}
 								}
 							}
@@ -157,7 +158,7 @@
 				  </td>
 				</tr>
 				<tr>
-				  <td>Passwort bestätigen</td>
+				  <td>Passwort best&auml;tigen</td>
 				  <td><input type="password" name="passwordConfirm" size="20">
 				  </td>
 				</tr>
