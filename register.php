@@ -114,6 +114,7 @@
 							{	// Wenn der Name ungültig ist
 								if (!preg_match('~^[0-9a-zA-ZäöüÄÖÜß_\-\.]{3,20}$~', $name))
 								{
+									$name = "";
 									// Wenn der Name zu kurz ist
 									if (strlen($name) < 3)
 									{
@@ -133,12 +134,14 @@
 								// Wenn die E-Mail ungültig ist
 								if (filter_var($email, FILTER_VALIDATE_EMAIL) == false)
 								{
+									$email = "";
 									echo "<span style=\"color:#FF0000;\"><b>Die E-Mail Adresse ist nicht g&uuml;ltig.</b></span><br />";  
 								}
 								
 								// Wenn das Passwort nicht lang genug ist
 								if (strlen($password) < 6)
 								{
+									$password = "";
 									echo "<span style=\"color:#FF0000;\"><b>Dein Passwort muss mindestens 6 Zeichen lang sein.</b></span><br />";  
 								}
 								else
@@ -146,6 +149,7 @@
 									// Wenn die Passwörter identisch sind
 									if ($password != $_POST["passwordConfirm"])
 									{
+										$password = "";
 										echo "<span style=\"color:#FF0000;\"><b>Die Passw&ouml;rter sind nicht identisch.</b></span><br />";  
 									}
 								}
@@ -165,19 +169,19 @@
 				<form method="post" action="register.php">
 				<tr>
 					<td>Name</td>
-					<td><input type="text" name="name" size="20"></td>
+					<td><input type="text" name="name" size="20" <? if(isset($_POST["register"])){ echo "value='$name'"; } ?> /></td>
 				</tr>
 				<tr>
 					<td>E-Mail</td>
-					 <td><input type="email" name="email" size="20"></td>
+					 <td><input type="email" name="email" size="20" <? if(isset($_POST["register"])){ echo "value='$email'"; } ?> ></td>
 				</tr>
 				<tr>
 					<td>Passwort</td>
-					<td><input type="password" name="password" size="20"></td>
+					<td><input type="password" name="password" size="20" <? if(isset($_POST["register"])){ echo "value='$password'"; } ?> ></td>
 				</tr>
 				<tr>
 					<td>Passwort best&auml;tigen</td>
-				 	<td><input type="password" name="passwordConfirm" size="20"></td>
+				 	<td><input type="password" name="passwordConfirm" size="20" <? if(isset($_POST["register"])){ echo "value='$password'"; } ?> ></td>
 				</tr>
 				<tr>
 					<td><input type="checkbox" name="agb" id="agb" value="agb"> Ich habe die <a href="agb.htm" target="_blank" onclick="return popup(this.href);">AGB</a> gelesen und akzeptiere diese.</td>
