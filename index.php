@@ -12,26 +12,62 @@
 			<div id="login">
 				<h3>Anmelden</h3>
 				<?
-					// Session aufnehmen
-					session_start();
-					
-					// Wenn sich der Nutzer soeben registriert hat
-					if (isset($_SESSION["name"]))
+				// Session aufnehmen
+				session_start();
+				
+				if (isset($_POST["login"]))
+				{
+					// Datenbankverbindung aufbauen
+					include("db.inc.php");
+					// Name und Passwort des Logins in Variablen speichern
+					$name = $_POST["name"];
+					$pw = $_POST["pw"];
+					// Suche in der Datenbank nach diesem User
+					$sql = "SELECT name, password FROM users WHERE name LIKE '$name'";
+					$db_erg = mysqli_query($db, $sql);
+					if ( ! $db_erg )
 					{
-						// Informiere Nutzer über erfolgreiche Registrierung
-						echo "<span style=\"color:#31B404;\"><b>Hallo " . $_SESSION["name"] . "! Du hast dich erfolgreich registriert.</b>";
-						// Beende Session, damit die Meldung nicht während der ganzen Internetsitzung auf der Startseite erscheint
-						session_destroy();
+						die('Ungültige Abfrage: ' . mysqli_error());
 					}
+					$row = mysqli_fetch_object($db_erg);
+
+					// Wenn der Name in der Datenbank gefunden wurde
+					if ($row == true)
+					{
+						// Ist das Passwort korrekt?
+						if ($row->password == $pw)
+						{
+							echo "Login erfolgreich.";
+						}
+						else
+						{
+							echo "Passwort falsch.";
+						}
+					}
+					else
+					{
+						$name = "";
+						echo "Account nicht gefunden.";
+					}
+				}
+
+				// Wenn sich der Nutzer soeben registriert hat
+				if (isset($_SESSION["name"]))
+				{
+					// Informiere Nutzer über erfolgreiche Registrierung
+					echo "<span style=\"color:#31B404;\"><b>Hallo " . $_SESSION["name"] . "! Du hast dich erfolgreich registriert.</b>";
+					// Beende Session, damit die Meldung nicht während der ganzen Internetsitzung auf der Startseite erscheint
+					session_destroy();
+				}
 				?>
 				<!-- Login Formular -->
-				<form method="post" action="frontpage.php">
+				<form method="post" action="index.php">
 				<table>
-					<tr><td width="100" height="50">Name: </td><td><input type="text" name="name" size="20"></td></tr>
-					<tr><td width="100" height="50">Passwort: </td><td><input type="password" name="name" size="20"></td></tr>
+					<tr><td width="100" height="50">Name: </td><td><input type="text" name="name" size="20" <? if(isset($_POST["login"])){ echo "value='$name'"; } ?> ></td></tr>
+					<tr><td width="100" height="50">Passwort: </td><td><input type="password" name="pw" size="20"></td></tr>
 					<tr>
 						<div align="right">
-							<td></td><td align="right"><input type="submit" name="submit" value="Login"></td>
+							<td></td><td align="right"><input type="submit" name="login" value="Login"></td>
 						</div>
 					</tr>
 				</table>
@@ -50,3 +86,4 @@
 		</div>
 	</div>
 </body>
+</html>
