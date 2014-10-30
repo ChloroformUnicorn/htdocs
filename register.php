@@ -30,7 +30,7 @@
 				$db_erg = mysqli_query($db, $sql);
 				if ( ! $db_erg )
 				{
-  					die('Ungültige Abfrage: ' . mysqli_error());
+  					die('Ung&uuml;ltige Abfrage: ' . mysqli_error());
 				}
 
 				$isNameAvail = true;
@@ -41,22 +41,22 @@
 				date_default_timezone_set('Europe/Berlin');
 				$date = date('Y-m-d H:i:s');
 
-				// Jeder Datensatz wird darauf geprüft, ob er den selben NAMEN oder die selbe EMAIL hat, wie der der sich gerade versucht anzumelden
-				while ($dsatz = mysqli_fetch_array($db_erg, MYSQL_ASSOC))
-				{
-					// Ist der Name schon vergeben?
-					if ($name == $dsatz['name'])
-					{
-						$isNameAvail = false;
-						echo "<span style=\"color:#FF0000;\"><b>Dieser Name ist bereits vergeben.</b></span><br />";  
-					}
+				// Ist der Name noch frei?
+				$sql = "SELECT name FROM users WHERE name = '$name'";
+				$treffer = mysqli_query($db, $sql);
+				if (mysqli_num_rows($treffer)>0)
+				{ 
+					$isNameAvail = false;
+					echo "<span style=\"color:#FF0000;\"><b>Dieser Name ist bereits vergeben.</b></span><br />";  
+				}
 
-					// Ist die E-Mail Adresse bereits registriert?
-					if ($email == $dsatz['email'])
-					{
-						$isEmailAvail = false;
-						echo "<span style=\"color:#FF0000;\"><b>Diese E-Mail ist bereits registriert.</b></span><br />";  
-					}
+				// Ist die E-Mail schon registriert?
+				$sql = "SELECT email FROM users WHERE email = '$email'";
+				$treffer = mysqli_query($db, $sql);
+				if (mysqli_num_rows($treffer)>0)
+				{ 
+					$isEmailAvail = false;
+					echo "<span style=\"color:#FF0000;\"><b>Diese E-Mail ist bereits registriert. Hast du vielleicht dein Passw... verarscht, die Funktion haben wir noch nicht.</b></span><br />";  
 				}
 
 				// Name und E-Mail noch verfügbar
@@ -74,10 +74,7 @@
 					&& ($password === $_POST["passwordConfirm"])
 					// Wenn die AGB akzeptiert wurde
 					&& (isset($_POST["agb"])))
-					{
-						
-						
-						 
+					{ 
 						// Daten in eine Tabelle abspeichern
 						$order = "INSERT INTO users
 									(name, email, password, creationDate)

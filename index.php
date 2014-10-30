@@ -22,11 +22,11 @@
 					$name = $_POST["name"];
 					$pw = $_POST["pw"];
 					// Suche in der Datenbank nach diesem User
-					$sql = "SELECT name, password, id FROM users WHERE name LIKE '$name'";
+					$sql = "SELECT name, password, id FROM users WHERE name = '$name'";
 					$db_erg = mysqli_query($db, $sql);
 					if ( ! $db_erg )
 					{
-						die('Ungültige Abfrage: ' . mysqli_error());
+						die('Ung&uuml;ltige Abfrage: ' . mysqli_error());
 					}
 					$row = mysqli_fetch_object($db_erg);
 
@@ -42,13 +42,13 @@
 						}
 						else
 						{
-							echo "Passwort falsch.";
+							echo "<span style=\"color:#FF0000;\"><b>Das Passwort ist nicht korrekt.</b></span><br />";
 						}
 					}
 					else
 					{
 						$name = "";
-						echo "Account nicht gefunden.";
+						echo "<span style=\"color:#FF0000;\"><b>Account nicht vorhanden.</b></span><br />";
 					}
 				}
 
