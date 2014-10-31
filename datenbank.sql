@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 29. Okt 2014 um 23:51
+-- Erstellungszeit: 31. Okt 2014 um 10:56
 -- Server Version: 5.6.20
 -- PHP-Version: 5.5.15
 
@@ -28,9 +28,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `users` (
 `id` int(10) unsigned NOT NULL,
-  `name` text CHARACTER SET utf8 COLLATE utf8_german2_ci NOT NULL,
-  `email` text CHARACTER SET utf8 COLLATE utf8_german2_ci NOT NULL,
-  `password` text CHARACTER SET utf8 COLLATE utf8_german2_ci NOT NULL,
+  `name` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `email` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `password` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `creationDate` datetime NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
