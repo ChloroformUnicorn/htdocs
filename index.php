@@ -39,7 +39,7 @@
 					if ($row == true)
 					{
 						// Ist das Passwort korrekt?
-						if ($row->password == $pw)
+						if (password_verify($pw, $row->password))
 						{
 							$id = $row->id;
 							$_SESSION["id"] = $id;

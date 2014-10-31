@@ -20,7 +20,6 @@
 		<div id="content">
 
 			<?
-			var_dump(bin2hex('Ü'));
 			// Wenn Registrierungsformular abgeschickt
 			if (isset($_POST["register"])) 
 			{
@@ -78,11 +77,12 @@
 					&& (isset($_POST["agb"])))
 					{ 
 
+						$passwordHashed = password_hash($_POST["password"], PASSWORD_DEFAULT);
 						// Daten in eine Tabelle abspeichern
 						$order = "INSERT INTO users
 									(name, email, password, creationDate)
 									VALUES
-									('$name','$email','$password','$date')";
+									('$name','$email','$passwordHashed','$date')";
 						 
 						// War die Verbindung erfolgreich?
 						$result = mysqli_query($db, $order);
