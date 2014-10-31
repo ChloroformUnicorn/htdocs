@@ -2,9 +2,13 @@
 <head>
 	<title>Leviathalis</title>
 	<link rel="stylesheet" type="text/css" href="style.css" />
+	<meta charset="utf-8">
 </head>
 <body>
 	<div id="container">
+		<div id="topbar">
+			Spielinfo - Support - Hilfe
+		</div>
 		<div id="header">
 			<h1>Leviathalis</h1>
 		</div>
@@ -18,6 +22,7 @@
 				{
 					// Datenbankverbindung aufbauen
 					include("db.inc.php");
+					mysqli_set_charset($db, 'utf8');
 					// Name und Passwort des Logins in Variablen speichern
 					$name = $_POST["name"];
 					$pw = $_POST["pw"];
@@ -26,7 +31,7 @@
 					$db_erg = mysqli_query($db, $sql);
 					if ( ! $db_erg )
 					{
-						die('Ung&uuml;ltige Abfrage: ' . mysqli_error());
+						die('Ungültige Abfrage: ' . mysqli_error());
 					}
 					$row = mysqli_fetch_object($db_erg);
 

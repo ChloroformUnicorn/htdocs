@@ -2,6 +2,7 @@
 <head>
 	<title>Registrierung</title>
 	<link rel="stylesheet" type="text/css" href="style.css" />
+	<meta charset="utf-8">
 	<!-- AGB Popup -->
 	<script type="text/javascript">
 	function popup (url) {
@@ -19,18 +20,19 @@
 		<div id="content">
 
 			<?
+			var_dump(bin2hex('Ü'));
 			// Wenn Registrierungsformular abgeschickt
 			if (isset($_POST["register"])) 
 			{
 				// Datenbankverbindung aufbauen
 				include("db.inc.php");
-
+				mysqli_set_charset($db, 'utf8');
 				// Auslesung der registrierten Nutzer in der Datenbank
 				$sql = "SELECT name, email FROM users";
 				$db_erg = mysqli_query($db, $sql);
 				if ( ! $db_erg )
 				{
-  					die('Ung&uuml;ltige Abfrage: ' . mysqli_error());
+  					die('Ungültige Abfrage: ' . mysqli_error());
 				}
 
 				$isNameAvail = true;
@@ -75,6 +77,7 @@
 					// Wenn die AGB akzeptiert wurde
 					&& (isset($_POST["agb"])))
 					{ 
+
 						// Daten in eine Tabelle abspeichern
 						$order = "INSERT INTO users
 									(name, email, password, creationDate)
@@ -91,7 +94,6 @@
 							$_SESSION["name"] = $name;
 							header ( 'Location: index.php' );
 						}
-
 						// Wenn NEIN
 						else
 						{
@@ -105,7 +107,7 @@
 					{
 						if (($name || $email || $password || $_POST["passwordConfirm"]) == "")
 						{
-							echo "<span style=\"color:#FF0000;\"><b>Du musst alle Felder ausf&uuml;llen.</b></span><br />";
+							echo "<span style=\"color:#FF0000;\"><b>Du musst alle Felder ausfüllen.</b></span><br />";
 						}
 						else
 						{	// Wenn der Name ungültig ist
@@ -123,7 +125,7 @@
 								}
 								else
 								{
-									echo "<span style=\"color:#FF0000;\"><b>Namen d&uuml;rfen nur deutsche Buchstaben, Zahlen, Punkte, Unter- und Bindestriche enthalten.</b></span><br />";
+									echo "<span style=\"color:#FF0000;\"><b>Namen dürfen nur deutsche Buchstaben, Zahlen, Punkte, Unter- und Bindestriche enthalten.</b></span><br />";
 								}
 								
 								$name = "";
@@ -133,7 +135,7 @@
 							if (filter_var($email, FILTER_VALIDATE_EMAIL) == false)
 							{
 								$email = "";
-								echo "<span style=\"color:#FF0000;\"><b>Die E-Mail Adresse ist nicht g&uuml;ltig.</b></span><br />";  
+								echo "<span style=\"color:#FF0000;\"><b>Die E-Mail Adresse ist nicht gültig.</b></span><br />";  
 							}
 							
 							// Wenn das Passwort nicht lang genug ist
@@ -148,13 +150,13 @@
 								if ($password != $_POST["passwordConfirm"])
 								{
 									$password = "";
-									echo "<span style=\"color:#FF0000;\"><b>Die Passw&ouml;rter sind nicht identisch.</b></span><br />";  
+									echo "<span style=\"color:#FF0000;\"><b>Die Passwörter sind nicht identisch.</b></span><br />";  
 								}
 							}
 							// Wenn die E-Mail ungültig ist
 							if (!isset($_POST["agb"]))
 							{
-								echo "<span style=\"color:#FF0000;\"><b>Du musst die Allgemeinen Gesch&auml;ftsbedingungen akzeptieren.</b></span><br />";  
+								echo "<span style=\"color:#FF0000;\"><b>Du musst die Allgemeinen Geschäftsbedingungen akzeptieren.</b></span><br />";  
 							}
 						}
 					}
@@ -178,7 +180,7 @@
 					<td><input type="password" name="password" size="20" <? if(isset($_POST["register"])){ echo "value='$password'"; } ?> ></td>
 				</tr>
 				<tr>
-					<td>Passwort best&auml;tigen</td>
+					<td>Passwort bestätigen</td>
 				 	<td><input type="password" name="passwordConfirm" size="20" <? if(isset($_POST["register"])){ echo "value='$password'"; } ?> ></td>
 				</tr>
 				<tr>
