@@ -5,11 +5,11 @@
 	<meta charset="utf-8">
 	<!-- AGB Popup -->
 	<script type="text/javascript">
-	function popup (url) {
-	 fenster = window.open(url, "Popupfenster", "width=400,height=300,resizable=yes");
-	 fenster.focus();
-	 return false;
-	}
+		function popup (url) {
+			fenster = window.open(url, "AGB", "width=400,height=300,resizable=yes");
+			fenster.focus();
+			return false;
+		}
 	</script>
 </head>
 <body>
@@ -20,8 +20,14 @@
 		<div id="content">
 
 			<?
+			// Diese Variablen sind später benötigt um zu prüfen, ob ein Feld rot umrahmt werden soll
+			// TRUE = Fehlerhafte Eingabe
+			$nameInput = false;
+			$pwInput = false;
+			$emailInput = false;
+			$agbCheckbox = false;
 			// Wenn Registrierungsformular abgeschickt
-			if (isset($_POST["register"])) 
+			if (isset($_POST["register"]))
 			{
 				// Datenbankverbindung aufbauen
 				include("db.inc.php");
@@ -76,7 +82,7 @@
 					// Wenn die AGB akzeptiert wurde
 					&& (isset($_POST["agb"])))
 					{ 
-
+						// Passwort wird gehasht
 						$passwordHashed = password_hash($_POST["password"], PASSWORD_DEFAULT);
 						// Daten in eine Tabelle abspeichern
 						$order = "INSERT INTO users
@@ -105,6 +111,19 @@
 					// Fehlermeldungen für ungültige Eingaben im Formular
 					else
 					{
+						if ($name == "")
+						{
+							$nameInput = true;
+						}
+						if ($email == "")
+						{
+							$emailInput = true;
+						}
+						if ($password == "" || $_POST["passwordConfirm"] == "")
+						{
+							$pwInput = true;
+						}
+
 						if (($name || $email || $password || $_POST["passwordConfirm"]) == "")
 						{
 							echo "<span style=\"color:#FF0000;\"><b>Du musst alle Felder ausfüllen.</b></span><br />";
@@ -129,70 +148,75 @@
 								}
 								
 								$name = "";
+								$nameInput = true;
 							}
 
 							// Wenn die E-Mail ungültig ist
 							if (filter_var($email, FILTER_VALIDATE_EMAIL) == false)
 							{
+								echo "<span style=\"color:#FF0000;\"><b>Die E-Mail Adresse ist nicht gültig.</b></span><br />";
 								$email = "";
-								echo "<span style=\"color:#FF0000;\"><b>Die E-Mail Adresse ist nicht gültig.</b></span><br />";  
+								$emailInput = true;
 							}
 							
 							// Wenn das Passwort nicht lang genug ist
 							if (strlen($password) < 6)
 							{
+								echo "<span style=\"color:#FF0000;\"><b>Dein Passwort muss mindestens 6 Zeichen lang sein.</b></span><br />";
 								$password = "";
-								echo "<span style=\"color:#FF0000;\"><b>Dein Passwort muss mindestens 6 Zeichen lang sein.</b></span><br />";  
+								$pwInput = true;
 							}
 							else
 							{
 								// Wenn die Passwörter identisch sind
 								if ($password != $_POST["passwordConfirm"])
 								{
+									echo "<span style=\"color:#FF0000;\"><b>Die Passwörter sind nicht identisch.</b></span><br />";
 									$password = "";
-									echo "<span style=\"color:#FF0000;\"><b>Die Passwörter sind nicht identisch.</b></span><br />";  
+									$pwInput = true;
 								}
 							}
 							// Wenn die E-Mail ungültig ist
 							if (!isset($_POST["agb"]))
 							{
-								echo "<span style=\"color:#FF0000;\"><b>Du musst die Allgemeinen Geschäftsbedingungen akzeptieren.</b></span><br />";  
+								echo "<span style=\"color:#FF0000;\"><b>Du musst die Allgemeinen Geschäftsbedingungen akzeptieren.</b></span><br />";
+								$agbCheckbox = true;
 							}
 						}
 					}
 				}
-				
 			}
 			?>
-			<table>
-				<!-- Registrierungsformular -->
-				<form method="post" action="register.php">
-				<tr>
-					<td>Name</td>
-					<td><input type="text" name="name" size="20" <? if(isset($_POST["register"])){ echo "value='$name'"; } ?> /></td>
-				</tr>
-				<tr>
-					<td>E-Mail</td>
-					 <td><input type="email" name="email" size="20" <? if(isset($_POST["register"])){ echo "value='$email'"; } ?> ></td>
-				</tr>
-				<tr>
-					<td>Passwort</td>
-					<td><input type="password" name="password" size="20" <? if(isset($_POST["register"])){ echo "value='$password'"; } ?> ></td>
-				</tr>
-				<tr>
-					<td>Passwort bestätigen</td>
-				 	<td><input type="password" name="passwordConfirm" size="20" <? if(isset($_POST["register"])){ echo "value='$password'"; } ?> ></td>
-				</tr>
-				<tr>
-					<td><input type="checkbox" name="agb" id="agb" value="agb"> Ich habe die <a href="agb.htm" target="_blank" onclick="return popup(this.href);">AGB</a> gelesen und akzeptiere diese.</td>
-				</tr>
-				<tr>
-				  <td></td>
-				  <td align="right"><input type="submit" name="register" value="Registrieren"></td>
-				</tr>
-			</table>
+
+			<!-- Registrierungsformular -->
+			<form method="post" action="register.php">
+				<table>
+					<tr>
+						<td>Name</td>
+						<td><input type="text" name="name" size="20" <? if(isset($_POST["register"])) { echo "value='$name'"; if($nameInput) { echo "class='formError'"; } } ?> /></td>
+					</tr>
+					<tr>
+						<td>E-Mail</td>
+						 <td><input type="email" name="email" size="20" <? if(isset($_POST["register"])) { echo "value='$email'"; if($emailInput) { echo "class='formError'"; } } ?> ></td>
+					</tr>
+					<tr>
+						<td>Passwort</td>
+						<td><input type="password" name="password" size="20" <? if(isset($_POST["register"])) { echo "value='$password'"; if($pwInput) { echo "class='formError'"; } } ?> ></td>
+					</tr>
+					<tr>
+						<td>Passwort bestätigen</td>
+					 	<td><input type="password" name="passwordConfirm" size="20" <? if(isset($_POST["register"])) { echo "value='$password'"; if($pwInput) { echo "class='formError'"; } } ?> ></td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" name="agb"> Ich habe die <a href="agb.htm" target="_blank" onclick="return popup(this.href);">AGB</a> gelesen und akzeptiere diese.</td>
+					</tr>
+					<tr>
+					  <td></td>
+					  <td align="right"><input type="submit" name="register" value="Registrieren"></td>
+					</tr>
+				</table>
+			</form>
 		</div>
-		
 		<!-- Footer -->
 		<div id="footer">
 			<hr />

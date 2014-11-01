@@ -37,3 +37,7 @@ body {
 #footer {
 	clear: both;
 }
+
+.formError {
+	border: 1px solid red;
+}

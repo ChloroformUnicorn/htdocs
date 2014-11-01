@@ -15,7 +15,7 @@
 		<div id="content">
 			<div id="login">
 				<h3>Anmelden</h3>
-				<?
+				<?php
 				session_start();
 
 				if (isset($_POST["login"]))
@@ -67,16 +67,18 @@
 				}
 				?>
 				<!-- Login Formular -->
+				<div id="formError">
 				<form method="post" action="index.php">
-				<table>
-					<tr><td width="100" height="50">Name: </td><td><input type="text" name="name" size="20" <? if(isset($_POST["login"])){ echo "value='$name'"; } ?> ></td></tr>
-					<tr><td width="100" height="50">Passwort: </td><td><input type="password" name="pw" size="20"></td></tr>
-					<tr>
-						<div align="right">
-							<td></td><td align="right"><input type="submit" name="login" value="Login"></td>
-						</div>
-					</tr>
-				</table>
+					<table>
+						<tr><td width="100" height="50">Name: </td><td><input type="text" name="name" size="20" <? if(isset($_POST["login"])){ echo "value='$name'"; } ?> ></td></tr>
+						<tr><td width="100" height="50">Passwort: </td><td><input type="password" name="pw" size="20"></td></tr>
+						<tr>
+							<div align="right">
+								<td></td><td align="right"><input type="submit" name="login" value="Login"></td>
+							</div>
+						</tr>
+					</table>
+				</form></div>
 				<a href="register.php">Noch nicht registriert? Erstelle jetzt kostenlos einen Account!</a>
 			</div>
 			<!-- Inhalt der rechten Seitenhälften -->
