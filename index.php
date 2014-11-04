@@ -43,6 +43,12 @@
 						{
 							$id = $row->id;
 							$_SESSION["id"] = $id;
+							// Sollen die Daten gespeichert werden (Cookie)?
+							if ($_POST["saveData"])
+							{
+								setcookie("username",$name,time()+(100*24*3600)); 
+								setcookie("password",$pw,time()+(100*24*3600));
+							}
 							header ( 'Location: game.php' );
 						}
 						else
@@ -70,8 +76,31 @@
 				<div id="formError">
 				<form method="post" action="index.php">
 					<table>
-						<tr><td width="100" height="50">Name: </td><td><input type="text" name="name" size="20" <? if(isset($_POST["login"])){ echo "value='$name'"; } ?> ></td></tr>
-						<tr><td width="100" height="50">Passwort: </td><td><input type="password" name="pw" size="20"></td></tr>
+						<tr><td width="100" height="50">Name: </td><td><input type="text" name="name" size="20"
+							<?php
+							if (isset($_POST["login"]))
+							{
+								echo "value='$name'";
+							}
+							else if (isset($_COOKIE['username']))
+							{
+								$username = $_COOKIE["username"];
+								echo "value='$username'"; 
+							}
+							?>
+							></td></tr>
+						<tr><td width="100" height="50">Passwort: </td><td><input type="password" name="pw" size="20"
+							<?php
+							if(!isset($_POST["login"]) && isset($_COOKIE['password']))
+							{
+								$password = $_COOKIE["password"];
+								echo "value='$password'";
+							}
+							?>
+							></td></tr>
+						<tr>
+							<td colspan="2"><input type="checkbox" name="saveData"> Login-Daten merken</td>
+						</tr>
 						<tr>
 							<div align="right">
 								<td></td><td align="right"><input type="submit" name="login" value="Login"></td>
