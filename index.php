@@ -17,17 +17,23 @@
 				<h3>Anmelden</h3>
 				<?php
 				session_start();
+				// Datenbankverbindung aufbauen
+				include("db.inc.php");
+				mysqli_set_charset($db, 'utf8');
+				$sql = "SELECT * FROM users";
+				$db_erg = mysqli_query($db, $sql);
+				if ( ! $db_erg )
+				{
+					die('Ungültige Abfrage: ' . mysqli_error());
+				}
 
 				if (isset($_POST["login"]))
 				{
-					// Datenbankverbindung aufbauen
-					include("db.inc.php");
-					mysqli_set_charset($db, 'utf8');
 					// Name und Passwort des Logins in Variablen speichern
 					$name = $_POST["name"];
 					$pw = $_POST["pw"];
 					// Suche in der Datenbank nach diesem User
-					$sql = "SELECT name, password, id FROM users WHERE name = '$name'";
+					$sql = "SELECT id, name, password FROM users WHERE name = '$name'";
 					$db_erg = mysqli_query($db, $sql);
 					if ( ! $db_erg )
 					{
@@ -119,6 +125,7 @@
 			<div id="main">
 				<h2>Hallo</h2>
 				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>
+				<p><b>Es haben sich bereits <?php $spielerAnzahl = mysqli_num_rows($db_erg); echo $spielerAnzahl; ?> Spieler registriert!</b></p>
 			</div>
 		</div>
 		<!-- Footer für Copyrights o.ä. -->
