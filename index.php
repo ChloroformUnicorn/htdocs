@@ -49,6 +49,11 @@
 								setcookie("username",$name,time()+(100*24*3600)); 
 								setcookie("password",$pw,time()+(100*24*3600));
 							}
+							else
+							{
+								setcookie("username","",time() - 3600);
+								setcookie("password","",time() - 3600);
+							}
 							header ( 'Location: game.php' );
 						}
 						else
@@ -99,7 +104,7 @@
 							?>
 							></td></tr>
 						<tr>
-							<td colspan="2"><input type="checkbox" name="saveData"> Login-Daten merken</td>
+							<td colspan="2"><input type="checkbox" name="saveData" checked> Login-Daten merken</td>
 						</tr>
 						<tr>
 							<div align="right">
