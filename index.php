@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <html>
 <head>
 	<title>Leviathalis</title>
@@ -16,7 +17,6 @@
 			<div id="login">
 				<h3>Anmelden</h3>
 				<?php
-				session_start();
 				// Datenbankverbindung aufbauen
 				include("db.inc.php");
 				mysqli_set_charset($db, 'utf8');
