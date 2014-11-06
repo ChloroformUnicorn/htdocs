@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Leviathalis</title>
-	<link rel="stylesheet" type="text/css" href="style.css" />
+	<link rel="stylesheet" type="text/css" href="style.css" charset="utf-8" />
 	<meta charset="utf-8">
 </head>
 <body>

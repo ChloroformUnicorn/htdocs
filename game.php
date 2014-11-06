@@ -1,7 +1,8 @@
 <html>
 <head>
 	<title>Spiel</title>
-	<link rel="stylesheet" type="text/css" href="game.css" />
+	<link rel="stylesheet" type="text/css" href="style.css" charset="utf-8" />
+	<meta charset="utf-8">
 </head>
 <body>
 <div id="container">

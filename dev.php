@@ -115,9 +115,9 @@ $ua=getBrowser();
 				<tr>
 					<td><b>MySQL Version (Client):</b> </td><td><?php echo mysql_get_client_info(); ?></td>
 				</tr>
-				<tr>
-					<td><b>Webbrowser:</b> </td><td><?php echo $ua["name"] . " " . $ua["version"] . " auf " . $ua["platform"]; ?></td>
-				</tr>
+                <tr>
+                    <td><b>Webbrowser:</b> </td><td><?php echo $ua["name"] . " " . $ua["version"] . " auf " . $ua["platform"]; ?></td>
+                </tr>
 			</table>
 			<h3>Server & Client Daten mit denen programmiert und getestet wurde</h3>
 			<table border=1>
