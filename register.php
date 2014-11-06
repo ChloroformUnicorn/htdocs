@@ -98,6 +98,7 @@
 						{
 							session_start();
 							$_SESSION["name"] = $name;
+							$_SESSION["password"] = $password;
 							header ( 'Location: index.php' );
 						}
 						// Wenn NEIN

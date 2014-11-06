@@ -48,16 +48,16 @@
 						if (password_verify($pw, $row->password))
 						{
 							$id = $row->id;
-							$_SESSION["id"] = $id;
+							$id = $_SESSION["id"];
 							// Sollen die Daten gespeichert werden (Cookie)?
 							if ($_POST["saveData"])
 							{
-								setcookie("username",$name,time()+(100*24*3600)); 
+								setcookie("name",$name,time()+(100*24*3600)); 
 								setcookie("password",$pw,time()+(100*24*3600));
 							}
 							else
 							{
-								setcookie("username","",time() - 3600);
+								setcookie("name","",time() - 3600);
 								setcookie("password","",time() - 3600);
 							}
 							header ( 'Location: game.php' );
@@ -89,28 +89,51 @@
 					<table>
 						<tr><td width="100" height="50">Name: </td><td><input type="text" name="name" size="20"
 							<?php
-							if (isset($_POST["login"]))
+							if (isset($_SESSION["name"]))
 							{
-								echo "value='$name'";
+								$name = $_SESSION["name"];
 							}
-							else if (isset($_COOKIE['username']))
+							else if (isset($_POST["login"]))
 							{
-								$username = $_COOKIE["username"];
-								echo "value='$username'"; 
+								$name = $_POST["name"];
 							}
+							else if (isset($_COOKIE['name']))
+							{
+								$name = $_COOKIE["name"];
+							}
+							else
+							{
+								$name = "";
+							}
+							echo "value='$name'";
 							?>
 							></td></tr>
 						<tr><td width="100" height="50">Passwort: </td><td><input type="password" name="pw" size="20"
 							<?php
-							if(!isset($_POST["login"]) && isset($_COOKIE['password']))
+							if (isset($_SESSION["password"]))
+							{
+								$password = $_SESSION["password"];
+							}
+							else if (!isset($_POST["login"]) && isset($_COOKIE['password']))
 							{
 								$password = $_COOKIE["password"];
-								echo "value='$password'";
 							}
+							else
+							{
+								$password = "";
+							}
+							echo "value='$password'";
 							?>
 							></td></tr>
 						<tr>
-							<td colspan="2"><input type="checkbox" name="saveData" checked> Login-Daten merken</td>
+							<td colspan="2"><input type="checkbox" name="saveData"
+							<?php
+							if (isset($_COOKIE["name"]))
+							{
+								echo "checked";
+							}
+							?>
+							> Login-Daten merken</td>
 						</tr>
 						<tr>
 							<div align="right">
