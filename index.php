@@ -155,6 +155,9 @@
 		<div id="footer">
 			<hr />
 			Copyright &copy; 2014 Marcel Gregoriadis
+			<div align="right">
+				<a href="dev.php">Dev</a>
+			</div>
 		</div>
 	</div>
 </body>
