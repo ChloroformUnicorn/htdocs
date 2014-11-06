@@ -110,10 +110,10 @@ $ua=getBrowser();
 					<td><b>Apache Version:</b> </td><td><?php echo apache_get_version(); ?></td>
 				</tr>
 				<tr>
-					<td><b>MySQL Version (Server):</b> </td><td><?php echo mysql_get_server_info(); ?></td>
+					<td><b>MySQL Version (Server):</b> </td><td><?php include("db.inc.php"); echo mysqli_get_server_info($db); ?></td>
 				</tr>
 				<tr>
-					<td><b>MySQL Version (Client):</b> </td><td><?php echo mysql_get_client_info(); ?></td>
+					<td><b>MySQL Version (Client):</b> </td><td><?php echo mysqli_get_client_info(); ?></td>
 				</tr>
                 <tr>
                     <td><b>Webbrowser:</b> </td><td><?php echo $ua["name"] . " " . $ua["version"] . " auf " . $ua["platform"]; ?></td>
