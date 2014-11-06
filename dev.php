@@ -88,7 +88,7 @@ $ua=getBrowser();
 ?>
 <html>
 <head>
-	<title>Developement Info</title>
+	<title>Server & Client Daten (Vergleich)</title>
 	<link rel="stylesheet" type="text/css" href="style.css" />
 	<meta charset="utf-8">
 </head>
@@ -100,8 +100,9 @@ $ua=getBrowser();
 		<div id="header">
 			<h1>Leviathalis</h1>
 		</div>
-		<div id="content">
-			<table border=1 align="center">
+		<div id="content" align=center>
+			<h3>Daten zu diesem Server und verwendetem Client:</h3>
+			<table border=1>
 				<tr>
 					<td><b>PHP Version:</b> </td><td><?php echo phpversion(); ?></td>
 				</tr>
@@ -115,13 +116,31 @@ $ua=getBrowser();
 					<td><b>MySQL Version (Client):</b> </td><td><?php echo mysql_get_client_info(); ?></td>
 				</tr>
 				<tr>
-					<td><b>Webbrowser:</b> </td><td><?php echo $ua["name"] . " " . $ua["version"] . " auf " . $ua["platform"];; ?></td>
+					<td><b>Webbrowser:</b> </td><td><?php echo $ua["name"] . " " . $ua["version"] . " auf " . $ua["platform"]; ?></td>
+				</tr>
+			</table>
+			<h3>Server & Client Daten mit denen programmiert und getestet wurde</h3>
+			<table border=1>
+				<tr>
+					<td><b>PHP Version:</b> </td><td>5.5.15</td>
+				</tr>
+				<tr>
+					<td><b>Apache Version:</b> </td><td>Apache/2.4.10 (Unix) OpenSSL/1.0.1i PHP/5.5.15 mod_perl/2.0.8-dev Perl/v5.16.3</td>
+				</tr>
+				<tr>
+					<td><b>MySQL Version (Server):</b> </td><td>5.6.20</td>
+				</tr>
+				<tr>
+					<td><b>MySQL Version (Client):</b> </td><td>mysqlnd 5.0.11-dev - 20120503 - $Id: bf9ad53b11c9a57efdb1057292d73b928b8c5c77 $</td>
+				</tr>
+				<tr>
+					<td><b>Webbrowser:</b> </td><td>Apple Safari 8.0 auf Mac</td>
 				</tr>
 			</table>
 		</div>
+		<hr />
 		<!-- Footer für Copyrights o.ä. -->
 		<div id="footer">
-			<hr />
 			Copyright &copy; 2014 Marcel Gregoriadis
 			<div align="right">
 				<a href="dev.php">Dev</a>

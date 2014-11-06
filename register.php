@@ -221,9 +221,9 @@
 				</table>
 			</form>
 		</div>
+		<hr />
 		<!-- Footer -->
 		<div id="footer">
-			<hr />
 			Copyright &copy; 2014 Marcel Gregoriadis
 		</div>
 	</div>

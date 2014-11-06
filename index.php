@@ -151,9 +151,9 @@
 				<p><b>Es haben sich bereits <?php $spielerAnzahl = mysqli_num_rows($db_erg); echo $spielerAnzahl; ?> Spieler registriert!</b></p>
 			</div>
 		</div>
+		<hr />
 		<!-- Footer für Copyrights o.ä. -->
 		<div id="footer">
-			<hr />
 			Copyright &copy; 2014 Marcel Gregoriadis
 			<div align="right">
 				<a href="dev.php">Dev</a>
