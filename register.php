@@ -18,7 +18,6 @@
 			<h1>Leviathalis</h1>
 		</div>
 		<div id="content">
-
 			<?php
 			// Diese Variablen sind später benötigt um zu prüfen, ob ein Feld rot umrahmt werden soll
 			// TRUE = Fehlerhafte Eingabe
@@ -191,7 +190,6 @@
 				}
 			}
 			?>
-
 			<!-- Registrierungsformular -->
 			<form method="post" action="register.php">
 				<table>
@@ -212,7 +210,7 @@
 					 	<td><input type="password" name="passwordConfirm" size="20" <?php if(isset($_POST["register"])) { echo "value='$password'"; if($pwInput) { echo "class='formError'"; } } ?> ></td>
 					</tr>
 					<tr>
-						<td><input type="checkbox" name="agb" <?php if($agbCheckbox) { echo "class='formError'"; } ?> > Ich habe die <a href="agb.htm" target="_blank" onclick="return popup(this.href);">AGB</a> gelesen und akzeptiere diese.</td>
+						<td><label><input type="checkbox" name="agb" <?php if($agbCheckbox) { echo "class='formError'"; } ?> > Ich habe die <a href="agb.htm" target="_blank" onclick="return popup(this.href);">AGB</a> gelesen und akzeptiere diese.</label></td>
 					</tr>
 					<tr>
 					  <td></td>

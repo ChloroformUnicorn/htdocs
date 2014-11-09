@@ -126,14 +126,14 @@
 							?>
 							></td></tr>
 						<tr>
-							<td colspan="2"><input type="checkbox" name="saveData"
+							<td colspan="2"><label><input type="checkbox" name="saveData"
 							<?php
 							if (isset($_COOKIE["name"]))
 							{
 								echo "checked";
 							}
 							?>
-							> Login-Daten merken</td>
+							> Login-Daten merken</label></td>
 						</tr>
 						<tr>
 							<div align="right">
