@@ -27,6 +27,8 @@
 					die('Ungültige Abfrage: ' . mysqli_error());
 				}
 
+				$name = "";
+
 				if (isset($_POST["login"]))
 				{
 					// Name und Passwort des Logins in Variablen speichern
@@ -93,17 +95,9 @@
 							{
 								$name = $_SESSION["name"];
 							}
-							else if (isset($_POST["login"]))
-							{
-								$name = $_POST["name"];
-							}
 							else if (isset($_COOKIE['name']))
 							{
 								$name = $_COOKIE["name"];
-							}
-							else
-							{
-								$name = "";
 							}
 							echo "value='$name'";
 							?>
