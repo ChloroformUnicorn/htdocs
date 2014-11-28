@@ -40,4 +40,7 @@ body {
 
 #village {
 	background-color: green;
+	position: absolute;
+	overflow: scroll;
+	height: 100%;
 }
