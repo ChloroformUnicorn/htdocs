@@ -1,48 +1,43 @@
+*, :not(img), :not(li) {
+    margin:0;
+}
+
+html, body {
+    height: 100%;
+}
+
 body {
-	background-color: #EEE;
-	font-family: 'Calibri';
+    position: relative;
 }
 
-#container {
-	background-color: white;
-	width: 1000px;
-	margin-left: auto;
-	margin-right: auto;
+.outterWrapper {
+    display: table;
+    table-layout: fixed;
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
-#menu {
-	background-color: #5858FA;
-	color: white;
-	text-align: center;
+.innerWrapper {
+    display: table-row;
 }
 
-#menu2 {
-	margin-top: 10px;
-	background-color: #DF01A5;
-	color: white;
-	text-align: center;
+.innerWrapper > div {
+    display: table-cell;
 }
 
-#content {
-	padding: 10px;
+#sidebar {
+	width: 40px;
+	background-color: red;
+	border-right: 1px solid black;
 }
 
-#info {
-	width: 300px;
-	float: right;
-	border-width:1px;
-	border-style:solid;
-	border-color:blue;
+#overview {
+	width: 400px;
+	border-right: 1px solid black;
+	background-color: yellow;
 }
 
-#dorf {
-	width: 660px;
-	float: left;
-	border-width:1px;
-	border-style:solid;
-	border-color:blue;
-}
-
-#footer {
-	clear: both;
+#village {
+	background-color: green;
 }
