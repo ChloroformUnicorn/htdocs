@@ -15,7 +15,7 @@
             Test
         </div>
         <div id="village">
-            <img width=600px src="graphic/village.jpg">
+            <img style="display:table-cell; width:100%;" src="graphic/village.jpg">
         </div>
     </div>
 </div>
