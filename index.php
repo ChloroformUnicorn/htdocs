@@ -50,7 +50,7 @@
 						if (password_verify($pw, $row->password))
 						{
 							$id = $row->id;
-							$id = $_SESSION["id"];
+							$_SESSION["id"] = $id;
 							// Sollen die Daten gespeichert werden (Cookie)?
 							if ($_POST["saveData"])
 							{
@@ -82,7 +82,7 @@
 					// Informiere Nutzer über erfolgreiche Registrierung
 					echo "<span style=\"color:#31B404;\"><b>Hallo " . $_SESSION["name"] . "! Du hast dich erfolgreich registriert.</b>";
 					// Beende Session, damit die Meldung nicht während der ganzen Internetsitzung auf der Startseite erscheint
-					session_destroy();
+					//session_destroy();
 				}
 				?>
 				<!-- Login Formular -->
