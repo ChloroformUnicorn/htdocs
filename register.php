@@ -30,7 +30,6 @@
 			{
 				// Datenbankverbindung aufbauen
 				include("db.inc.php");
-				mysqli_set_charset($db, 'utf8');
 				// Auslesung der registrierten Nutzer in der Datenbank
 				$sql = "SELECT name, email FROM users";
 				$db_erg = mysqli_query($db, $sql);

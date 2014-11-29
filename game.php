@@ -9,7 +9,7 @@
 <div class="outterWrapper">
     <div class="innerWrapper">
         <div id="sidebar">
-            Test
+            <img src="graphic/sidebar/overview.png">
         </div>
         <div id="overview">
             <?php
@@ -17,38 +17,44 @@
             $userId = $_SESSION["id"];
             // Datenbankverbindung aufbauen
             include("db.inc.php");
-            mysqli_set_charset($db, 'utf8');
             $sql = "SELECT * FROM villages WHERE user = '$userId'";
-            $db_erg = mysqli_query($db, $sql);
-            if ( ! $db_erg )
+            $result = mysqli_query($db, $sql);
+            if ( ! $result )
             {
                 die('Ungültige Abfrage: ' . mysqli_error());
             }
-            $row = mysqli_fetch_object($db_erg);
-
+            $row = mysqli_fetch_object($result);
+            // Logout wenn die Session abgelaufen ist
             if ($_SESSION["id"]=="")
             {
                 header("Location: logout.php");
             }
+            // Kein Dorf gefunden?
             else if (!$row)
             {
                 echo "Du hast ja noch gar keine Dörfer :O";
-                $sql = "SELECT id, name FROM users WHERE id = '$userId'";
-                $db_erg = mysqli_query($db, $sql);
-                if ( ! $db_erg )
-                {
-                    die('Ungültige Abfrage: ' . mysqli_error());
-                }
-                $row = mysqli_fetch_object($db_erg);
+                $row = mysqli_fetch_object($result);
                 $villageName = $row->name . "s Dorf";
                 // Daten in eine Tabelle abspeichern
-                $order = "INSERT INTO villages
+                $sql = "INSERT INTO villages
                             (user, name)
                             VALUES
                             ('$userId','$villageName')";
-                 
-                // War die Verbindung erfolgreich?
-                $result = mysqli_query($db, $order);
+            }
+            // Spieler HAT Dörfer!
+            else
+            {
+                echo "<h3>Deine Dörfer (" . mysqli_num_rows($result) . "):</h3><br/>
+                <table border=1>
+                <tr>
+                <td>Dorfname</td><td>Punkte</td>
+                </tr>";
+                $result = mysqli_query($db, $sql);
+                while ($dorf = mysqli_fetch_assoc($result))
+                {
+                    echo "<tr><td>" . $dorf["name"] . "</td><td>" . $dorf["points"] . "</td></tr>";
+                }
+                echo "</table>";
             }
 
             ?>

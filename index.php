@@ -19,7 +19,6 @@
 				<?php
 				// Datenbankverbindung aufbauen
 				include("db.inc.php");
-				mysqli_set_charset($db, 'utf8');
 				$sql = "SELECT * FROM users";
 				$db_erg = mysqli_query($db, $sql);
 				if ( ! $db_erg )
@@ -82,7 +81,7 @@
 					// Informiere Nutzer über erfolgreiche Registrierung
 					echo "<span style=\"color:#31B404;\"><b>Hallo " . $_SESSION["name"] . "! Du hast dich erfolgreich registriert.</b>";
 					// Beende Session, damit die Meldung nicht während der ganzen Internetsitzung auf der Startseite erscheint
-					//session_destroy();
+					session_destroy();
 				}
 				?>
 				<!-- Login Formular -->
