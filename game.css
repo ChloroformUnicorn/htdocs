@@ -7,7 +7,6 @@ html, body {
 }
 
 body {
-    position: relative;
 	position: fixed;
 }
 
@@ -44,4 +43,23 @@ body {
 	position: absolute;
 	overflow: scroll;
 	height: 100%;
+}
+
+#village_overview {
+	overflow: scroll;
+}
+
+#village_topbar {
+	background-color: orange;
+	line-height: 1.5em;
+	width: 100%;
+	position: fixed;
+}
+
+#village_footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	line-height: 1.5em;
+	background: pink;
 }

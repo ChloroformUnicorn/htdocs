@@ -53,8 +53,17 @@
 
             ?>
         </div>
+
         <div id="village">
-            <img style="display:table-cell; width:100%;" src="graphic/village.jpg">
+            <div id="village_topbar">
+                Was geht ab?
+            </div>
+            <div id="village_overview">
+                <img style="display:table-cell; width:100%;" src="graphic/village.jpg">
+            </div>
+            <div id="village_footer">
+                Copyright Microsoft Corporation bitches
+            </div>
         </div>
     </div>
 </div>
