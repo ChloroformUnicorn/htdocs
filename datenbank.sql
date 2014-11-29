@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 29. Nov 2014 um 10:41
+-- Erstellungszeit: 29. Nov 2014 um 17:26
 -- Server Version: 5.6.20
 -- PHP-Version: 5.5.15
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `password` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `creationDate` datetime NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=88 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=90 ;
 
 -- --------------------------------------------------------
 
@@ -44,8 +44,8 @@ CREATE TABLE IF NOT EXISTS `villages` (
 `id` int(10) unsigned NOT NULL,
   `user` int(11) NOT NULL,
   `name` text CHARACTER SET utf8 NOT NULL,
-  `placeholder` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  `points` int(11) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Indexes for dumped tables
@@ -71,12 +71,12 @@ ALTER TABLE `villages`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=88;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=90;
 --
 -- AUTO_INCREMENT for table `villages`
 --
 ALTER TABLE `villages`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

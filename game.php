@@ -56,7 +56,9 @@
 
         <div id="village">
             <div id="village_topbar">
-                Was geht ab?
+                <?php
+                echo $row->name . " (" . $row->points . " Punkte)";
+                ?>
             </div>
             <div id="village_overview">
                 <img style="display:table-cell; width:100%;" src="graphic/village.jpg">
