@@ -1,3 +1,20 @@
+<?php
+session_start();
+// Logout wenn die Session abgelaufen ist
+if ($_SESSION["id"]=="")
+{
+    header("Location: logout.php");
+}
+// Datenbankverbindung aufbauen
+include("db.inc.php");
+$userId = $_SESSION["id"];
+// Datensatz des Users
+$user = mysqli_fetch_object(mysqli_query($db, "SELECT * FROM users WHERE id = '$userId'"));
+// Datensatz der Dörfer des eingeloggten User
+$searchVillages = "SELECT * FROM villages WHERE user = '$userId'";
+$res = mysqli_query($db, $searchVillages);
+$village = mysqli_fetch_object($res);
+?>
 <html>
 <head>
     <title>Spiel</title>
@@ -9,67 +26,60 @@
 <div class="outterWrapper">
     <div class="innerWrapper">
         <div id="sidebar">
-            <img src="graphic/sidebar/overview.png">
+            <a href="game.php?screen=overview"><img src="graphic/sidebar/overview.png"></a><br/>
+            <a href="game.php?screen=reports"><img src="graphic/sidebar/reports.png"></a><br/>
+            <a href="game.php?screen=map"><img src="graphic/sidebar/map.png"></a><br/>
         </div>
-        <div id="overview">
+        <div id="menu">
             <?php
-            session_start();
-            $userId = $_SESSION["id"];
-            // Datenbankverbindung aufbauen
-            include("db.inc.php");
-            $sql = "SELECT * FROM villages WHERE user = '$userId'";
-            $result = mysqli_query($db, $sql);
-            if ( ! $result )
-            {
-                die('Ungültige Abfrage: ' . mysqli_error());
-            }
-            $row = mysqli_fetch_object($result);
-            // Logout wenn die Session abgelaufen ist
-            if ($_SESSION["id"]=="")
-            {
-                header("Location: logout.php");
-            }
             // Kein Dorf gefunden?
-            else if (!$row)
+            if (!$village)
             {
                 echo "Du hast ja noch gar keine Dörfer :O";
-                $row = mysqli_fetch_object($result);
-                $villageName = $row->name . "s Dorf";
+                
+                $villageName = $user->name . "s Dorf";
                 // Daten in eine Tabelle abspeichern
                 $sql = "INSERT INTO villages
                             (user, name)
                             VALUES
                             ('$userId','$villageName')";
+                $res = mysqli_query($db, $sql);
             }
             // Spieler HAT Dörfer!
             else
             {
-                echo "<h3>Deine Dörfer (" . mysqli_num_rows($result) . "):</h3><br/>
-                <table border=1>
-                <tr>
-                <td>Dorfname</td><td>Punkte</td>
-                </tr>";
-                $result = mysqli_query($db, $sql);
-                while ($dorf = mysqli_fetch_assoc($result))
+                // Übersichten
+                if ($_GET["screen"] == "overview")
                 {
-                    echo "<tr><td>" . $dorf["name"] . "</td><td>" . $dorf["points"] . "</td></tr>";
+                    include("include/menu/overview.inc.php");
                 }
-                echo "</table>";
+                else if ($_GET["screen"] == "reports")
+                {
+                    include("include/menu/reports.inc.php");
+                }
             }
 
             ?>
         </div>
 
         <div id="village">
-            <div id="village_topbar">
+            <div id="topbar">
                 <?php
-                echo $row->name . " (" . $row->points . " Punkte)";
+                $res = mysqli_query($db, $searchVillages);
+                $village = mysqli_fetch_object($res);
+                echo $village->name . " (" . $village->points . " Punkte)";
                 ?>
             </div>
-            <div id="village_overview">
-                <img style="display:table-cell; width:100%;" src="graphic/village.jpg">
+            <div id="overview">
+                <?php
+                if ($_GET["screen"] == "map") {
+                    include("include/menu/map.inc.php");
+                } else {
+                    echo "<img style='display:table-cell; width:100%;' src='graphic/village.jpg'>";
+                }
+                ?>
             </div>
-            <div id="village_footer">
+            <div id="footer">
                 Copyright Microsoft Corporation bitches
             </div>
         </div>

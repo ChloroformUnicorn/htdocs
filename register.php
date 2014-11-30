@@ -103,7 +103,7 @@
 						else
 						{
 							// Fehlermeldung über fehlgeschlagende Verbindung
-							echo "<span style=\"color:#FF0000;\"><b>Die Anmeldung schlug fehl. Ein Problem mit der Datenbank liegt vor. Bitte kontaktiere den Support in diesem Fall.</b></span><br />";
+							echo "<span style='color:#FF0000;'><b>Die Anmeldung schlug fehl. Ein Problem mit der Datenbank liegt vor. Bitte kontaktiere den Support.</b></span><br />";
 						}
 					}
 					// Fehlermeldungen für ungültige Eingaben im Formular
