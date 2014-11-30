@@ -29,6 +29,7 @@ $village = mysqli_fetch_object($res);
             <a href="game.php?screen=overview"><img src="graphic/sidebar/overview.png"></a><br/>
             <a href="game.php?screen=reports"><img src="graphic/sidebar/reports.png"></a><br/>
             <a href="game.php?screen=map"><img src="graphic/sidebar/map.png"></a><br/>
+            <a href="logout.php"><img src="graphic/sidebar/logout.png"></a><br/>
         </div>
         <div id="menu">
             <?php
@@ -37,13 +38,7 @@ $village = mysqli_fetch_object($res);
             {
                 echo "Du hast ja noch gar keine Dörfer :O";
                 
-                $villageName = $user->name . "s Dorf";
-                // Daten in eine Tabelle abspeichern
-                $sql = "INSERT INTO villages
-                            (user, name)
-                            VALUES
-                            ('$userId','$villageName')";
-                $res = mysqli_query($db, $sql);
+                include("include/create_village.inc.php");
             }
             // Spieler HAT Dörfer!
             else
