@@ -1,13 +1,11 @@
 <?php
-echo "<h3>Deine Dörfer (" . mysqli_num_rows($result) . "):</h3><br/>
+echo "<h3>Deine Dörfer (" . mysqli_num_rows($res) . "):</h3><br/>
 <table border=1>
-<tr>
-<td>Dorfname</td><td>Punkte</td>
-</tr>";
-$result = mysqli_query($db, $sql);
-while ($dorf = mysqli_fetch_assoc($result))
+<tr><td>Dorfname</td><td>Punkte</td></tr>";
+$res = mysqli_query($db, $usersVillages);
+while ($village = mysqli_fetch_assoc($res))
 {
-    echo "<tr><td>" . $dorf["name"] . "</td><td>" . $dorf["points"] . "</td></tr>";
+    echo "<tr><td>" . $village["name"] . "</td><td>" . $village["points"] . "</td></tr>";
 }
 echo "</table>";
 ?>

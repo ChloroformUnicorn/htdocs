@@ -11,8 +11,8 @@ $userId = $_SESSION["id"];
 // Datensatz des Users
 $user = mysqli_fetch_object(mysqli_query($db, "SELECT * FROM users WHERE id = '$userId'"));
 // Datensatz der Dörfer des eingeloggten User
-$searchVillages = "SELECT * FROM villages WHERE user = '$userId'";
-$res = mysqli_query($db, $searchVillages);
+$usersVillages = "SELECT * FROM villages WHERE user = '$userId'";
+$res = mysqli_query($db, $usersVillages);
 $village = mysqli_fetch_object($res);
 ?>
 <html>
@@ -37,7 +37,6 @@ $village = mysqli_fetch_object($res);
             if (!$village)
             {
                 echo "Du hast ja noch gar keine Dörfer :O";
-                
                 include("include/create_village.inc.php");
             }
             // Spieler HAT Dörfer!
@@ -48,27 +47,29 @@ $village = mysqli_fetch_object($res);
                 {
                     include("include/menu/overview.inc.php");
                 }
+                // Berichte
                 else if ($_GET["screen"] == "reports")
                 {
                     include("include/menu/reports.inc.php");
                 }
             }
-
             ?>
         </div>
 
         <div id="village">
             <div id="topbar">
                 <?php
-                $res = mysqli_query($db, $searchVillages);
+                $res = mysqli_query($db, $usersVillages);
                 $village = mysqli_fetch_object($res);
                 echo $village->name . " (" . $village->points . " Punkte)";
                 ?>
             </div>
             <div id="overview">
                 <?php
+                // Weltkarte
                 if ($_GET["screen"] == "map") {
                     include("include/menu/map.inc.php");
+                // Dorfübersicht
                 } else {
                     echo "<img style='display:table-cell; width:100%;' src='graphic/village.jpg'>";
                 }

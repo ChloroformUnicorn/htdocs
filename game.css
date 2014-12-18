@@ -52,7 +52,7 @@ body {
 
 #overview {
 	overflow: scroll;
-	height: calc(100%-24px);
+	height: calc(100% - 50px);
 	margin-top: 24px;
 	margin-bottom: 24px;
 }
