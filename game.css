@@ -48,13 +48,15 @@ body {
 	position: absolute;
 	overflow: scroll;
 	height: 100%;
+	width: calc(100% - 462px);
 }
 
 #overview {
-	overflow: scroll;
 	height: calc(100% - 50px);
 	margin-top: 24px;
 	margin-bottom: 24px;
+	background-image: url("graphic/village.jpg");
+	-webkit-background-size: 100% auto;
 }
 
 #overview td {
