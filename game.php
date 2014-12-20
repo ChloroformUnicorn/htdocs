@@ -26,9 +26,10 @@ $village = mysqli_fetch_object($res);
 <div class="outterWrapper">
     <div class="innerWrapper">
         <div id="sidebar">
-            <a href="game.php?screen=overview"><img src="graphic/sidebar/overview.png"></a><br/>
-            <a href="game.php?screen=reports"><img src="graphic/sidebar/reports.png"></a><br/>
-            <a href="game.php?screen=map"><img src="graphic/sidebar/map.png"></a><br/>
+            <?php $villageId = 12; ?>
+            <a href="game.php?village=<?php echo $villageId; ?>&screen=overview"><img src="graphic/sidebar/overview.png"></a><br/>
+            <a href="game.php?village=<?php echo $villageId; ?>&screen=reports"><img src="graphic/sidebar/reports.png"></a><br/>
+            <a href="game.php?village=<?php echo $villageId; ?>&screen=map"><img src="graphic/sidebar/map.png"></a><br/>
             <a href="logout.php"><img src="graphic/sidebar/logout.png"></a><br/>
         </div>
         <div id="menu">
@@ -42,15 +43,25 @@ $village = mysqli_fetch_object($res);
             // Spieler HAT Dörfer!
             else
             {
-                // Übersichten
-                if ($_GET["screen"] == "overview")
-                {
-                    include("include/menu/overview.inc.php");
+                // Sind wir gerade in einem Menü
+                if (isset($_GET["screen"])) {
+                    // Übersichten
+                    if ($_GET["screen"] == "overview")
+                    {
+                        include("include/menu/overview.inc.php");
+                    }
+                    // Berichte
+                    else if ($_GET["screen"] == "reports")
+                    {
+                        include("include/menu/reports.inc.php");
+                    }
                 }
-                // Berichte
-                else if ($_GET["screen"] == "reports")
-                {
-                    include("include/menu/reports.inc.php");
+                // Dann müssen wir gerade im Menü eines Gebäudes sein
+                else {
+                    // Hauptgebäude
+                    if ($_GET["building"] == "main") {
+                        include("include/buildings/main.php");
+                    }
                 }
             }
             ?>
@@ -69,9 +80,10 @@ $village = mysqli_fetch_object($res);
                 // Weltkarte
                 if ($_GET["screen"] == "map") {
                     include("include/menu/map.inc.php");
-                // Dorfübersicht
-                } else {
-                    echo "<img style='margin: 25%; width: 10%; position: absolute;' src='graphic/buildings/main.png'>";
+                }
+                else {
+                    // Dorfübersicht
+                    echo "<a href='?village=" . $villageId . "&building=main'><img style='margin: 25%; width: 10%; position: absolute;' src='graphic/buildings/main.png'></a>";
                     echo "<img style='margin: 50%; width: 10%; position: absolute;' src='graphic/buildings/main.png'>";
                 }
                 ?>
