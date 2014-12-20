@@ -71,7 +71,8 @@ $village = mysqli_fetch_object($res);
                     include("include/menu/map.inc.php");
                 // Dorfübersicht
                 } else {
-                    
+                    echo "<img style='margin: 25%; width: 10%; position: absolute;' src='graphic/buildings/main.png'>";
+                    echo "<img style='margin: 50%; width: 10%; position: absolute;' src='graphic/buildings/main.png'>";
                 }
                 ?>
             </div>
