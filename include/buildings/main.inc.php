@@ -1,14 +1,12 @@
 <?php
 $villageId = $_GET["village"];
 $res = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
-$building = mysqli_fetch_assoc($res);
-
-
+$village = mysqli_fetch_assoc($res);
 
 // Gebäudestufen erhöhen
 if (isset($_POST["MainAusbauen"]))
 {
-	$newLevel = $building["main"]+1;
+	$newLevel = $village["main"]+1;
 	$holzUpdate = $village["holz"]-($newLevel*2+100);
 	$steinUpdate = $village["stein"]-($newLevel*1.4+60);
 	$eisenUpdate = $village["eisen"]-($newLevel*1.9+120);
@@ -27,7 +25,7 @@ if (isset($_POST["MainAusbauen"]))
 }
 if (isset($_POST["Res1Ausbauen"]))
 {
-	$newLevel = $building["res1"]+1;
+	$newLevel = $village["res1"]+1;
 	$holzUpdate = $village["holz"]-($newLevel*2+100);
 	$steinUpdate = $village["stein"]-($newLevel*1.4+60);
 	$eisenUpdate = $village["eisen"]-($newLevel*1.9+120);
@@ -46,7 +44,7 @@ if (isset($_POST["Res1Ausbauen"]))
 }
 if (isset($_POST["Res2Ausbauen"]))
 {
-	$newLevel = $building["res2"]+1;
+	$newLevel = $village["res2"]+1;
 	$holzUpdate = $village["holz"]-($newLevel*2+100);
 	$steinUpdate = $village["stein"]-($newLevel*1.4+60);
 	$eisenUpdate = $village["eisen"]-($newLevel*1.9+120);
@@ -65,7 +63,7 @@ if (isset($_POST["Res2Ausbauen"]))
 }
 if (isset($_POST["Res3Ausbauen"]))
 {
-	$newLevel = $building["res3"]+1;
+	$newLevel = $village["res3"]+1;
 	$holzUpdate = $village["holz"]-($newLevel*2+100);
 	$steinUpdate = $village["stein"]-($newLevel*1.4+60);
 	$eisenUpdate = $village["eisen"]-($newLevel*1.9+120);
@@ -84,7 +82,7 @@ if (isset($_POST["Res3Ausbauen"]))
 }
 
 $res = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
-$building = mysqli_fetch_assoc($res);
+$village = mysqli_fetch_assoc($res);
 ?>
 <h2>Hauptgebäude</h2>
 <br />
@@ -93,26 +91,26 @@ $building = mysqli_fetch_assoc($res);
 		<td><b>Gebäude</b></td><td><b>Kosten</b></td><td><b>Bauen</b></td>
 	</tr>
 	<tr>
-		<td>Hauptgebäude</td><td><?php $newLevel = $building["main"]+1; echo $newLevel*2+100 . " Holz, "; echo $newLevel*1.4+60 . " Stein, "; echo $newLevel*1.9+120 . " Eisen"; ?></td>
+		<td>Hauptgebäude</td><td><?php $newLevel = $village["main"]+1; echo $newLevel*2+100 . " Holz, "; echo $newLevel*1.4+60 . " Stein, "; echo $newLevel*1.9+120 . " Eisen"; ?></td>
 		<td><form name="MainAusbauen" action="#" method="post">
 		<input type="submit" name="MainAusbauen" value="Auf Stufe <?php echo $newLevel; ?> ausbauen"></form></td>
 	</tr>
 	<tr>
 		<td>Res1</td><td>blub</td><td><form name="Res1Ausbauen" action="#" method="post">
-		<input type="submit" name="Res1Ausbauen" value="Auf Stufe <?php echo $building["res1"]+1; ?> ausbauen"></form></td>
+		<input type="submit" name="Res1Ausbauen" value="Auf Stufe <?php echo $village["res1"]+1; ?> ausbauen"></form></td>
 	</tr>
 	<tr>
 		<td>Res2</td><td>blub</td><td><form name="Res2Ausbauen" action="#" method="post">
-		<input type="submit" name="Res2Ausbauen" value="Auf Stufe <?php echo $building["res2"]+1; ?> ausbauen"></form></td>
+		<input type="submit" name="Res2Ausbauen" value="Auf Stufe <?php echo $village["res2"]+1; ?> ausbauen"></form></td>
 	</tr>
 	<tr>
 		<td>Res3</td><td>blub</td><td><form name="Res3Ausbauen" action="#" method="post">
-		<input type="submit" name="Res3Ausbauen" value="Auf Stufe <?php echo $building["res3"]+1; ?> ausbauen"></form></td>
+		<input type="submit" name="Res3Ausbauen" value="Auf Stufe <?php echo $village["res3"]+1; ?> ausbauen"></form></td>
 	</tr>
 	<tr>
-		<td>Hauptgebäude</td><td>blub</td><td>Auf Stufe <?php echo $building["main"]+1; ?> ausbauen</td>
+		<td>Hauptgebäude</td><td>blub</td><td>Auf Stufe <?php echo $village["main"]+1; ?> ausbauen</td>
 	</tr>
 	<tr>
-		<td>Hauptgebäude</td><td>blub</td><td>Auf Stufe <?php echo $building["main"]+1; ?> ausbauen</td>
+		<td>Hauptgebäude</td><td>blub</td><td>Auf Stufe <?php echo $village["main"]+1; ?> ausbauen</td>
 	</tr>
 </table>

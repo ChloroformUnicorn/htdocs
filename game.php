@@ -56,7 +56,12 @@ $village = mysqli_fetch_assoc($res);
                 // Hauptgebäude
                 if ($_GET["screen"] == "main")
                 {
-                    include("include/buildings/main.php");
+                    include("include/buildings/main.inc.php");
+                }
+                // Kaserne
+                if ($_GET["screen"] == "barracks")
+                {
+                    include("include/buildings/barracks.inc.php");
                 }
             }
             ?>
@@ -83,7 +88,7 @@ $village = mysqli_fetch_assoc($res);
                 else {
                     // Dorfübersicht
                     echo "<a href='?village=" . $villageId . "&screen=main'><img style='margin: 25%; width: 10%; position: absolute;' src='graphic/buildings/main.png'></a>";
-                    echo "<img style='margin: 50%; width: 10%; position: absolute;' src='graphic/buildings/main.png'>";
+                    echo "<a href='?village=" . $villageId . "&screen=barracks'><img style='margin: 50%; width: 10%; position: absolute;' src='graphic/buildings/barracks.png'></a>";
                 }
                 ?>
             </div>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 20. Dez 2014 um 21:52
+-- Erstellungszeit: 22. Dez 2014 um 00:38
 -- Server Version: 5.6.20
 -- PHP-Version: 5.5.15
 
@@ -54,20 +54,25 @@ CREATE TABLE IF NOT EXISTS `villages` (
   `points` int(11) NOT NULL,
   `x` int(11) NOT NULL,
   `y` int(11) NOT NULL,
+  `holz` int(11) NOT NULL,
+  `stein` int(11) NOT NULL,
+  `eisen` int(11) NOT NULL,
   `main` int(11) NOT NULL DEFAULT '1',
+  `barracks` int(11) NOT NULL,
   `res1` int(11) NOT NULL,
   `res2` int(11) NOT NULL,
-  `res3` int(11) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
+  `res3` int(11) NOT NULL,
+  `troop1` int(11) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
 -- Daten für Tabelle `villages`
 --
 
-INSERT INTO `villages` (`id`, `user`, `name`, `points`, `x`, `y`, `main`, `res1`, `res2`, `res3`) VALUES
-(12, 90, 'marcels Dorf', 0, 0, 0, 11, 2, 4, 1),
-(14, 90, 'sir lanzelord', 0, -2, -2, 0, 0, 0, 0),
-(15, 90, 'barbara', 0, 1, -2, 0, 0, 0, 0);
+INSERT INTO `villages` (`id`, `user`, `name`, `points`, `x`, `y`, `holz`, `stein`, `eisen`, `main`, `barracks`, `res1`, `res2`, `res3`, `troop1`) VALUES
+(12, 90, 'marcels Dorf', 0, 0, 0, 0, 310, 600, 9, 0, 1, 6, 4, 248),
+(14, 90, 'sir lanzelord', 0, -2, -2, 3276, 0, 0, 0, 0, 78, 0, 0, 0),
+(15, 90, 'barbara', 0, 1, -2, 1932, 0, 0, 0, 0, 46, 0, 0, 0);
 
 --
 -- Indexes for dumped tables
@@ -98,7 +103,7 @@ MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=91;
 -- AUTO_INCREMENT for table `villages`
 --
 ALTER TABLE `villages`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=24;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
