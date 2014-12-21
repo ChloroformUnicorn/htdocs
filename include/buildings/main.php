@@ -3,30 +3,84 @@ $villageId = $_GET["village"];
 $res = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
 $building = mysqli_fetch_assoc($res);
 
+
+
 // Gebäudestufen erhöhen
 if (isset($_POST["MainAusbauen"]))
 {
-	$neueStufe = $building["main"]+1;
-	$upgrade = mysqli_query($db, "UPDATE villages SET main = '$neueStufe' WHERE id = '$villageId'");
-	echo "Hauptgebäude auf Stufe " . $neueStufe . " ausgebaut.";
+	$newLevel = $building["main"]+1;
+	$holzUpdate = $village["holz"]-($newLevel*2+100);
+	$steinUpdate = $village["stein"]-($newLevel*1.4+60);
+	$eisenUpdate = $village["eisen"]-($newLevel*1.9+120);
+	if (($holzUpdate >= 0) AND ($steinUpdate >= 0) AND ($eisenUpdate >= 0))
+	{
+		$upgrade = mysqli_query($db, "UPDATE villages SET holz = '$holzUpdate' WHERE id = '$villageId'");
+		$upgrade = mysqli_query($db, "UPDATE villages SET stein = '$steinUpdate' WHERE id = '$villageId'");
+		$upgrade = mysqli_query($db, "UPDATE villages SET eisen = '$eisenUpdate' WHERE id = '$villageId'");
+		$upgrade = mysqli_query($db, "UPDATE villages SET main = '$newLevel' WHERE id = '$villageId'");
+		echo "Hauptgebäude auf Stufe " . $newLevel . " ausgebaut.";
+	}
+	else
+	{
+		echo "Dir stehen nicht genügend Ressourcen zu Verfügung.";
+	}
 }
 if (isset($_POST["Res1Ausbauen"]))
 {
-	$neueStufe = $building["res1"]+1;
-	$upgrade = mysqli_query($db, "UPDATE villages SET res1 = '$neueStufe' WHERE id = '$villageId'");
-	echo "Res1 auf Stufe " . $neueStufe . " ausgebaut.";
+	$newLevel = $building["res1"]+1;
+	$holzUpdate = $village["holz"]-($newLevel*2+100);
+	$steinUpdate = $village["stein"]-($newLevel*1.4+60);
+	$eisenUpdate = $village["eisen"]-($newLevel*1.9+120);
+	if (($holzUpdate >= 0) AND ($steinUpdate >= 0) AND ($eisenUpdate >= 0))
+	{
+		$upgrade = mysqli_query($db, "UPDATE villages SET holz = '$holzUpdate' WHERE id = '$villageId'");
+		$upgrade = mysqli_query($db, "UPDATE villages SET stein = '$steinUpdate' WHERE id = '$villageId'");
+		$upgrade = mysqli_query($db, "UPDATE villages SET eisen = '$eisenUpdate' WHERE id = '$villageId'");
+		$upgrade = mysqli_query($db, "UPDATE villages SET res1 = '$newLevel' WHERE id = '$villageId'");
+		echo "Holzfäller auf Stufe " . $newLevel . " ausgebaut.";
+	}
+	else
+	{
+		echo "Dir stehen nicht genügend Ressourcen zu Verfügung.";
+	}
 }
 if (isset($_POST["Res2Ausbauen"]))
 {
-	$neueStufe = $building["res2"]+1;
-	$upgrade = mysqli_query($db, "UPDATE villages SET res2 = '$neueStufe' WHERE id = '$villageId'");
-	echo "Res2 auf Stufe " . $neueStufe . " ausgebaut.";
+	$newLevel = $building["res2"]+1;
+	$holzUpdate = $village["holz"]-($newLevel*2+100);
+	$steinUpdate = $village["stein"]-($newLevel*1.4+60);
+	$eisenUpdate = $village["eisen"]-($newLevel*1.9+120);
+	if (($holzUpdate >= 0) AND ($steinUpdate >= 0) AND ($eisenUpdate >= 0))
+	{
+		$upgrade = mysqli_query($db, "UPDATE villages SET holz = '$holzUpdate' WHERE id = '$villageId'");
+		$upgrade = mysqli_query($db, "UPDATE villages SET stein = '$steinUpdate' WHERE id = '$villageId'");
+		$upgrade = mysqli_query($db, "UPDATE villages SET eisen = '$eisenUpdate' WHERE id = '$villageId'");
+		$upgrade = mysqli_query($db, "UPDATE villages SET res2 = '$newLevel' WHERE id = '$villageId'");
+		echo "Steinwerk auf Stufe " . $newLevel . " ausgebaut.";
+	}
+	else
+	{
+		echo "Dir stehen nicht genügend Ressourcen zu Verfügung.";
+	}
 }
 if (isset($_POST["Res3Ausbauen"]))
 {
-	$neueStufe = $building["res3"]+1;
-	$upgrade = mysqli_query($db, "UPDATE villages SET res3 = '$neueStufe' WHERE id = '$villageId'");
-	echo "Res3 auf Stufe " . $neueStufe . " ausgebaut.";
+	$newLevel = $building["res3"]+1;
+	$holzUpdate = $village["holz"]-($newLevel*2+100);
+	$steinUpdate = $village["stein"]-($newLevel*1.4+60);
+	$eisenUpdate = $village["eisen"]-($newLevel*1.9+120);
+	if (($holzUpdate >= 0) AND ($steinUpdate >= 0) AND ($eisenUpdate >= 0))
+	{
+		$upgrade = mysqli_query($db, "UPDATE villages SET holz = '$holzUpdate' WHERE id = '$villageId'");
+		$upgrade = mysqli_query($db, "UPDATE villages SET stein = '$steinUpdate' WHERE id = '$villageId'");
+		$upgrade = mysqli_query($db, "UPDATE villages SET eisen = '$eisenUpdate' WHERE id = '$villageId'");
+		$upgrade = mysqli_query($db, "UPDATE villages SET res3 = '$newLevel' WHERE id = '$villageId'");
+		echo "Eisenmine auf Stufe " . $newLevel . " ausgebaut.";
+	}
+	else
+	{
+		echo "Dir stehen nicht genügend Ressourcen zu Verfügung.";
+	}
 }
 
 $res = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
@@ -39,8 +93,9 @@ $building = mysqli_fetch_assoc($res);
 		<td><b>Gebäude</b></td><td><b>Kosten</b></td><td><b>Bauen</b></td>
 	</tr>
 	<tr>
-		<td>Hauptgebäude</td><td>blub</td><td><form name="MainAusbauen" action="#" method="post">
-		<input type="submit" name="MainAusbauen" value="Auf Stufe <?php echo $building["main"]+1; ?> ausbauen"></form></td>
+		<td>Hauptgebäude</td><td><?php $newLevel = $building["main"]+1; echo $newLevel*2+100 . " Holz, "; echo $newLevel*1.4+60 . " Stein, "; echo $newLevel*1.9+120 . " Eisen"; ?></td>
+		<td><form name="MainAusbauen" action="#" method="post">
+		<input type="submit" name="MainAusbauen" value="Auf Stufe <?php echo $newLevel; ?> ausbauen"></form></td>
 	</tr>
 	<tr>
 		<td>Res1</td><td>blub</td><td><form name="Res1Ausbauen" action="#" method="post">

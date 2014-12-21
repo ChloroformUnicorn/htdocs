@@ -9,11 +9,11 @@ if ($_SESSION["id"]=="")
 include("db.inc.php");
 $userId = $_SESSION["id"];
 // Datensatz des Users
-$user = mysqli_fetch_object(mysqli_query($db, "SELECT * FROM users WHERE id = '$userId'"));
+$user = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM users WHERE id = '$userId'"));
 // Datensatz der Dörfer des eingeloggten User
 $usersVillages = "SELECT * FROM villages WHERE user = '$userId'";
 $res = mysqli_query($db, $usersVillages);
-$village = mysqli_fetch_object($res);
+$village = mysqli_fetch_assoc($res);
 ?>
 <html>
 <head>
@@ -43,25 +43,20 @@ $village = mysqli_fetch_object($res);
             // Spieler HAT Dörfer!
             else
             {
-                // Sind wir gerade in einem Menü
-                if (isset($_GET["screen"])) {
-                    // Übersichten
-                    if ($_GET["screen"] == "overview")
-                    {
-                        include("include/menu/overview.inc.php");
-                    }
-                    // Berichte
-                    else if ($_GET["screen"] == "reports")
-                    {
-                        include("include/menu/reports.inc.php");
-                    }
+                // Übersichten
+                if ($_GET["screen"] == "overview")
+                {
+                    include("include/menu/overview.inc.php");
                 }
-                // Dann müssen wir gerade im Menü eines Gebäudes sein
-                else {
-                    // Hauptgebäude
-                    if ($_GET["building"] == "main") {
-                        include("include/buildings/main.php");
-                    }
+                // Berichte
+                else if ($_GET["screen"] == "reports")
+                {
+                    include("include/menu/reports.inc.php");
+                }
+                // Hauptgebäude
+                if ($_GET["screen"] == "main")
+                {
+                    include("include/buildings/main.php");
                 }
             }
             ?>
@@ -69,11 +64,15 @@ $village = mysqli_fetch_object($res);
 
         <div id="village">
             <div id="topbar">
-                <?php
-                $res = mysqli_query($db, $usersVillages);
-                $village = mysqli_fetch_object($res);
-                echo $village->name . " (" . $village->points . " Punkte)";
-                ?>
+                <table style="width: calc(100% - 472px)"><tr><td>
+                    <?php
+                    $res = mysqli_query($db, $usersVillages);
+                    $village = mysqli_fetch_assoc($res);
+                    echo $village["name"] . " (" . $village["points"] . " Punkte)";
+                    ?>
+                </td><td align="right">
+                    <?php echo $village["holz"]; ?> Holz <?php echo $village["stein"]; ?> Stein <?php echo $village["eisen"]; ?> Eisen
+                </td></tr></table>
             </div>
             <div id="overview">
                 <?php
@@ -83,7 +82,7 @@ $village = mysqli_fetch_object($res);
                 }
                 else {
                     // Dorfübersicht
-                    echo "<a href='?village=" . $villageId . "&building=main'><img style='margin: 25%; width: 10%; position: absolute;' src='graphic/buildings/main.png'></a>";
+                    echo "<a href='?village=" . $villageId . "&screen=main'><img style='margin: 25%; width: 10%; position: absolute;' src='graphic/buildings/main.png'></a>";
                     echo "<img style='margin: 50%; width: 10%; position: absolute;' src='graphic/buildings/main.png'>";
                 }
                 ?>

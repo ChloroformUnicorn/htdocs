@@ -87,11 +87,8 @@
 									(name, email, password, creationDate)
 									VALUES
 									('$name','$email','$passwordHashed','$date')";
-						 
-						// War die Verbindung erfolgreich?
 						$result = mysqli_query($db, $order);
-						
-						// Wenn JA
+						// Wenn die Verbindung erfolgreich war
 						if($result)
 						{
 							session_start();
@@ -99,7 +96,7 @@
 							$_SESSION["password"] = $password;
 							header ( 'Location: index.php' );
 						}
-						// Wenn NEIN
+						// Wenn nicht
 						else
 						{
 							// Fehlermeldung über fehlgeschlagende Verbindung
