@@ -27,17 +27,17 @@ $price =
 	];
 
 function upgradeBuilding($building, $name) {
-	global $update;
+	global $update, $village, $price, $db, $villageId;
 	$update["holz"] = $village["holz"]-$price[$building]["holz"];
 	$update["stein"] = $village["stein"]-$price[$building]["stein"];
 	$update["eisen"] = $village["eisen"]-$price[$building]["eisen"];
 	if (($update["holz"] >= 0) AND ($update["stein"] >= 0) AND ($update["eisen"] >= 0))
 	{
-		$upgrade = mysqli_query($db, "UPDATE villages SET holz = '$holzUpdate' WHERE id = '$villageId'");
-		$upgrade = mysqli_query($db, "UPDATE villages SET stein = '$steinUpdate' WHERE id = '$villageId'");
-		$upgrade = mysqli_query($db, "UPDATE villages SET eisen = '$eisenUpdate' WHERE id = '$villageId'");
-		$upgrade = mysqli_query($db, "UPDATE villages SET '$building' = '$newLevel[$building]' WHERE id = '$villageId'");
-		echo $name . " auf Stufe " . $newLevel . " ausgebaut.";
+		$upgrade = mysqli_query($db, "UPDATE villages SET holz = '$update[holz]' WHERE id = '$villageId'");
+		$upgrade = mysqli_query($db, "UPDATE villages SET stein = '$update[stein]' WHERE id = '$villageId'");
+		$upgrade = mysqli_query($db, "UPDATE villages SET eisen = '$update[eisen]' WHERE id = '$villageId'");
+		$upgrade = mysqli_query($db, "UPDATE villages SET '$building' = 'newLevel($building)' WHERE id = '$villageId'");
+		echo $name . " auf Stufe " . newLevel($building) . " ausgebaut.";
 	}
 	else
 	{
@@ -47,23 +47,23 @@ function upgradeBuilding($building, $name) {
 
 
 // Gebäudestufen erhöhen
-if (isset($_POST["MainAusbauen"]))
+if (isset($_POST["main"]))
 {
 	upgradeBuilding("main", "Hauptgebäude");
 }
-if (isset($_POST["BarracksAusbauen"]))
+if (isset($_POST["barracks"]))
 {
 	upgradeBuilding("barracks", "Kaserne");
 }
-if (isset($_POST["Res1Ausbauen"]))
+if (isset($_POST["res1"]))
 {
 	upgradeBuilding("res1", "Holzfäller");
 }
-if (isset($_POST["Res2Ausbauen"]))
+if (isset($_POST["res2"]))
 {
 	upgradeBuilding("res2", "Steinbruch");
 }
-if (isset($_POST["Res3Ausbauen"]))
+if (isset($_POST["res3"]))
 {
 	upgradeBuilding("res3", "Eisenmine");
 }
