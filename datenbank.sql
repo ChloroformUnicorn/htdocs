@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 22. Dez 2014 um 00:38
+-- Erstellungszeit: 22. Dez 2014 um 16:49
 -- Server Version: 5.6.20
 -- PHP-Version: 5.5.15
 
@@ -59,9 +59,14 @@ CREATE TABLE IF NOT EXISTS `villages` (
   `eisen` int(11) NOT NULL,
   `main` int(11) NOT NULL DEFAULT '1',
   `barracks` int(11) NOT NULL,
+  `smith` int(11) NOT NULL,
+  `church` int(11) NOT NULL,
   `res1` int(11) NOT NULL,
   `res2` int(11) NOT NULL,
   `res3` int(11) NOT NULL,
+  `store` int(11) NOT NULL,
+  `farm` int(11) NOT NULL,
+  `wall` int(11) NOT NULL,
   `troop1` int(11) NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
@@ -69,10 +74,10 @@ CREATE TABLE IF NOT EXISTS `villages` (
 -- Daten für Tabelle `villages`
 --
 
-INSERT INTO `villages` (`id`, `user`, `name`, `points`, `x`, `y`, `holz`, `stein`, `eisen`, `main`, `barracks`, `res1`, `res2`, `res3`, `troop1`) VALUES
-(12, 90, 'marcels Dorf', 0, 0, 0, 0, 310, 600, 9, 0, 1, 6, 4, 248),
-(14, 90, 'sir lanzelord', 0, -2, -2, 3276, 0, 0, 0, 0, 78, 0, 0, 0),
-(15, 90, 'barbara', 0, 1, -2, 1932, 0, 0, 0, 0, 46, 0, 0, 0);
+INSERT INTO `villages` (`id`, `user`, `name`, `points`, `x`, `y`, `holz`, `stein`, `eisen`, `main`, `barracks`, `smith`, `church`, `res1`, `res2`, `res3`, `store`, `farm`, `wall`, `troop1`) VALUES
+(12, 90, 'marcels Dorf', 0, 0, 0, 4490, 19590, 23500, 5, 15, 0, 0, 10, 6, 4, 0, 0, 0, 732),
+(14, 90, 'sir lanzelord', 0, -2, -2, 99996, 0, 0, 0, 0, 0, 0, 78, 0, 0, 0, 0, 0, 0),
+(15, 90, 'barbara', 0, 1, -2, 58972, 0, 0, 0, 0, 0, 0, 46, 0, 0, 0, 0, 0, 0);
 
 --
 -- Indexes for dumped tables
