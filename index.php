@@ -1,3 +1,4 @@
+
 <?php session_start(); ?>
 <html>
 <head>
@@ -19,8 +20,7 @@
 				<?php
 				// Datenbankverbindung aufbauen
 				include("db.inc.php");
-				$sql = "SELECT * FROM users";
-				$db_erg = mysqli_query($db, $sql);
+				$db_erg = mysqli_query($db, "SELECT * FROM users");
 				if ( ! $db_erg )
 				{
 					die('Ungültige Abfrage: ' . mysqli_error());
@@ -40,15 +40,15 @@
 					{
 						die('Ungültige Abfrage: ' . mysqli_error());
 					}
-					$row = mysqli_fetch_object($db_erg);
+					$row = mysqli_fetch_assoc($db_erg);
 
 					// Wenn der Name in der Datenbank gefunden wurde
 					if ($row == true)
 					{
 						// Ist das Passwort korrekt?
-						if (password_verify($pw, $row->password))
+						if (password_verify($pw, $row["password"]))
 						{
-							$id = $row->id;
+							$id = $row["id"];
 							$_SESSION["id"] = $id;
 							// Sollen die Daten gespeichert werden (Cookie)?
 							if ($_POST["saveData"])
@@ -61,7 +61,12 @@
 								setcookie("name","",time() - 3600);
 								setcookie("password","",time() - 3600);
 							}
-							header ( 'Location: game.php?screen=overview' );
+							$getUserId = mysqli_query($db, "SELECT id FROM users WHERE name = '$name'");
+							$user = mysqli_fetch_assoc($getUserId);
+							$userId = $user["id"];
+							$getVillageId = mysqli_query($db, "SELECT * FROM villages WHERE user = '$userId'");
+							$village = mysqli_fetch_assoc($getVillageId);
+							header("Location: game.php?village=".$village["id"]."&screen=overview");
 						}
 						else
 						{

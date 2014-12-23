@@ -8,6 +8,7 @@ if ($_SESSION["id"]=="")
 // Datenbankverbindung aufbauen
 include("db.inc.php");
 $userId = $_SESSION["id"];
+$villageId = $_GET["village"];
 // Datensatz des Users
 $user = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM users WHERE id = '$userId'"));
 // Datensatz der Dörfer des eingeloggten User
@@ -20,12 +21,26 @@ $village = mysqli_fetch_assoc($res);
     <title>Spiel</title>
     <link rel="stylesheet" type="text/css" href="game.css" charset="utf-8" />
     <meta charset="utf-8">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        setInterval(function() { 
+            $.ajax({ 
+              url:'include/resources.inc.php?village=<?php echo $villageId; ?>', 
+              type:"POST", 
+              async:true, 
+              data:{}, 
+              success:function(data) { 
+                $("#resources").html(data);
+              } 
+            }); 
+                     
+        },1000);  
+    </script>
 </head>
 <body>
 <div class="outterWrapper">
     <div class="innerWrapper">
         <div id="sidebar">
-            <?php $villageId = 12; ?>
             <a href="game.php?village=<?php echo $villageId; ?>&screen=overview"><img src="graphic/sidebar/overview.png"></a><br/>
             <a href="game.php?village=<?php echo $villageId; ?>&screen=reports"><img src="graphic/sidebar/reports.png"></a><br/>
             <a href="game.php?village=<?php echo $villageId; ?>&screen=map"><img src="graphic/sidebar/map.png"></a><br/>
@@ -74,8 +89,8 @@ $village = mysqli_fetch_assoc($res);
                     $village = mysqli_fetch_assoc($res);
                     echo $village["name"] . " (" . $village["points"] . " Punkte)";
                     ?>
-                </td><td id="resources" align="right">
-                    <?php echo "<img src='graphic/holz.png' height='20' style='vertical-align: middle;'> " .$village["holz"] . " [S] " . $village["stein"] . " [E] " . $village["eisen"]; ?>
+                </td><td align="right">
+                    <div id="resources"><?php echo "<img src='graphic/holz.png' height='20' style='vertical-align: middle;'> " .$village["holz"] . " [S] " . $village["stein"] . " [E] " . $village["eisen"]; ?></div>
                 </td></tr></table>
             </div>
             <div id="overview">
