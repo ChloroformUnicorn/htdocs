@@ -10,18 +10,22 @@ function newLevel($building) {
 }
 // Funcktion die ein Update kauft (Ressourcen abzieht, Gebäudestufe erhöht)
 function upgradeBuilding($building, $name) {
-	global $update, $village, $price, $db, $villageId;
+	global $update, $village, $price, $db, $villageId, $upgradeDate;
 	$update["holz"] = $village["holz"]-$price[$building]["holz"];
 	$update["stein"] = $village["stein"]-$price[$building]["stein"];
 	$update["eisen"] = $village["eisen"]-$price[$building]["eisen"];
 	if (($update["holz"] >= 0) AND ($update["stein"] >= 0) AND ($update["eisen"] >= 0))
 	{
-		$upgrade = mysqli_query($db, "UPDATE villages SET holz = '$update[holz]' WHERE id = '$villageId'");
-		$upgrade = mysqli_query($db, "UPDATE villages SET stein = '$update[stein]' WHERE id = '$villageId'");
-		$upgrade = mysqli_query($db, "UPDATE villages SET eisen = '$update[eisen]' WHERE id = '$villageId'");
-		$x = newLevel($building);
-		$upgrade = mysqli_query($db, "UPDATE villages SET `$building` = '$x' WHERE id = '$villageId'");
+		mysqli_query($db, "UPDATE villages SET holz = '$update[holz]' WHERE id = '$villageId'");
+		mysqli_query($db, "UPDATE villages SET stein = '$update[stein]' WHERE id = '$villageId'");
+		mysqli_query($db, "UPDATE villages SET eisen = '$update[eisen]' WHERE id = '$villageId'");
 		echo $name . " auf Stufe " . newLevel($building) . " ausgebaut.";
+		$now = time();
+		$upgradeDate = time() + 10;
+		mysqli_query($db, "INSERT INTO buildOrders
+							(villageId, building, whenOrdered, whenToUpgrade)
+							VALUES
+							('$villageId', '$building', '$now', '$upgradeDate')");
 	}
 	else
 	{
@@ -69,7 +73,7 @@ function buildingRow($name, $building) {
 	global $village, $price;
 	echo "<tr>
 		<td>".$name." (".$village[$building].")</td>
-		<td>".$price[$building]['holz']." Holz, ".$price[$building]['stein']." Stein, ".$price[$building]['eisen']." Eisen"."</td>
+		<td><img src='graphic/holz.png' height='16' style='vertical-align:middle;'>".$price[$building]['holz']." [S] ".$price[$building]['stein']." [E] ".$price[$building]['eisen']."</td>
 		<td><form name='".$building."' method='post'><input type='submit' name='".$building."' value='Auf Stufe ". newLevel($building) ." ausbauen'></form></td>
 		</tr>";
 }
@@ -97,15 +101,27 @@ if (isset($_POST["res3"]))
 {
 	upgradeBuilding("res3", "Bergwerk");
 }
-
-
-
 // Werte updaten
 $res = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
 $village = mysqli_fetch_assoc($res);
 calculatePrice();
 ?>
 <h2>Hauptgebäude</h2>
+<br />
+<table border=1>
+	<tr><td><b>Ausbau</b></td><td><b>Zeit</b></td><td><b>Fertig am</b></td></tr>
+	<?php
+	$orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE villageId = '$villageId'");
+	while ($order = mysqli_fetch_assoc($orders))
+	{
+		date_default_timezone_set('Europe/Berlin');
+		$timeTo = date("H:i:s", $order["whenToUpgrade"]-$order["whenOrdered"]);
+		$builtOnD = date("d.m.", $order["whenToUpgrade"]);
+		$builtOnT = date("H:i:s", $order["whenToUpgrade"]);
+		echo "<tr><td>".$order["building"]." (".newLevel($order["building"]).")</td><td>".$timeTo."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
+	}
+	?>
+</table>
 <br />
 <table border=1>
 	<tr>

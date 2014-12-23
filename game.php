@@ -22,7 +22,6 @@ $village = mysqli_fetch_assoc($res);
     <meta charset="utf-8">
 </head>
 <body>
-
 <div class="outterWrapper">
     <div class="innerWrapper">
         <div id="sidebar">
@@ -75,8 +74,8 @@ $village = mysqli_fetch_assoc($res);
                     $village = mysqli_fetch_assoc($res);
                     echo $village["name"] . " (" . $village["points"] . " Punkte)";
                     ?>
-                </td><td align="right">
-                    <?php echo $village["holz"]; ?> Holz <?php echo $village["stein"]; ?> Stein <?php echo $village["eisen"]; ?> Eisen
+                </td><td id="resources" align="right">
+                    <?php echo "<img src='graphic/holz.png' height='20' style='vertical-align: middle;'> " .$village["holz"] . " [S] " . $village["stein"] . " [E] " . $village["eisen"]; ?>
                 </td></tr></table>
             </div>
             <div id="overview">

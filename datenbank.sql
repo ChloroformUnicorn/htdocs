@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 22. Dez 2014 um 16:49
+-- Erstellungszeit: 23. Dez 2014 um 01:34
 -- Server Version: 5.6.20
 -- PHP-Version: 5.5.15
 
@@ -19,6 +19,29 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `leviathalis`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `buildOrders`
+--
+
+CREATE TABLE IF NOT EXISTS `buildOrders` (
+`id` int(10) unsigned NOT NULL,
+  `villageId` int(11) NOT NULL,
+  `building` text CHARACTER SET utf8 NOT NULL,
+  `whenOrdered` int(11) NOT NULL,
+  `whenToUpgrade` int(11) NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+
+--
+-- Daten für Tabelle `buildOrders`
+--
+
+INSERT INTO `buildOrders` (`id`, `villageId`, `building`, `whenOrdered`, `whenToUpgrade`) VALUES
+(12, 12, 'main', 1419294862, 1419294872),
+(13, 12, 'main', 1419294863, 1419294873),
+(14, 12, 'main', 1419294864, 1419294874);
 
 -- --------------------------------------------------------
 
@@ -75,13 +98,19 @@ CREATE TABLE IF NOT EXISTS `villages` (
 --
 
 INSERT INTO `villages` (`id`, `user`, `name`, `points`, `x`, `y`, `holz`, `stein`, `eisen`, `main`, `barracks`, `smith`, `church`, `res1`, `res2`, `res3`, `store`, `farm`, `wall`, `troop1`) VALUES
-(12, 90, 'marcels Dorf', 0, 0, 0, 4490, 19590, 23500, 5, 15, 0, 0, 10, 6, 4, 0, 0, 0, 732),
-(14, 90, 'sir lanzelord', 0, -2, -2, 99996, 0, 0, 0, 0, 0, 0, 78, 0, 0, 0, 0, 0, 0),
-(15, 90, 'barbara', 0, 1, -2, 58972, 0, 0, 0, 0, 0, 0, 46, 0, 0, 0, 0, 0, 0);
+(12, 90, 'marcels Dorf', 0, 0, 0, 115184648, 60925428, 40560418, 19, 16, 0, 0, 10, 6, 4, 0, 0, 0, 732),
+(14, 90, 'sir lanzelord', 0, -2, -2, 117156, 0, 0, 19, 16, 0, 0, 78, 0, 0, 0, 0, 0, 0),
+(15, 90, 'barbara', 0, 1, -2, 69092, 0, 0, 19, 16, 0, 0, 46, 0, 0, 0, 0, 0, 0);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `buildOrders`
+--
+ALTER TABLE `buildOrders`
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -99,6 +128,11 @@ ALTER TABLE `villages`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `buildOrders`
+--
+ALTER TABLE `buildOrders`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `users`
 --
