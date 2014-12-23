@@ -24,6 +24,7 @@ $village = mysqli_fetch_assoc($res);
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript">
         setInterval(function() { 
+            // Ressourcen-Anzeige updaten
             $.ajax({ 
               url:'include/resources.inc.php?village=<?php echo $villageId; ?>', 
               type:"POST", 
@@ -31,6 +32,16 @@ $village = mysqli_fetch_assoc($res);
               data:{}, 
               success:function(data) { 
                 $("#resources").html(data);
+              } 
+            }); 
+            // Bauschleife updaten
+            $.ajax({ 
+              url:'include/buildQueue.inc.php?village=<?php echo $villageId; ?>', 
+              type:"POST", 
+              async:true, 
+              data:{}, 
+              success:function(data) { 
+                $("#buildQueue").html(data);
               } 
             }); 
                      
@@ -90,7 +101,7 @@ $village = mysqli_fetch_assoc($res);
                     echo $village["name"] . " (" . $village["points"] . " Punkte)";
                     ?>
                 </td><td align="right">
-                    <div id="resources"><?php echo "<img src='graphic/holz.png' height='20' style='vertical-align: middle;'> " .$village["holz"] . " [S] " . $village["stein"] . " [E] " . $village["eisen"]; ?></div>
+                    <div id="resources"><?php echo "<img src='graphic/holz.png' height='20' style='vertical-align: middle;'> " .$village["holz"] . " <img src='graphic/stein.png' height='20' style='vertical-align: middle;'> " . $village["stein"] . " [E] " . $village["eisen"]; ?></div>
                 </td></tr></table>
             </div>
             <div id="overview">

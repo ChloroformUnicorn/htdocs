@@ -1,4 +1,6 @@
 <?php
+echo "<h2>Hauptgebäude</h2><br />";
+date_default_timezone_set('Europe/Berlin');
 $villageId = $_GET["village"];
 $res = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
 $village = mysqli_fetch_assoc($res);
@@ -73,7 +75,7 @@ function buildingRow($name, $building) {
 	global $village, $price;
 	echo "<tr>
 		<td>".$name." (".$village[$building].")</td>
-		<td><img src='graphic/holz.png' height='16' style='vertical-align:middle;'>".$price[$building]['holz']." [S] ".$price[$building]['stein']." [E] ".$price[$building]['eisen']."</td>
+		<td><img src='graphic/holz.png' height='16' style='vertical-align:middle;'>".$price[$building]['holz']." <img src='graphic/stein.png' height='16' style='vertical-align:middle;'>".$price[$building]['stein']." [E] ".$price[$building]['eisen']."</td>
 		<td><form name='".$building."' method='post'><input type='submit' name='".$building."' value='Auf Stufe ". newLevel($building) ." ausbauen'></form></td>
 		</tr>";
 }
@@ -105,29 +107,36 @@ if (isset($_POST["res3"]))
 $res = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
 $village = mysqli_fetch_assoc($res);
 calculatePrice();
-?>
-<h2>Hauptgebäude</h2>
-<br />
-<table border=1>
-	<tr><td><b>Ausbau</b></td><td><b>Zeit</b></td><td><b>Fertig am</b></td></tr>
-	<?php
-	$orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE villageId = '$villageId'");
+
+// Bauschleife
+$orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE villageId = '$villageId'");
+echo "<div id='buildQueue'>";
+$orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE villageId = '$villageId'");
+if (mysqli_num_rows($orders) > 0) {
+	echo "<table border=1>
+	<tr><td><b>Ausbau</b></td><td><b>Zeit</b></td><td><b>Fertig am</b></td></tr>";
 	while ($order = mysqli_fetch_assoc($orders))
 	{
-		date_default_timezone_set('Europe/Berlin');
-		$timeTo = date("H:i:s", $order["whenToUpgrade"]-$order["whenOrdered"]);
-		$builtOnD = date("d.m.", $order["whenToUpgrade"]);
-		$builtOnT = date("H:i:s", $order["whenToUpgrade"]);
-		echo "<tr><td>".$order["building"]." (".newLevel($order["building"]).")</td><td>".$timeTo."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
+		$timeTo = gmDate("H:i:s", $order["whenToUpgrade"]-$order["whenOrdered"]);
+		$builtOnD = gmDate("d.m.", $order["whenToUpgrade"]);
+		$builtOnT = gmDate("H:i:s", $order["whenToUpgrade"]);
+		if ($order["whenToUpgrade"] < time())
+		{
+			$orderId = $order["id"];
+			mysqli_query($db, "DELETE FROM buildOrders WHERE id = '$orderId'");
+		}
+		else
+		{
+			echo "<tr><td>".$order["building"]." (".newLevel($order["building"]).")</td><td>".$timeTo."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
+		}
 	}
-	?>
-</table>
-<br />
+	echo "</table><br />";
+}
+echo "</div>
 <table border=1>
 	<tr>
 		<td><b>Gebäude</b></td><td><b>Kosten</b></td><td><b>Bauen</b></td>
-	</tr>
-	<?php
+	</tr>";
 	buildingRow("Hauptgebäude", "main");
 	if ($village["main"] >= 3)
 	{
@@ -144,5 +153,4 @@ calculatePrice();
 	buildingRow("Bauernhof", "farm");
 	buildingRow("Speicher", "store");
 	buildingRow("Wall", "wall");
-	?>
-</table>
+echo "</table>";
