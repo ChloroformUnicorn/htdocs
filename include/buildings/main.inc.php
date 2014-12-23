@@ -110,30 +110,10 @@ calculatePrice();
 
 // Bauschleife
 $orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE villageId = '$villageId'");
-echo "<div id='buildQueue'>";
-$orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE villageId = '$villageId'");
 if (mysqli_num_rows($orders) > 0) {
-	echo "<table border=1>
-	<tr><td><b>Ausbau</b></td><td><b>Zeit</b></td><td><b>Fertig am</b></td></tr>";
-	while ($order = mysqli_fetch_assoc($orders))
-	{
-		$timeTo = gmDate("H:i:s", $order["whenToUpgrade"]-$order["whenOrdered"]);
-		$builtOnD = gmDate("d.m.", $order["whenToUpgrade"]);
-		$builtOnT = gmDate("H:i:s", $order["whenToUpgrade"]);
-		if ($order["whenToUpgrade"] < time())
-		{
-			$orderId = $order["id"];
-			mysqli_query($db, "DELETE FROM buildOrders WHERE id = '$orderId'");
-		}
-		else
-		{
-			echo "<tr><td>".$order["building"]." (".newLevel($order["building"]).")</td><td>".$timeTo."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
-		}
-	}
-	echo "</table><br />";
+	echo "<div id='buildQueue'></div>";
 }
-echo "</div>
-<table border=1>
+echo "<table border=1>
 	<tr>
 		<td><b>Gebäude</b></td><td><b>Kosten</b></td><td><b>Bauen</b></td>
 	</tr>";
