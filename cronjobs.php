@@ -29,5 +29,6 @@ while ($order = mysqli_fetch_assoc($orders))
 		mysqli_query($db, "DELETE FROM buildOrders WHERE id = '$id'");
 	}
 }
-
-echo "Cronjob ausgef&uuml;hrt";
+echo "Cronjobs durchgef&uuml;hrt";
+// Seite neuladen
+header("Refresh: 1; cronjobs.php");

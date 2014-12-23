@@ -18,12 +18,5 @@ while ($order = mysqli_fetch_assoc($orders))
 	echo "<tr><td>".$order["building"]." (".$newLevel.")</td><td>".$timeTo."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
 }
 $orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE villageId = '$villageId'");
-if (mysqli_num_rows($orders) == 0)
-{
-	echo "DEBUG";
-	echo "<script type='text/javascript'> window.location.reload(); </script>";
-}
-else
-{
+
 	echo "</table><br />";
-}

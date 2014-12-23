@@ -76,7 +76,12 @@ function buildingRow($name, $building) {
 	echo "<tr>
 		<td>".$name." (".$village[$building].")</td>
 		<td><img src='graphic/holz.png' height='16' style='vertical-align:middle;'>".$price[$building]['holz']." <img src='graphic/stein.png' height='16' style='vertical-align:middle;'>".$price[$building]['stein']." [E] ".$price[$building]['eisen']."</td>
-		<td><form name='".$building."' method='post'><input type='submit' name='".$building."' value='Auf Stufe ". newLevel($building) ." ausbauen'></form></td>
+		<td><form name='".$building."' method='post'>";
+	if (isset($_POST[$building]))
+	{
+		$village[$building]++;
+	}
+	echo "<input type='submit' name='".$building."' value='Auf Stufe ".newLevel($building)." ausbauen'></form></td>
 		</tr>";
 }
 
@@ -109,15 +114,13 @@ $village = mysqli_fetch_assoc($res);
 calculatePrice();
 
 // Bauschleife
-$orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE villageId = '$villageId'");
-if (mysqli_num_rows($orders) > 0) {
-	echo "<div id='buildQueue'></div>";
-}
+echo "<div id='buildQueue' style='float:left;'></div>";
+// Gebäude Tabelle
 echo "<table border=1>
 	<tr>
 		<td><b>Gebäude</b></td><td><b>Kosten</b></td><td><b>Bauen</b></td>
 	</tr>";
-	buildingRow("Hauptgebäude", "main");
+		buildingRow("Hauptgebäude", "main");
 	if ($village["main"] >= 3)
 	{
 		buildingRow("Kaserne", "barracks");
