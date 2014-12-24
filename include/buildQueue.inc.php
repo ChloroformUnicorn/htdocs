@@ -16,7 +16,8 @@ while ($order = mysqli_fetch_assoc($orders))
 	$village = mysqli_fetch_assoc($res);
 	$newLevel = $village[$order["building"]] + 1;
 	echo "<tr><td>".$order["building"]." (".$newLevel.")</td><td>".$timeTo."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
+	if ($timeTo == "00:00:00") {
+		echo "<script type='text/javascript'> window.location.reload(); </script>";
+	}
 }
-$orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE villageId = '$villageId'");
-
-	echo "</table><br />";
+echo "</table><br />";

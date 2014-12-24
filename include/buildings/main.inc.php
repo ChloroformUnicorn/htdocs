@@ -117,23 +117,21 @@ calculatePrice();
 echo "<div id='buildQueue' style='float:left;'></div>";
 // Gebäude Tabelle
 echo "<table border=1>
-	<tr>
-		<td><b>Gebäude</b></td><td><b>Kosten</b></td><td><b>Bauen</b></td>
-	</tr>";
-		buildingRow("Hauptgebäude", "main");
-	if ($village["main"] >= 3)
-	{
-		buildingRow("Kaserne", "barracks");
-	}
-	if ($village["main"] >= 5)
-	{
-		buildingRow("Schmiede", "smith");
-	}
-	buildingRow("Tempel", "church");
-	buildingRow("Holzfäller", "res1");
-	buildingRow("Steinbruch", "res2");
-	buildingRow("Bergwerk", "res3");
-	buildingRow("Bauernhof", "farm");
-	buildingRow("Speicher", "store");
-	buildingRow("Wall", "wall");
+	<tr><td><b>Gebäude</b></td><td><b>Kosten</b></td><td><b>Bauen</b></td></tr>";
+buildingRow("Hauptgebäude", "main");
+if ($village["main"] >= 3)
+{
+	buildingRow("Kaserne", "barracks");
+}
+if ($village["main"] >= 5)
+{
+	buildingRow("Schmiede", "smith");
+}
+buildingRow("Tempel", "church");
+buildingRow("Holzfäller", "res1");
+buildingRow("Steinbruch", "res2");
+buildingRow("Bergwerk", "res3");
+buildingRow("Bauernhof", "farm");
+buildingRow("Speicher", "store");
+buildingRow("Wall", "wall");
 echo "</table>";
