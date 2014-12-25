@@ -7,8 +7,10 @@ $village = mysqli_fetch_assoc($res);
 
 // Funktion welche die nächste Stufe eines Gebäudes ausgibt
 function newLevel($building) {
-	global $village;
-	return $village[$building]+1;
+	global $db, $village, $amountOfOrders;
+	$orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE building = '$building'");
+	$amountOfOrders = mysqli_num_rows($orders);
+	return $village[$building]+$amountOfOrders+1;
 }
 // Funcktion die ein Update kauft (Ressourcen abzieht, Gebäudestufe erhöht)
 function upgradeBuilding($building, $name) {
@@ -77,10 +79,6 @@ function buildingRow($name, $building) {
 		<td>".$name." (".$village[$building].")</td>
 		<td><img src='graphic/holz.png' height='16' style='vertical-align:middle;'>".$price[$building]['holz']." <img src='graphic/stein.png' height='16' style='vertical-align:middle;'>".$price[$building]['stein']." [E] ".$price[$building]['eisen']."</td>
 		<td><form name='".$building."' method='post'>";
-	if (isset($_POST[$building]))
-	{
-		$village[$building]++;
-	}
 	echo "<input type='submit' name='".$building."' value='Auf Stufe ".newLevel($building)." ausbauen'></form></td>
 		</tr>";
 }
@@ -114,7 +112,7 @@ $village = mysqli_fetch_assoc($res);
 calculatePrice();
 
 // Bauschleife
-echo "<div id='buildQueue' style='float:left;'></div>";
+echo "<div id='buildQueue'></div>";
 // Gebäude Tabelle
 echo "<table border=1>
 	<tr><td><b>Gebäude</b></td><td><b>Kosten</b></td><td><b>Bauen</b></td></tr>";
