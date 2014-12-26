@@ -5,6 +5,9 @@ $villageId = $_GET["village"];
 $res = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
 $village = mysqli_fetch_assoc($res);
 
+
+$duration = 10;
+
 // Funktion welche die nächste Stufe eines Gebäudes ausgibt
 function newLevel($building) {
 	global $db, $village, $amountOfOrders;
@@ -14,7 +17,7 @@ function newLevel($building) {
 }
 // Funktion die ein Update kauft (Ressourcen abzieht, Gebäudestufe erhöht)
 function upgradeBuilding($building, $name) {
-	global $update, $village, $price, $db, $villageId, $upgradeDate;
+	global $update, $village, $price, $db, $villageId, $upgradeDate, $duration;
 	$update["holz"] = $village["holz"]-$price[$building]["holz"];
 	$update["stein"] = $village["stein"]-$price[$building]["stein"];
 	$update["eisen"] = $village["eisen"]-$price[$building]["eisen"];
@@ -35,8 +38,6 @@ function upgradeBuilding($building, $name) {
 			$order = mysqli_fetch_assoc($getLatestOrder);
 			$previousOrder = $order["time"];
 		}
-
-		$duration = 10;
 		$time = $previousOrder + $duration;
 		mysqli_query($db, "INSERT INTO buildOrders
 							(villageId, building, time, duration)
@@ -86,12 +87,12 @@ function calculatePrice() {
 }
 
 function buildingRow($name, $building) {
-	global $village, $price;
+	global $village, $price, $duration;
 	echo "<tr>
-		<td>".$name." (".$village[$building].")</td>
+		<td>".$name." (Stufe ".$village[$building].")</td>
 		<td><img src='graphic/holz.png' height='16' style='vertical-align:middle;'>".$price[$building]['holz']." <img src='graphic/stein.png' height='16' style='vertical-align:middle;'>".$price[$building]['stein']." <img src='graphic/eisen.png' height='16' style='vertical-align:middle;'>".$price[$building]['eisen']."</td>
-		<td><form name='".$building."' method='post'>";
-	echo "<input type='submit' name='".$building."' value='Auf Stufe ".newLevel($building)." ausbauen'></form></td>
+		<td>".gmDate("H:i:s", $duration)."</td>
+		<td><form name='".$building."' method='post'><input type='submit' name='".$building."' value='Auf Stufe ".newLevel($building)." ausbauen'></form></td>
 		</tr>";
 }
 
@@ -124,10 +125,70 @@ $village = mysqli_fetch_assoc($res);
 calculatePrice();
 
 // Bauschleife
-echo "<div id='buildQueue'></div>";
+echo "<div id='buildQueue'>";
+$orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE villageId = '$villageId'");
+if (mysqli_num_rows($orders) > 0) {
+
+	echo "<table border=1>
+		<tr><td><b>Ausbau</b></td><td><b>Zeit</b></td><td><b>Fertig am</b></td></tr>";
+
+	date_default_timezone_set("Europe/Berlin");
+
+	// Abarbeitender Bauauftrag
+	$order = mysqli_fetch_assoc($orders);
+	$building = $order["building"];
+	$getVillage = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
+	$village = mysqli_fetch_assoc($getVillage);
+	$newLevel = $village[$building] + 1;
+
+	// Zeit formatieren
+	$time = gmDate("H:i:s", $order["time"] - time());
+
+	// Wann ist es fertig?
+	$builtOnD = date("d.m.", $order["time"]);
+	$builtOnT = date("H:i:s", $order["time"]);
+
+	echo "<tr><td>".$building." (Stufe ".$newLevel.")</td><td>".$time."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
+
+	// Seite neuladen wenn ausgebaut
+	if ($time == gmDate("H:i:s", 0))
+	{
+		echo "<script type='text/javascript'>
+				setTimeout(function() {
+					window.location.reload();
+				},1000);
+			  </script>";
+  	}
+
+
+	// In der Bauschleife wartenden Aufträge
+	$x = mysqli_num_rows($orders);
+	while ($order = mysqli_fetch_assoc($orders))
+	{
+		$building = $order["building"];
+
+		// $newLevel
+		$ordersB = mysqli_query($db, "SELECT * FROM buildOrders WHERE villageId = '$villageId' AND building = '$building'");
+		$getVillageB = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
+		$village = mysqli_fetch_assoc($getVillageB);
+		$newLevel = $village[$building] + mysqli_num_rows($ordersB) - $x + 2;
+		$x--;
+
+		// Zeit formatieren
+		$time = gmDate("H:i:s", $order["duration"]);
+
+		// Wann ist es fertig?
+		$builtOnD = date("d.m.", $order["time"]);
+		$builtOnT = date("H:i:s", $order["time"]);
+		// Bauschleifen-Reihe wird ausgegeben 
+		echo "<tr><td>".$building." (Stufe ".$newLevel.")</td><td>".$time."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
+	}
+	echo "</table><br />";
+}
+echo "</div>";
 // Gebäude Tabelle
 echo "<table border=1>
-	<tr><td><b>Gebäude</b></td><td><b>Kosten</b></td><td><b>Bauen</b></td></tr>";
+	<tr><td><b>Gebäude</b></td><td><b>Kosten</b></td><td><b>Dauer</b></td><td><b>Bauen</b></td></tr>";
 buildingRow("Hauptgebäude", "main");
 if ($village["main"] >= 3)
 {

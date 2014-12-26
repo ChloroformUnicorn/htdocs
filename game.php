@@ -62,10 +62,10 @@ $village = mysqli_fetch_assoc($res);
             // Kein Dorf gefunden?
             if (!$village)
             {
-                echo "Du hast ja noch gar keine Dörfer :O";
+                echo "Du hast ja noch gar kein Dorf :O";
                 include("include/create_village.inc.php");
             }
-            // Spieler HAT Dörfer!
+            // Spieler HAT Dörfer:
             else
             {
                 // Übersichten
@@ -101,7 +101,7 @@ $village = mysqli_fetch_assoc($res);
                     echo $village["name"] . " (" . $village["points"] . " Punkte)";
                     ?>
                 </td><td align="right">
-                    <div id="resources"><?php echo "<img src='graphic/holz.png' height='20' style='vertical-align: middle;'> " .$village["holz"] . " <img src='graphic/stein.png' height='20' style='vertical-align: middle;'> " . $village["stein"] . " [E] " . $village["eisen"]; ?></div>
+                    <div id="resources"><?php echo "<img src='graphic/holz.png' height='20' style='vertical-align: middle;'> " .$village["holz"] . " <img src='graphic/stein.png' height='20' style='vertical-align: middle;'> " . $village["stein"] . " <img src='graphic/eisen.png' height='20' style='vertical-align: middle;'> " . $village["eisen"]; ?></div>
                 </td></tr></table>
             </div>
             <div id="overview">

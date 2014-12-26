@@ -6,4 +6,4 @@ $village = mysqli_fetch_assoc($res);
 
 echo "<img src='graphic/holz.png' height='20' style='vertical-align: middle;'> " . $village["holz"] 
 	. " <img src='graphic/stein.png' height='20' style='vertical-align: middle;'> " . $village["stein"] 
-	. " <img src='graphic/eisen.png' height='16' style='vertical-align:middle;'> " . $village["eisen"];
+	. " <img src='graphic/eisen.png' height='20' style='vertical-align:middle;'> " . $village["eisen"];

@@ -16,11 +16,10 @@ while ($village = mysqli_fetch_assoc($villages))
 }
 
 // Ausbauung von in Auftrag gegebenen Gebäuden
-$now = time();
+$now = time() ;
 $orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE time < '$now'");
 while ($order = mysqli_fetch_assoc($orders))
 {
-	echo "X ";
 	$building = $order["building"];
 	$villageId = $order["villageId"];
 	$getVillage = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");

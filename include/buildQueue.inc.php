@@ -25,19 +25,28 @@ if (mysqli_num_rows($orders) > 0) {
 
 	echo "<tr><td>".$building." (Stufe ".$newLevel.")</td><td>".$time."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
 
+	// Seite neuladen wenn ausgebaut
+	if ($time == gmDate("H:i:s", 0))
+	{
+		echo "<script type='text/javascript'>
+				setTimeout(function() {
+					window.location.reload();
+				},1000);
+			  </script>";
+  	}
+
+
 	// In der Bauschleife wartenden Aufträge
 	$x = mysqli_num_rows($orders);
 	while ($order = mysqli_fetch_assoc($orders))
 	{
-
-		// $building
 		$building = $order["building"];
 
 		// $newLevel
 		$ordersB = mysqli_query($db, "SELECT * FROM buildOrders WHERE villageId = '$villageId' AND building = '$building'");
 		$getVillageB = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
 		$village = mysqli_fetch_assoc($getVillageB);
-		$newLevel = $village[$building] + mysqli_num_rows($ordersB) - $x + 1;
+		$newLevel = $village[$building] + mysqli_num_rows($ordersB) - $x + 2;
 		$x--;
 
 		// Zeit formatieren
@@ -46,18 +55,8 @@ if (mysqli_num_rows($orders) > 0) {
 		// Wann ist es fertig?
 		$builtOnD = date("d.m.", $order["time"]);
 		$builtOnT = date("H:i:s", $order["time"]);
-
 		// Bauschleifen-Reihe wird ausgegeben 
 		echo "<tr><td>".$building." (Stufe ".$newLevel.")</td><td>".$time."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
-		
-		/*if ($time == "00:00:00") {
-			echo "<script type='text/javascript'>
-					setTimeout(continueExecution, 3000)
-					function continueExecution() {
-						window.location.reload();
-					}
-				  </script>";
-		}*/
 	}
 	echo "</table><br />";
 }
