@@ -12,7 +12,7 @@ function newLevel($building) {
 	$amountOfOrders = mysqli_num_rows($orders);
 	return $village[$building]+$amountOfOrders+1;
 }
-// Funcktion die ein Update kauft (Ressourcen abzieht, Gebäudestufe erhöht)
+// Funktion die ein Update kauft (Ressourcen abzieht, Gebäudestufe erhöht)
 function upgradeBuilding($building, $name) {
 	global $update, $village, $price, $db, $villageId, $upgradeDate;
 	$update["holz"] = $village["holz"]-$price[$building]["holz"];
@@ -24,12 +24,24 @@ function upgradeBuilding($building, $name) {
 		mysqli_query($db, "UPDATE villages SET stein = '$update[stein]' WHERE id = '$villageId'");
 		mysqli_query($db, "UPDATE villages SET eisen = '$update[eisen]' WHERE id = '$villageId'");
 		echo $name . " auf Stufe " . newLevel($building) . " ausgebaut.";
-		$now = time();
-		$upgradeDate = time() + 10;
+		// Vorherigen Bauauftrag finden
+		$getLatestOrder = mysqli_query($db, "SELECT * FROM buildOrders WHERE villageId = '$villageId' ORDER BY id DESC");
+		if (mysqli_num_rows($getLatestOrder) == 0)
+		{
+			$previousOrder = time();
+		}
+		else
+		{
+			$order = mysqli_fetch_assoc($getLatestOrder);
+			$previousOrder = $order["time"];
+		}
+
+		$duration = 10;
+		$time = $previousOrder + $duration;
 		mysqli_query($db, "INSERT INTO buildOrders
-							(villageId, building, whenOrdered, whenToUpgrade)
+							(villageId, building, time, duration)
 							VALUES
-							('$villageId', '$building', '$now', '$upgradeDate')");
+							('$villageId', '$building', '$time', '$duration')");
 	}
 	else
 	{
@@ -77,7 +89,7 @@ function buildingRow($name, $building) {
 	global $village, $price;
 	echo "<tr>
 		<td>".$name." (".$village[$building].")</td>
-		<td><img src='graphic/holz.png' height='16' style='vertical-align:middle;'>".$price[$building]['holz']." <img src='graphic/stein.png' height='16' style='vertical-align:middle;'>".$price[$building]['stein']." [E] ".$price[$building]['eisen']."</td>
+		<td><img src='graphic/holz.png' height='16' style='vertical-align:middle;'>".$price[$building]['holz']." <img src='graphic/stein.png' height='16' style='vertical-align:middle;'>".$price[$building]['stein']." <img src='graphic/eisen.png' height='16' style='vertical-align:middle;'>".$price[$building]['eisen']."</td>
 		<td><form name='".$building."' method='post'>";
 	echo "<input type='submit' name='".$building."' value='Auf Stufe ".newLevel($building)." ausbauen'></form></td>
 		</tr>";
