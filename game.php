@@ -47,11 +47,12 @@ $village = mysqli_fetch_assoc($res);
         },1000);
 
         $(document).ready(function() {
+            // Transparenz-Efekt der Sidebar-Icons
             $("#sidebar img").mouseenter(function() {
-                $(this).fadeTo("fast", 0.75);
+                $(this).fadeTo(0, 0.75);
             });
             $("#sidebar img").mouseleave(function() {
-                $(this).fadeTo("fast", 1);
+                $(this).fadeTo(0, 1);
             });
         });
     </script>
