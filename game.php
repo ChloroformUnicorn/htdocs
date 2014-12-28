@@ -36,16 +36,24 @@ $village = mysqli_fetch_assoc($res);
             }); 
             // Bauschleife updaten
             $.ajax({ 
-              url:'include/buildQueue.inc.php?village=<?php echo $villageId; ?>', 
+              url:'include/buildings/include/buildQueue.inc.php?village=<?php echo $villageId; ?>', 
               type:"POST", 
               async:true, 
               data:{}, 
               success:function(data) { 
                 $("#buildQueue").html(data);
               } 
-            }); 
-                     
-        },1000);  
+            });     
+        },1000);
+
+        $(document).ready(function() {
+            $("#sidebar img").mouseenter(function() {
+                $(this).fadeTo("fast", 0.75);
+            });
+            $("#sidebar img").mouseleave(function() {
+                $(this).fadeTo("fast", 1);
+            });
+        });
     </script>
 </head>
 <body>

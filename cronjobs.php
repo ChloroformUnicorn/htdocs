@@ -1,14 +1,13 @@
 <?php
 include("db.inc.php");
+include("include/config.inc.php");
 date_default_timezone_set("Europe/Berlin");
 
 // Rohstoffproduktion
 $villages = mysqli_query($db, "SELECT * FROM villages");
 while ($village = mysqli_fetch_assoc($villages))
 {
-	$update1 = $village["res1"]*20 + $village["holz"];
-	$update2 = $village["res2"]*20 + $village["stein"];
-	$update3 = $village["res3"]*20 + $village["eisen"];
+	resourceProduction($village["res1"], $village["res2"], $village["res3"], $village["holz"], $village["stein"], $village["eisen"]);
 	$id = $village["id"];
 	mysqli_query($db, "UPDATE villages SET holz = '$update1' WHERE id = '$id'");
 	mysqli_query($db, "UPDATE villages SET stein = '$update2' WHERE id = '$id'");
