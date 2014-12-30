@@ -23,17 +23,21 @@ $village = mysqli_fetch_assoc($res);
     <meta charset="utf-8">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript">
+        var woodSource = <?php echo $village["res1"] ?>;
+        var stoneSource = <?php echo $village["res2"] ?>;
+        var ironSource = <?php echo $village["res3"] ?>;
+        var wood = <?php echo $village["holz"] ?>;
+        var stone = <?php echo $village["stein"] ?>;
+        var iron = <?php echo $village["eisen"] ?>;
+
         setInterval(function() { 
             // Ressourcen-Anzeige updaten
-            $.ajax({ 
-              url:'include/resources.inc.php?village=<?php echo $villageId; ?>', 
-              type:"POST", 
-              async:true, 
-              data:{}, 
-              success:function(data) { 
-                $("#resources").html(data);
-              } 
-            }); 
+            wood = woodSource * 20 + wood;
+            stone = stoneSource * 20 + stone;
+            iron = ironSource * 20 + iron;
+            document.getElementById("resources").innerHTML =
+                "<img src='graphic/holz.png' height='20' style='vertical-align: middle;'> " + wood + " <img src='graphic/stein.png' height='20' style='vertical-align: middle;'> " + stone + " <img src='graphic/eisen.png' height='20' style='vertical-align: middle;'> " + iron;
+
             // Bauschleife updaten
             $.ajax({ 
               url:'include/buildings/include/buildQueue.inc.php?village=<?php echo $villageId; ?>', 
@@ -55,6 +59,11 @@ $village = mysqli_fetch_assoc($res);
                 $(this).fadeTo(0, 1);
             });
         });
+
+        function submit(building) {
+            document.getElementById(building).submit();
+            prompt("Test");
+        }
     </script>
 </head>
 <body>
