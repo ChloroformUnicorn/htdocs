@@ -59,11 +59,6 @@ $village = mysqli_fetch_assoc($res);
                 $(this).fadeTo(0, 1);
             });
         });
-
-        function submit(building) {
-            document.getElementById(building).submit();
-            prompt("Test");
-        }
     </script>
 </head>
 <body>
@@ -109,7 +104,6 @@ $village = mysqli_fetch_assoc($res);
             }
             ?>
         </div>
-
         <div id="village">
             <div id="topbar">
                 <table style="width: calc(100% - 472px)"><tr><td>
@@ -141,6 +135,5 @@ $village = mysqli_fetch_assoc($res);
         </div>
     </div>
 </div>
-
 </body>
 </html>
