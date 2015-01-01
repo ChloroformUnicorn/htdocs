@@ -1,5 +1,41 @@
 <?php
 
+// Übersetzungen bzw. Namen der Gebäude
+function getName($building) {
+	switch ($building) {
+		case "main":
+			return "Hauptgebäude";
+			break;
+		case "barracks":
+			return "Kaserne";
+			break;
+		case "smith":
+			return "Schmiede";
+			break;
+		case "church":
+			return "Tempel";
+			break;
+		case "res1":
+			return "Holzfäller";
+			break;
+		case "res2":
+			return "Steinbruch";
+			break;
+		case "res3":
+			return "Eisenmine";
+			break;
+		case "farm":
+			return "Bauernhof";
+			break;
+		case "store":
+			return "Speicher";
+			break;
+		case "wall":
+			return "Wall";
+			break;
+	}
+}
+
 // Preise für den Gebäudeausbau (Formeln)
 function calculatePrice() {
 	global $price;
@@ -41,16 +77,16 @@ function calculatePrice() {
 function calculateDuration() {
 	global $duration;
 	$duration =
-		["main" => newLevel("main")*0+10,
-		"barracks" => newLevel("barracks")*0+10,
-		"smith" => newLevel("smith")*0+10,
-		"church" => newLevel("church")*0+10,
-		"res1" => newLevel("res1")*0+10,
-		"res2" => newLevel("res2")*0+10,
-		"res3" => newLevel("res3")*0+10,
-		"store" => newLevel("store")*0+10,
-		"farm" => newLevel("farm")*0+10,
-		"wall" => newLevel("wall")*0+10,
+		["main" => newLevel("main")*2+10,
+		"barracks" => newLevel("barracks")*2+10,
+		"smith" => newLevel("smith")*2+10,
+		"church" => newLevel("church")*2+10,
+		"res1" => newLevel("res1")*2+10,
+		"res2" => newLevel("res2")*2+10,
+		"res3" => newLevel("res3")*2+10,
+		"store" => newLevel("store")*2+10,
+		"farm" => newLevel("farm")*2+10,
+		"wall" => newLevel("wall")*2+10,
 		];
 }
 

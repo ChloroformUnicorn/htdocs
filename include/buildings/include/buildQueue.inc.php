@@ -3,11 +3,11 @@ include("../../../db.inc.php");
 $villageId = $_GET["village"];
 $orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE villageId = '$villageId'");
 if (mysqli_num_rows($orders) > 0) {
+	date_default_timezone_set("Europe/Berlin");
+	include("../../config.inc.php");
 
 	echo "<table border=1>
 		<tr><td><b>Ausbau</b></td><td><b>Zeit</b></td><td><b>Fertig am</b></td></tr>";
-
-	date_default_timezone_set("Europe/Berlin");
 
 	// Abarbeitender Bauauftrag
 	$order = mysqli_fetch_assoc($orders);
@@ -23,7 +23,7 @@ if (mysqli_num_rows($orders) > 0) {
 	$builtOnD = date("d.m.", $order["time"]);
 	$builtOnT = date("H:i:s", $order["time"]);
 
-	echo "<tr><td>".$building." (Stufe ".$newLevel.")</td><td>".$time."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
+	echo "<tr><td>".getName($building)." (Stufe ".$newLevel.")</td><td>".$time."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
 
 	// Seite neuladen wenn ausgebaut
 	if ($time == gmDate("H:i:s", 0))
@@ -56,7 +56,7 @@ if (mysqli_num_rows($orders) > 0) {
 		$builtOnD = date("d.m.", $order["time"]);
 		$builtOnT = date("H:i:s", $order["time"]);
 		// Bauschleifen-Reihe wird ausgegeben 
-		echo "<tr><td>".$building." (Stufe ".$newLevel.")</td><td>".$time."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
+		echo "<tr><td>".getName($building)." (Stufe ".$newLevel.")</td><td>".$time."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
 	}
 	echo "</table><br />";
 }
