@@ -1,0 +1,45 @@
+body {
+	background-color: #EEE;
+	font-family: 'Calibri';
+}
+
+#container {
+	background-color: white;
+	width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#topbar {
+	text-align: center;
+}
+
+#header {
+	background-color: blue;
+	color: white;
+	text-align: center;
+}
+
+#content {
+	padding: 10px;
+}
+
+#login {
+	width: 300px;
+	float: left;
+}
+
+#main {
+	width: 680px;
+	float: right;
+}
+
+#footer {
+	clear: both;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.formError {
+    outline: 1px solid #F00;
+}

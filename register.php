@@ -206,7 +206,7 @@
 					 	<td><input type="password" name="passwordConfirm" size="20" <?php if(isset($_POST["register"])) { echo "value='$password'"; if($pwInput) { echo "class='formError'"; } } ?> ></td>
 					</tr>
 					<tr>
-						<td><label><input type="checkbox" name="agb" <?php if($agbCheckbox) { echo "class='formError'"; } ?> > Ich habe die <a href="agb.htm" target="_blank" onclick="return popup(this.href);">AGB</a> gelesen und akzeptiere diese.</label></td>
+						<td><label><input type="checkbox" name="agb" <?php if($agbCheckbox) { echo "class='formError'"; } ?> > Ich habe die <a href="agb.html" target="_blank" onclick="return popup(this.href);">AGB</a> gelesen und akzeptiere diese.</label></td>
 					</tr>
 					<tr>
 					  <td></td>

@@ -1,9 +1,9 @@
 
 <?php session_start(); ?>
-<html>
+<html manifest="cache.appcache">
 <head>
 	<title>Leviathalis</title>
-	<link rel="stylesheet" type="text/css" href="style.css" charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="index.css" charset="utf-8" />
 	<meta charset="utf-8">
 </head>
 <body>
