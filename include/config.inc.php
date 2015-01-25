@@ -73,6 +73,15 @@ function calculatePrice() {
 		];
 }
 
+function calculateTroopPrice() {
+	global $troopPrice;
+	$troopPrice =
+		["troop1" => ["holz" => 10,
+					"stein" => 12,
+					"eisen" => 8]
+		];
+}
+
 // Dauer für den Gebäudeausbau (Formeln)
 function calculateDuration() {
 	global $duration;
