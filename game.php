@@ -15,7 +15,7 @@ $user = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM users WHERE id = '$u
 $usersVillages = "SELECT * FROM villages WHERE user = '$userId'";
 $res = mysqli_query($db, $usersVillages);
 $village = mysqli_fetch_assoc($res);
-?>ff
+?>
 <html>
 <head>
     <title>Spiel</title>
@@ -113,9 +113,9 @@ $village = mysqli_fetch_assoc($res);
                     echo $village["name"] . " (" . $village["points"] . " Punkte)";
                     ?>
                 </td><td align="right">
-                    <span id="wood"><img src='graphic/holz.png' height='20' style='vertical-align: middle;'><?php echo $village["holz"]; ?></span>
-                    <span id="stone"><img src='graphic/stein.png' height='20' style='vertical-align: middle;'><?php echo $village["stein"]; ?></span>
-                    <span id="iron"><img src='graphic/eisen.png' height='20' style='vertical-align: middle;'><?php echo $village["eisen"]; ?></span>
+                    <img src='graphic/holz.png' height='20' style='vertical-align: middle;'> <span id="wood"><?php echo $village["holz"]; ?></span>
+                    <img src='graphic/stein.png' height='20' style='vertical-align: middle;'> <span id="stone"><?php echo $village["stein"]; ?></span>
+                    <img src='graphic/eisen.png' height='20' style='vertical-align: middle;'> <span id="iron"><?php echo $village["eisen"]; ?></span>
                 </td></tr></table>
             </div>
             <div id="overview">
