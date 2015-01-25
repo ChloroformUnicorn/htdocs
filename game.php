@@ -15,7 +15,7 @@ $user = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM users WHERE id = '$u
 $usersVillages = "SELECT * FROM villages WHERE user = '$userId'";
 $res = mysqli_query($db, $usersVillages);
 $village = mysqli_fetch_assoc($res);
-?>
+?>ff
 <html>
 <head>
     <title>Spiel</title>
@@ -35,9 +35,9 @@ $village = mysqli_fetch_assoc($res);
             wood = woodSource * 20 + wood;
             stone = stoneSource * 20 + stone;
             iron = ironSource * 20 + iron;
-            document.getElementById("resources").innerHTML =
-                "<img src='graphic/holz.png' height='20' style='vertical-align: middle;'> " + wood + " <img src='graphic/stein.png' height='20' style='vertical-align: middle;'> " + stone + " <img src='graphic/eisen.png' height='20' style='vertical-align: middle;'> " + iron;
-
+            document.getElementById("wood").innerHTML = wood;
+            document.getElementById("stone").innerHTML = stone;
+            document.getElementById("iron").innerHTML = iron;
             // Bauschleife updaten
             $.ajax({ 
               url:'include/buildings/include/buildQueue.inc.php?village=<?php echo $villageId; ?>', 
@@ -113,7 +113,9 @@ $village = mysqli_fetch_assoc($res);
                     echo $village["name"] . " (" . $village["points"] . " Punkte)";
                     ?>
                 </td><td align="right">
-                    <div id="resources"><?php echo "<img src='graphic/holz.png' height='20' style='vertical-align: middle;'> " .$village["holz"] . " <img src='graphic/stein.png' height='20' style='vertical-align: middle;'> " . $village["stein"] . " <img src='graphic/eisen.png' height='20' style='vertical-align: middle;'> " . $village["eisen"]; ?></div>
+                    <span id="wood"><img src='graphic/holz.png' height='20' style='vertical-align: middle;'><?php echo $village["holz"]; ?></span>
+                    <span id="stone"><img src='graphic/stein.png' height='20' style='vertical-align: middle;'><?php echo $village["stein"]; ?></span>
+                    <span id="iron"><img src='graphic/eisen.png' height='20' style='vertical-align: middle;'><?php echo $village["eisen"]; ?></span>
                 </td></tr></table>
             </div>
             <div id="overview">
