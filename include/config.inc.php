@@ -1,5 +1,13 @@
 <?php
 
+// Funktion welche die nächste Stufe eines Gebäudes ausgibt
+function newLevel($building) {
+	global $db, $village, $amountOfOrders;
+	$orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE building = '$building'");
+	$amountOfOrders = mysqli_num_rows($orders);
+	return $village[$building]+$amountOfOrders+1;
+}
+
 // Übersetzungen bzw. Namen der Gebäude
 function getName($building) {
 	switch ($building) {
@@ -40,6 +48,7 @@ function getName($building) {
 function calculatePrice() {
 	global $price;
 	$price =
+		// Gebäude
 		["main" => ["holz" => newLevel("main")*2+100, 
 					"stein" => newLevel("main")*2+100, 
 					"eisen" => newLevel("main")*2+100],
@@ -69,23 +78,19 @@ function calculatePrice() {
 					"eisen" => newLevel("farm")*2+100],
 		"wall" => ["holz" => newLevel("wall")*2+100, 
 					"stein" => newLevel("wall")*2+100, 
-					"eisen" => newLevel("wall")*2+100]
-		];
-}
-
-function calculateTroopPrice() {
-	global $troopPrice;
-	$troopPrice =
-		["troop1" => ["holz" => 10,
+					"eisen" => newLevel("wall")*2+100],
+		// Truppen
+		"troop1" => ["holz" => 10,
 					"stein" => 12,
 					"eisen" => 8]
 		];
 }
 
 // Dauer für den Gebäudeausbau (Formeln)
-function calculateDuration() {
+function calculateDuration($village = null) {
 	global $duration;
 	$duration =
+		// Gebäude
 		["main" => newLevel("main")*2+10,
 		"barracks" => newLevel("barracks")*2+10,
 		"smith" => newLevel("smith")*2+10,
@@ -96,6 +101,8 @@ function calculateDuration() {
 		"store" => newLevel("store")*2+10,
 		"farm" => newLevel("farm")*2+10,
 		"wall" => newLevel("wall")*2+10,
+		// Truppen
+		"troop1" => $village["barracks"]*2
 		];
 }
 

@@ -9,13 +9,6 @@ $village = mysqli_fetch_assoc($res);
 include("include/config.inc.php");
 calculateDuration();
 
-// Funktion welche die nächste Stufe eines Gebäudes ausgibt
-function newLevel($building) {
-	global $db, $village, $amountOfOrders;
-	$orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE building = '$building'");
-	$amountOfOrders = mysqli_num_rows($orders);
-	return $village[$building]+$amountOfOrders+1;
-}
 // Funktion die ein Update kauft (Ressourcen abzieht, Gebäudestufe erhöht)
 function upgradeBuilding($building) {
 	global $update, $village, $price, $db, $villageId, $upgradeDate, $duration;
