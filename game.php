@@ -6,7 +6,7 @@ if ($_SESSION["id"]=="")
     header("Location: logout.php");
 }
 // Datenbankverbindung aufbauen
-include("db.inc.php");
+require("db.inc.php");
 $userId = $_SESSION["id"];
 $villageId = $_GET["village"];
 // Datensatz des Users
@@ -47,7 +47,17 @@ $village = mysqli_fetch_assoc($res);
               success:function(data) { 
                 $("#buildQueue").html(data);
               } 
-            });     
+            });
+            // Bauschleife updaten
+            $.ajax({ 
+              url:'include/buildings/include/recruitQueue.inc.php?village=<?php echo $villageId; ?>', 
+              type:"POST", 
+              async:true, 
+              data:{}, 
+              success:function(data) { 
+                $("#recruitQueue").html(data);
+              } 
+            });
         },1000);
 
         $(document).ready(function() {
@@ -76,7 +86,7 @@ $village = mysqli_fetch_assoc($res);
             if (!$village)
             {
                 echo "Du hast ja noch gar kein Dorf :O";
-                include("include/create_village.inc.php");
+                require("include/create_village.inc.php");
             }
             // Spieler HAT Dörfer:
             else
@@ -84,22 +94,22 @@ $village = mysqli_fetch_assoc($res);
                 // Übersichten
                 if ($_GET["screen"] == "overview")
                 {
-                    include("include/menu/overview.inc.php");
+                    require("include/menu/overview.inc.php");
                 }
                 // Berichte
                 else if ($_GET["screen"] == "reports")
                 {
-                    include("include/menu/reports.inc.php");
+                    require("include/menu/reports.inc.php");
                 }
                 // Hauptgebäude
                 if ($_GET["screen"] == "main")
                 {
-                    include("include/buildings/main.inc.php");
+                    require("include/buildings/main.inc.php");
                 }
                 // Kaserne
                 if ($_GET["screen"] == "barracks")
                 {
-                    include("include/buildings/barracks.inc.php");
+                    require("include/buildings/barracks.inc.php");
                 }
             }
             ?>
@@ -122,7 +132,7 @@ $village = mysqli_fetch_assoc($res);
                 <?php
                 // Weltkarte
                 if ($_GET["screen"] == "map") {
-                    include("include/menu/map.inc.php");
+                    require("include/menu/map.inc.php");
                 }
                 else {
                     // Dorfübersicht

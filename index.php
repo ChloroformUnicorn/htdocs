@@ -19,7 +19,7 @@
 				<h3>Anmelden</h3>
 				<?php
 				// Datenbankverbindung aufbauen
-				include("db.inc.php");
+				require("db.inc.php");
 				$db_erg = mysqli_query($db, "SELECT * FROM users");
 				if ( ! $db_erg )
 				{

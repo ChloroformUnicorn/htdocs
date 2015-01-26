@@ -29,7 +29,7 @@
 			if (isset($_POST["register"]))
 			{
 				// Datenbankverbindung aufbauen
-				include("db.inc.php");
+				require("db.inc.php");
 				// Auslesung der registrierten Nutzer in der Datenbank
 				$sql = "SELECT name, email FROM users";
 				$db_erg = mysqli_query($db, $sql);

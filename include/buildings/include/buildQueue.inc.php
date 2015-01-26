@@ -1,10 +1,10 @@
 <?php
-include("../../../db.inc.php");
+require("../../../db.inc.php");
 $villageId = $_GET["village"];
 $orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE villageId = '$villageId'");
 if (mysqli_num_rows($orders) > 0) {
 	date_default_timezone_set("Europe/Berlin");
-	include("../../config.inc.php");
+	require("../../config.inc.php");
 
 	echo "<table border=1>
 		<tr><td><b>Ausbau</b></td><td><b>Zeit</b></td><td><b>Fertig am</b></td></tr>";

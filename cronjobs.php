@@ -1,6 +1,6 @@
 <?php
-include("db.inc.php");
-include("include/config.inc.php");
+require("db.inc.php");
+require("include/config.inc.php");
 date_default_timezone_set("Europe/Berlin");
 
 while (true)
