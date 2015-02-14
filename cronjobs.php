@@ -17,7 +17,7 @@ while (true)
 	}
 
 	// Ausbauung von in Auftrag gegebenen Gebäuden
-	$now = time() ;
+	$now = time();
 	$orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE time < '$now'");
 	while ($order = mysqli_fetch_assoc($orders))
 	{
@@ -31,6 +31,34 @@ while (true)
 		mysqli_query($db, "DELETE FROM buildOrders WHERE id = '$orderId'");
 	}
 
-	echo "Cronjobs durchgef&uuml;hrt";
-	sleep(1);
+	// Rekrutierung
+	$orders = mysqli_query($db, "SELECT * FROM recruitOrders");
+	while ($order = mysqli_fetch_assoc($orders))
+	{
+		$orderId = $order["id"];
+		if ($order["amount"] > 0)
+		{
+			$now = time();
+			$unit = $order["unit"];
+			$villageId = $order["villageId"];
+			if (($order["beginTime"] + $order["duration"]) < $now)
+			{
+				$getVillage = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
+				$village = mysqli_fetch_assoc($getVillage);
+				$newUnit = $village[$unit] + 1;
+				mysqli_query($db, "UPDATE villages SET `$unit` = $newUnit");
+				$newAmount = $village["amount"] - 1;
+				mysqli_query($db, "UPDATE recruitOrders SET amount = '$newAmount'");
+				$newBeginTime = $order["beginTime"] + $order["duration"];
+				mysqli_query($db, "UPDATE recruitsOrders SET beginTime = '$newBeginTime'");
+			}
+		}
+		else
+		{
+			mysqli_query($db, "DELETE FROM recruitOrders WHERE id = '$orderId'");
+		}
+	}
+
+	echo "Cronjobs laufen ...";
+	sleep(5);
 }

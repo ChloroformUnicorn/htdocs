@@ -35,7 +35,6 @@ if (mysqli_num_rows($orders) > 0) {
 			  </script>";
   	}
 
-
 	// In der Bauschleife wartenden Aufträge
 	$x = mysqli_num_rows($orders);
 	while ($order = mysqli_fetch_assoc($orders))

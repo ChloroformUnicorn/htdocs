@@ -89,7 +89,7 @@ $ua=getBrowser();
 <html>
 <head>
 	<title>Server & Client Daten (Vergleich)</title>
-	<link rel="stylesheet" type="text/css" href="style.css" />
+	<link rel="stylesheet" type="text/css" href="index.css" />
 	<meta charset="utf-8">
 </head>
 <body>

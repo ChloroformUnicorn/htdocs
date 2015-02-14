@@ -1,22 +1,25 @@
 <?php
 require "../../../db.inc.php";
+date_default_timezone_set("Europe/Berlin");
 $villageId = $_GET["village"];
-$orders = mysqli_query($db, "SELECT * FROM recruitOrders WHERE villageId = '$villageId'");
-if (mysqli_num_rows($orders) > 0) {
+$recs = mysqli_query($db, "SELECT * FROM recruitOrders WHERE villageId = '$villageId'");
+if (mysqli_num_rows($recs) > 0) {
 	echo "<table border=1>
 		<tr><td><b>Rekrutierung</b></td><td><b>Dauer</b></td><td><b>Fertigstellung</b></td></tr>";
-	date_default_timezone_set("Europe/Berlin");
-	while ($order = mysqli_fetch_assoc($orders))
+	while ($rec = mysqli_fetch_assoc($recs))
 	{
-		$unit = $order["unit"];
-		$amount = $order["amount"];
-		$duration = gmDate("H:i:s", $order["amount"] * $order["duration"]);
+		$unit = $rec["unit"];
+		$amount = $rec["amount"];
+		$timeUQueue = ($rec["amount"] - 1) * $rec["duration"];
+		$timeUCurrent = $rec["duration"] - (time() - (($rec["totalAmount"] - $rec["amount"]) * $rec["duration"] + $rec["beginTime"]));
+		$duration = gmDate("H:i:s", $timeUQueue + $timeUCurrent);
+		$fertigstellung = $rec["amount"] * $rec["duration"] + $rec["beginTime"];
 		// Zeit formatieren
-		$time = gmDate("H:i:s", $order["time"] - time());
+		$time = date("H:i:s", $fertigstellung - time());
 		// Wann ist es fertig?
-		$builtOnD = date("d.m.", $order["time"]);
-		$builtOnT = date("H:i:s", $order["time"]);
-		echo "<tr><td>".$amount." ".$unit."</td><td>".$duration."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
+		$builtOnD = date("d.m.", $fertigstellung);
+		$builtOnT = date("H:i:s", $fertigstellung);
+		echo "<tr><td>$amount $unit</td><td>$duration</td><td>am $builtOnD, um $builtOnT Uhr</td></tr>";
 	}
 	echo "</table><br>";
 }
