@@ -89,7 +89,11 @@ if (mysqli_num_rows($orders) > 0) {
 	$village = mysqli_fetch_assoc($getVillage);
 	$newLevel = $village[$building] + 1;
 	// Zeit formatieren
-	$time = gmDate("H:i:s", $order["time"] - time());
+	$init = $order["time"] - time();
+	$hours = str_pad(floor($init / 3600), 2, "0", STR_PAD_LEFT);
+	$minutes = str_pad(floor(($init / 60) % 60), 2, "0", STR_PAD_LEFT);
+	$seconds = str_pad($init % 60, 2, "0", STR_PAD_LEFT);
+	$time = $hours.":".$minutes.":".$seconds;
 	// Wann ist es fertig?
 	$builtOnD = date("d.m.", $order["time"]);
 	$builtOnT = date("H:i:s", $order["time"]);
@@ -115,7 +119,11 @@ if (mysqli_num_rows($orders) > 0) {
 		$newLevel = $village[$building] + mysqli_num_rows($ordersB) - $x + 2;
 		$x--;
 		// Zeit formatieren
-		$time = gmDate("H:i:s", $order["duration"]);
+		$init = $order["duration"];
+		$hours = str_pad(floor($init / 3600), 2, "0", STR_PAD_LEFT);
+		$minutes = str_pad(floor(($init / 60) % 60), 2, "0", STR_PAD_LEFT);
+		$seconds = str_pad($init % 60, 2, "0", STR_PAD_LEFT);
+		$time = $hours.":".$minutes.":".$seconds;
 		// Wann ist es fertig?
 		$builtOnD = date("d.m.", $order["time"]);
 		$builtOnT = date("H:i:s", $order["time"]);

@@ -17,23 +17,17 @@ if (mysqli_num_rows($orders) > 0) {
 	$newLevel = $village[$building] + 1;
 
 	// Zeit formatieren
-	$time = gmDate("H:i:s", $order["time"] - time());
+	$init = $order["time"] - time();
+	$hours = str_pad(floor($init / 3600), 2, "0", STR_PAD_LEFT);
+	$minutes = str_pad(floor(($init / 60) % 60), 2, "0", STR_PAD_LEFT);
+	$seconds = str_pad($init % 60, 2, "0", STR_PAD_LEFT);
+	$duration = $hours.":".$minutes.":".$seconds;
 
 	// Wann ist es fertig?
 	$builtOnD = date("d.m.", $order["time"]);
 	$builtOnT = date("H:i:s", $order["time"]);
 
-	echo "<tr><td>".getName($building)." (Stufe ".$newLevel.")</td><td>".$time."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
-
-	// Seite neuladen wenn ausgebaut
-	if ($time == gmDate("H:i:s", 0))
-	{
-		echo "<script type='text/javascript'>
-				setTimeout(function() {
-					window.location.reload();
-				},1000);
-			  </script>";
-  	}
+	echo "<tr><td>".getName($building)." (Stufe ".$newLevel.")</td><td>".$duration."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
 
 	// In der Bauschleife wartenden Aufträge
 	$x = mysqli_num_rows($orders);
@@ -49,13 +43,17 @@ if (mysqli_num_rows($orders) > 0) {
 		$x--;
 
 		// Zeit formatieren
-		$time = gmDate("H:i:s", $order["duration"]);
+		$init = $order["time"] - time();
+		$hours = str_pad(floor($init / 3600), 2, "0", STR_PAD_LEFT);
+		$minutes = str_pad(floor(($init / 60) % 60), 2, "0", STR_PAD_LEFT);
+		$seconds = str_pad($init % 60, 2, "0", STR_PAD_LEFT);
+		$duration = $hours.":".$minutes.":".$seconds;
 
 		// Wann ist es fertig?
 		$builtOnD = date("d.m.", $order["time"]);
 		$builtOnT = date("H:i:s", $order["time"]);
 		// Bauschleifen-Reihe wird ausgegeben 
-		echo "<tr><td>".getName($building)." (Stufe ".$newLevel.")</td><td>".$time."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
+		echo "<tr><td>".getName($building)." (Stufe ".$newLevel.")</td><td>".$duration."</td><td>am ".$builtOnD.", um ".$builtOnT." Uhr</td></tr>";
 	}
 	echo "</table><br />";
 }

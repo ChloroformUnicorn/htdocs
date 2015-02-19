@@ -12,7 +12,12 @@ if (mysqli_num_rows($recs) > 0) {
 		$amount = $rec["amount"];
 		$timeUQueue = ($rec["amount"] - 1) * $rec["duration"];
 		$timeUCurrent = $rec["duration"] - (time() - (($rec["totalAmount"] - $rec["amount"]) * $rec["duration"] + $rec["beginTime"]));
-		$duration = gmDate("H:i:s", $timeUQueue + $timeUCurrent);
+		// Dauer formatieren
+		$init = $timeUQueue + $timeUCurrent;
+		$hours = str_pad(floor($init / 3600), 2, "0", STR_PAD_LEFT);
+		$minutes = str_pad(floor(($init / 60) % 60), 2, "0", STR_PAD_LEFT);
+		$seconds = str_pad($init % 60, 2, "0", STR_PAD_LEFT);
+		$duration = $hours.":".$minutes.":".$seconds;
 		$fertigstellung = $rec["amount"] * $rec["duration"] + $rec["beginTime"];
 		// Zeit formatieren
 		$time = date("H:i:s", $fertigstellung - time());
