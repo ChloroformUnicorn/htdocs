@@ -45,10 +45,8 @@ while (true)
 			{
 				$getVillage = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
 				$village = mysqli_fetch_assoc($getVillage);
-				$newUnit = $village[$unit] + 1;
-				mysqli_query($db, "UPDATE villages SET `$unit` = $newUnit");
-				$newAmount = $village["amount"] - 1;
-				mysqli_query($db, "UPDATE recruitOrders SET amount = '$newAmount'");
+				mysqli_query($db, "UPDATE villages SET `$unit` += 1");
+				mysqli_query($db, "UPDATE recruitOrders SET amount -= 1 WHERE id = '$orderId'");
 				$newBeginTime = $order["beginTime"] + $order["duration"];
 				mysqli_query($db, "UPDATE recruitsOrders SET beginTime = '$newBeginTime'");
 			}
