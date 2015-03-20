@@ -6,7 +6,6 @@ $villageId = $_GET["village"];
 $res = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
 $village = mysqli_fetch_assoc($res);
 
-require("include/config.inc.php");
 calculateDuration();
 
 // Funktion die ein Update kauft (Ressourcen abzieht, Gebäudestufe erhöht)

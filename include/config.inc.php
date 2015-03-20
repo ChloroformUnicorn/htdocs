@@ -5,7 +5,7 @@ function newLevel($building) {
 	global $db, $village, $amountOfOrders;
 	$orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE building = '$building'");
 	$amountOfOrders = mysqli_num_rows($orders);
-	return $village[$building]+$amountOfOrders+1;
+	return $village[$building] + $amountOfOrders + 1;
 }
 
 // Übersetzungen bzw. Namen der Gebäude
@@ -104,6 +104,12 @@ function calculateDuration($village = null) {
 		// Truppen
 		"troop1" => $village["barracks"]*2
 		];
+}
+
+// Rohstoff Kapazitäten in Abhängigkeit zur Stufe des Speichers berechnen
+function capacity($save) {
+	global $cap;
+	$cap = $save * 1000;
 }
 
 // Rohstoffproduktion (Formeln)

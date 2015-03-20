@@ -29,12 +29,29 @@ $village = mysqli_fetch_assoc($res);
         var wood = <?php echo $village["holz"] ?>;
         var stone = <?php echo $village["stein"] ?>;
         var iron = <?php echo $village["eisen"] ?>;
+        var store = <?php
+                    require "include/config.inc.php";
+                    capacity($village["store"]);
+                    echo $cap;
+                    ?>;
 
         setInterval(function() { 
             // Ressourcen-Anzeige updaten
-            wood = woodSource * 20 + wood;
-            stone = stoneSource * 20 + stone;
-            iron = ironSource * 20 + iron;
+            if ((woodSource * 20 + wood) > store) {
+                wood = store;
+            } else {
+                wood += woodSource * 20;
+            }
+            if ((stoneSource * 20 + stone) > store) {
+                stone = store;
+            } else {
+                stone += stoneSource * 20;
+            }
+            if ((ironSource * 20 + iron) > store) {
+                iron = store;
+            } else {
+                iron += ironSource * 20;
+            }
             document.getElementById("wood").innerHTML = wood;
             document.getElementById("stone").innerHTML = stone;
             document.getElementById("iron").innerHTML = iron;
@@ -46,7 +63,7 @@ $village = mysqli_fetch_assoc($res);
               data:{}, 
               success:function(data) { 
                 $("#buildQueue").html(data);
-              } 
+              }
             });
             // Bauschleife updaten
             $.ajax({ 
@@ -74,6 +91,7 @@ $village = mysqli_fetch_assoc($res);
 <body>
 <div class="outterWrapper">
     <div class="innerWrapper">
+        <!-- Sidebar -->
         <div id="sidebar">
             <a href="game.php?village=<?php echo $villageId; ?>&screen=overview"><img src="graphic/sidebar/overview.png"></a><br/>
             <a href="game.php?village=<?php echo $villageId; ?>&screen=reports"><img src="graphic/sidebar/reports.png"></a><br/>
@@ -94,22 +112,27 @@ $village = mysqli_fetch_assoc($res);
                 // Übersichten
                 if ($_GET["screen"] == "overview")
                 {
-                    require("include/menu/overview.inc.php");
+                    require "include/menu/overview.inc.php";
                 }
                 // Berichte
                 else if ($_GET["screen"] == "reports")
                 {
-                    require("include/menu/reports.inc.php");
+                    require "include/menu/reports.inc.php";
                 }
                 // Hauptgebäude
                 if ($_GET["screen"] == "main")
                 {
-                    require("include/buildings/main.inc.php");
+                    require "include/buildings/main.inc.php";
                 }
                 // Kaserne
                 if ($_GET["screen"] == "barracks")
                 {
-                    require("include/buildings/barracks.inc.php");
+                    require "include/buildings/barracks.inc.php";
+                }
+                // Speicher
+                if ($_GET["screen"] == "store")
+                {
+                    require "include/buildings/store.inc.php";
                 }
             }
             ?>
@@ -136,13 +159,14 @@ $village = mysqli_fetch_assoc($res);
                 }
                 else {
                     // Dorfübersicht
-                    echo "<a href='?village=" . $villageId . "&screen=main'><img style='margin: 25%; width: 10%; position: absolute;' src='graphic/buildings/main.png'></a>";
-                    echo "<a href='?village=" . $villageId . "&screen=barracks'><img style='margin: 50%; width: 10%; position: absolute;' src='graphic/buildings/barracks.png'></a>";
+                    echo "<a href='?village=$villageId&screen=main'><img style='margin: 25%; width: 10%; position: absolute;' src='graphic/buildings/main.png'></a>";
+                    echo "<a href='?village=$villageId&screen=barracks'><img style='margin: 50%; width: 10%; position: absolute;' src='graphic/buildings/barracks.png'></a>";
+                    echo "<a href='?village=$villageId&screen=store'><img style='margin-left: 25%; margin-top: 50%; width: 10%; position: absolute;' src='graphic/buildings/store.png'></a>";
                 }
                 ?>
             </div>
             <div id="footer">
-                Copyright Microsoft Corporation bitches
+                Copyright by Marcel Gregoriadis & Hai Dang Nguyen
             </div>
         </div>
     </div>

@@ -9,11 +9,27 @@ while (true)
 	$villages = mysqli_query($db, "SELECT * FROM villages");
 	while ($village = mysqli_fetch_assoc($villages))
 	{
+		capacity($village["store"]);
 		resourceProduction($village["res1"], $village["res2"], $village["res3"], $village["holz"], $village["stein"], $village["eisen"]);
 		$id = $village["id"];
-		mysqli_query($db, "UPDATE villages SET holz = '$update1' WHERE id = '$id'");
-		mysqli_query($db, "UPDATE villages SET stein = '$update2' WHERE id = '$id'");
-		mysqli_query($db, "UPDATE villages SET eisen = '$update3' WHERE id = '$id'");
+		// Holz
+		if ($village["res1"] + $update1 > $cap) {
+			mysqli_query($db, "UPDATE villages SET holz = '$cap' WHERE id = '$id'");
+		} else {
+			mysqli_query($db, "UPDATE villages SET holz = '$update1' WHERE id = '$id'");
+		}
+		// Stein
+		if ($village["res2"] + $update1 > $cap) {
+			mysqli_query($db, "UPDATE villages SET stein = '$cap' WHERE id = '$id'");
+		} else {
+			mysqli_query($db, "UPDATE villages SET stein = '$update2' WHERE id = '$id'");
+		}
+		// Eisen
+		if ($village["res2"] + $update1 > $cap) {
+			mysqli_query($db, "UPDATE villages SET eisen = '$cap' WHERE id = '$id'");
+		} else {
+			mysqli_query($db, "UPDATE villages SET eisen = '$update3' WHERE id = '$id'");
+		}
 	}
 
 	// Ausbauung von in Auftrag gegebenen Gebäuden
