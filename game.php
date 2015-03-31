@@ -146,7 +146,7 @@ require "include/config.inc.php";
                     <img src='graphic/holz.png' height='20' style='vertical-align: middle;'> <span id="wood"><? echo $village["holz"]; ?></span>
                     <img src='graphic/stein.png' height='20' style='vertical-align: middle;'> <span id="stone"><? echo $village["stein"]; ?></span>
                     <img src='graphic/eisen.png' height='20' style='vertical-align: middle;'> <span id="iron"><? echo $village["eisen"]; ?></span>
-                    <img src='graphic/store.png' height='20' style='vertical-align: middle;'> <? echo $cap ?>
+                    <img src='graphic/store.png' height='20' style='vertical-align: middle;'> <? capacity($village["store"]); echo $cap ?>
                 </td></tr></table>
             </div>
             <div id="overview">
