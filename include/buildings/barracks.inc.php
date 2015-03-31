@@ -4,7 +4,7 @@
 	}
 </script>
 <h2>Kaserne</h2><br>
-<?php
+<?
 $villageId = $_GET["village"];
 $res = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
 $village = mysqli_fetch_assoc($res);
@@ -86,7 +86,7 @@ if (isset($_POST["troop1"]))
 }
 ?>
 <form method="post">
-<?php
+<?
 $recs = mysqli_query($db, "SELECT * FROM recruitOrders WHERE villageId = '$villageId'");
 if (mysqli_num_rows($recs) > 0)
 {
@@ -101,10 +101,10 @@ if (mysqli_num_rows($recs) > 0)
 	<tr><td><b>Einheit</b></td><td><b>Kosten</b></td><td><b>Dauer</b></td><td><b>Vorh.</b></td><td><b>Rekrutieren</b></td></tr>
 	<!-- Einheit: Höhlenmensch -->
 	<tr><td>Höhlenmensch</td>
-		<td><img src="graphic/holz.png" width="16"><?php echo $price["troop1"]["holz"]; ?> <img src="graphic/stein.png" width="16"><?php echo $price["troop1"]["stein"]; ?> <img src="graphic/eisen.png" width="16"><?php echo $price["troop1"]["eisen"]; ?></td>
-		<td><?php echo date("i:s", $duration["troop1"]); ?></td>
-		<td><?php echo $village["troop1"] ?></td>
-		<td><input size=5 id="amount" name="amount"> <span onclick="javascript:maxEintragen(<?php echo $max; ?>);">(max. <?php echo $max; ?>)</span></td></tr>
+		<td><img src="graphic/holz.png" width="16"><? echo $price["troop1"]["holz"]; ?> <img src="graphic/stein.png" width="16"><? echo $price["troop1"]["stein"]; ?> <img src="graphic/eisen.png" width="16"><? echo $price["troop1"]["eisen"]; ?></td>
+		<td><? echo date("i:s", $duration["troop1"]); ?></td>
+		<td><? echo $village["troop1"] ?></td>
+		<td><input size=5 id="amount" name="amount"> <span onclick="javascript:maxEintragen(<? echo $max; ?>);">(max. <? echo $max; ?>)</span></td></tr>
 	<tr><td></td><td></td><td></td><td></td><td><input type="submit" value="Rekrutieren" name="troop1"></td></tr>
 </table>
 </form>

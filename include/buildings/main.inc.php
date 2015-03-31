@@ -1,4 +1,4 @@
-<?php
+<?
 echo "<h2>Hauptgebäude</h2><br>";
 
 date_default_timezone_set('Europe/Berlin');

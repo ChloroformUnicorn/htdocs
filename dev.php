@@ -1,4 +1,4 @@
-<?php
+<?
 function getBrowser() 
 { 
     $u_agent = $_SERVER['HTTP_USER_AGENT']; 
@@ -104,19 +104,19 @@ $ua=getBrowser();
 			<h3>Daten zu diesem Server und verwendetem Client:</h3>
 			<table border=1>
 				<tr>
-					<td><b>PHP Version:</b> </td><td><?php echo phpversion(); ?></td>
+					<td><b>PHP Version:</b> </td><td><? echo phpversion(); ?></td>
 				</tr>
 				<tr>
-					<td><b>Apache Version:</b> </td><td><?php echo apache_get_version(); ?></td>
+					<td><b>Apache Version:</b> </td><td><? echo apache_get_version(); ?></td>
 				</tr>
 				<tr>
-					<td><b>MySQL Version (Server):</b> </td><td><?php require("db.inc.php"); echo mysqli_get_server_info($db); ?></td>
+					<td><b>MySQL Version (Server):</b> </td><td><? require("db.inc.php"); echo mysqli_get_server_info($db); ?></td>
 				</tr>
 				<tr>
-					<td><b>MySQL Version (Client):</b> </td><td><?php echo mysqli_get_client_info(); ?></td>
+					<td><b>MySQL Version (Client):</b> </td><td><? echo mysqli_get_client_info(); ?></td>
 				</tr>
                 <tr>
-                    <td><b>Webbrowser:</b> </td><td><?php echo $ua["name"] . " " . $ua["version"] . " auf " . $ua["platform"]; ?></td>
+                    <td><b>Webbrowser:</b> </td><td><? echo $ua["name"] . " " . $ua["version"] . " auf " . $ua["platform"]; ?></td>
                 </tr>
 			</table>
 			<h3>Server & Client Daten mit denen programmiert und getestet wurde</h3>

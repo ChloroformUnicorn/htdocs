@@ -1,4 +1,4 @@
-<?php
+<?
 $res = mysqli_query($db, $usersVillages);
 $village = mysqli_fetch_assoc($res);
 $x0 = $village["x"];

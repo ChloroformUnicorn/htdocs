@@ -57,14 +57,14 @@ while (true)
 			$now = time();
 			$unit = $order["unit"];
 			$villageId = $order["villageId"];
-			if (($order["beginTime"] + $order["duration"]) < $now)
+			if (($order["beginTime"] + $order["duration"] * $order["amount"]) < $now)
 			{
 				$getVillage = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
 				$village = mysqli_fetch_assoc($getVillage);
-				mysqli_query($db, "UPDATE villages SET `$unit` += 1");
-				mysqli_query($db, "UPDATE recruitOrders SET amount -= 1 WHERE id = '$orderId'");
+				mysqli_query($db, "UPDATE villages SET `$unit` = `$unit` + 1 WHERE id = '$villageId'");
+				mysqli_query($db, "UPDATE recruitOrders SET amount = amount - 1 WHERE id = '$orderId'");
 				$newBeginTime = $order["beginTime"] + $order["duration"];
-				mysqli_query($db, "UPDATE recruitsOrders SET beginTime = '$newBeginTime'");
+				mysqli_query($db, "UPDATE recruitsOrders SET beginTime = '$newBeginTime' WHERE id = '$orderId'");
 			}
 		}
 		else
@@ -74,5 +74,5 @@ while (true)
 	}
 
 	echo "Cronjobs laufen ...";
-	sleep(5);
+	sleep(1);
 }

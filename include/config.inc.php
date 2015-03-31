@@ -1,4 +1,4 @@
-<?php
+<?
 
 // Funktion welche die nächste Stufe eines Gebäudes ausgibt
 function newLevel($building) {
@@ -102,7 +102,7 @@ function calculateDuration($village = null) {
 		"farm" => newLevel("farm")*2+10,
 		"wall" => newLevel("wall")*2+10,
 		// Truppen
-		"troop1" => $village["barracks"]*2
+		"troop1" => $village["barracks"]*0.03
 		];
 }
 

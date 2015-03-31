@@ -1,4 +1,4 @@
-<?php
+<?
 echo "<h3>Deine Dörfer (" . mysqli_num_rows($res) . "):</h3><br/>
 <table border=1>
 <tr><td>Dorfname</td><td>Punkte</td></tr>";

@@ -1,4 +1,4 @@
-<?php
+<?
 require("../../../db.inc.php");
 $villageId = $_GET["village"];
 $orders = mysqli_query($db, "SELECT * FROM buildOrders WHERE villageId = '$villageId'");

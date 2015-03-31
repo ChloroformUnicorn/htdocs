@@ -18,7 +18,7 @@
 			<h1>Leviathalis</h1>
 		</div>
 		<div id="content">
-			<?php
+			<?
 			// Diese Variablen sind später benötigt um zu prüfen, ob ein Feld rot umrahmt werden soll
 			// TRUE = Fehlerhafte Eingabe
 			$nameInput = false;
@@ -191,22 +191,22 @@
 				<table>
 					<tr>
 						<td>Name</td>
-						<td><input type="text" name="name" size="20" <?php if(isset($_POST["register"])) { echo "value='$name'"; if($nameInput) { echo "class='formError'"; } } ?> /></td>
+						<td><input type="text" name="name" size="20" <? if(isset($_POST["register"])) { echo "value='$name'"; if($nameInput) { echo "class='formError'"; } } ?> /></td>
 					</tr>
 					<tr>
 						<td>E-Mail</td>
-						 <td><input type="email" name="email" size="20" <?php if(isset($_POST["register"])) { echo "value='$email'"; if($emailInput) { echo "class='formError'"; } } ?> ></td>
+						 <td><input type="email" name="email" size="20" <? if(isset($_POST["register"])) { echo "value='$email'"; if($emailInput) { echo "class='formError'"; } } ?> ></td>
 					</tr>
 					<tr>
 						<td>Passwort</td>
-						<td><input type="password" name="password" size="20" <?php if(isset($_POST["register"])) { echo "value='$password'"; if($pwInput) { echo "class='formError'"; } } ?> ></td>
+						<td><input type="password" name="password" size="20" <? if(isset($_POST["register"])) { echo "value='$password'"; if($pwInput) { echo "class='formError'"; } } ?> ></td>
 					</tr>
 					<tr>
 						<td>Passwort bestätigen</td>
-					 	<td><input type="password" name="passwordConfirm" size="20" <?php if(isset($_POST["register"])) { echo "value='$password'"; if($pwInput) { echo "class='formError'"; } } ?> ></td>
+					 	<td><input type="password" name="passwordConfirm" size="20" <? if(isset($_POST["register"])) { echo "value='$password'"; if($pwInput) { echo "class='formError'"; } } ?> ></td>
 					</tr>
 					<tr>
-						<td><label><input type="checkbox" name="agb" <?php if($agbCheckbox) { echo "class='formError'"; } ?> > Ich habe die <a href="agb.html" target="_blank" onclick="return popup(this.href);">AGB</a> gelesen und akzeptiere diese.</label></td>
+						<td><label><input type="checkbox" name="agb" <? if($agbCheckbox) { echo "class='formError'"; } ?> > Ich habe die <a href="agb.html" target="_blank" onclick="return popup(this.href);">AGB</a> gelesen und akzeptiere diese.</label></td>
 					</tr>
 					<tr>
 					  <td></td>

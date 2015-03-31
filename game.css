@@ -58,6 +58,7 @@ body {
 	background-image: url("graphic/village.jpg");
 	-webkit-background-size: 100% auto;
 	background-repeat: no-repeat;
+    background-position: center;
 }
 
 #overview td {

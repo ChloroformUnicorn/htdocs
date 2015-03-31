@@ -1,4 +1,4 @@
-<?php
+<?
 session_start();
 // Logout wenn die Session abgelaufen ist
 if ($_SESSION["id"]=="")
@@ -6,7 +6,7 @@ if ($_SESSION["id"]=="")
     header("Location: logout.php");
 }
 // Datenbankverbindung aufbauen
-require("db.inc.php");
+require "db.inc.php";
 $userId = $_SESSION["id"];
 $villageId = $_GET["village"];
 // Datensatz des Users
@@ -15,6 +15,7 @@ $user = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM users WHERE id = '$u
 $usersVillages = "SELECT * FROM villages WHERE user = '$userId'";
 $res = mysqli_query($db, $usersVillages);
 $village = mysqli_fetch_assoc($res);
+require "include/config.inc.php";
 ?>
 <html>
 <head>
@@ -23,17 +24,13 @@ $village = mysqli_fetch_assoc($res);
     <meta charset="utf-8">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript">
-        var woodSource = <?php echo $village["res1"] ?>;
-        var stoneSource = <?php echo $village["res2"] ?>;
-        var ironSource = <?php echo $village["res3"] ?>;
-        var wood = <?php echo $village["holz"] ?>;
-        var stone = <?php echo $village["stein"] ?>;
-        var iron = <?php echo $village["eisen"] ?>;
-        var store = <?php
-                    require "include/config.inc.php";
-                    capacity($village["store"]);
-                    echo $cap;
-                    ?>;
+        var woodSource = <? echo $village["res1"] ?>;
+        var stoneSource = <? echo $village["res2"] ?>;
+        var ironSource = <? echo $village["res3"] ?>;
+        var wood = <? echo $village["holz"] ?>;
+        var stone = <? echo $village["stein"] ?>;
+        var iron = <? echo $village["eisen"] ?>;
+        var store = <? capacity($village["store"]); echo $cap; ?>;
 
         setInterval(function() { 
             // Ressourcen-Anzeige updaten
@@ -52,12 +49,13 @@ $village = mysqli_fetch_assoc($res);
             } else {
                 iron += ironSource * 20;
             }
+            
             document.getElementById("wood").innerHTML = wood;
             document.getElementById("stone").innerHTML = stone;
             document.getElementById("iron").innerHTML = iron;
             // Bauschleife updaten
             $.ajax({ 
-              url:'include/buildings/include/buildQueue.inc.php?village=<?php echo $villageId; ?>', 
+              url:'include/buildings/include/buildQueue.inc.php?village=<? echo $villageId; ?>', 
               type:"POST", 
               async:true, 
               data:{}, 
@@ -67,7 +65,7 @@ $village = mysqli_fetch_assoc($res);
             });
             // Bauschleife updaten
             $.ajax({ 
-              url:'include/buildings/include/recruitQueue.inc.php?village=<?php echo $villageId; ?>', 
+              url:'include/buildings/include/recruitQueue.inc.php?village=<? echo $villageId; ?>', 
               type:"POST", 
               async:true, 
               data:{}, 
@@ -79,10 +77,9 @@ $village = mysqli_fetch_assoc($res);
 
         $(document).ready(function() {
             // Transparenz-Efekt der Sidebar-Icons
-            $("#sidebar img").mouseenter(function() {
+            $("#sidebar img").hover(function() {
                 $(this).fadeTo(0, 0.75);
-            });
-            $("#sidebar img").mouseleave(function() {
+            }, function() {
                 $(this).fadeTo(0, 1);
             });
         });
@@ -93,13 +90,13 @@ $village = mysqli_fetch_assoc($res);
     <div class="innerWrapper">
         <!-- Sidebar -->
         <div id="sidebar">
-            <a href="game.php?village=<?php echo $villageId; ?>&screen=overview"><img src="graphic/sidebar/overview.png"></a><br/>
-            <a href="game.php?village=<?php echo $villageId; ?>&screen=reports"><img src="graphic/sidebar/reports.png"></a><br/>
-            <a href="game.php?village=<?php echo $villageId; ?>&screen=map"><img src="graphic/sidebar/map.png"></a><br/>
+            <a href="game.php?village=<? echo $villageId; ?>&screen=overview"><img src="graphic/sidebar/overview.png"></a><br/>
+            <a href="game.php?village=<? echo $villageId; ?>&screen=reports"><img src="graphic/sidebar/reports.png"></a><br/>
+            <a href="game.php?village=<? echo $villageId; ?>&screen=map"><img src="graphic/sidebar/map.png"></a><br/>
             <a href="logout.php"><img src="graphic/sidebar/logout.png"></a><br/>
         </div>
         <div id="menu">
-            <?php
+            <?
             // Kein Dorf gefunden?
             if (!$village)
             {
@@ -140,19 +137,19 @@ $village = mysqli_fetch_assoc($res);
         <div id="village">
             <div id="topbar">
                 <table style="width: calc(100% - 472px)"><tr><td>
-                    <?php
+                    <?
                     $res = mysqli_query($db, $usersVillages);
                     $village = mysqli_fetch_assoc($res);
                     echo $village["name"] . " (" . $village["points"] . " Punkte)";
                     ?>
                 </td><td align="right">
-                    <img src='graphic/holz.png' height='20' style='vertical-align: middle;'> <span id="wood"><?php echo $village["holz"]; ?></span>
-                    <img src='graphic/stein.png' height='20' style='vertical-align: middle;'> <span id="stone"><?php echo $village["stein"]; ?></span>
-                    <img src='graphic/eisen.png' height='20' style='vertical-align: middle;'> <span id="iron"><?php echo $village["eisen"]; ?></span>
+                    <img src='graphic/holz.png' height='20' style='vertical-align: middle;'> <span id="wood"><? echo $village["holz"]; ?></span>
+                    <img src='graphic/stein.png' height='20' style='vertical-align: middle;'> <span id="stone"><? echo $village["stein"]; ?></span>
+                    <img src='graphic/eisen.png' height='20' style='vertical-align: middle;'> <span id="iron"><? echo $village["eisen"]; ?></span>
                 </td></tr></table>
             </div>
             <div id="overview">
-                <?php
+                <?
                 // Weltkarte
                 if ($_GET["screen"] == "map") {
                     require("include/menu/map.inc.php");

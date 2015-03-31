@@ -1,4 +1,4 @@
-<?php
+<?
 // Name des ersten Dorfes generieren
 $villageName = $user->name . "s Dorf";
 // Koordinaten einstellen

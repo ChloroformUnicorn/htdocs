@@ -1,4 +1,4 @@
-<?php
+<?
 require "../../../db.inc.php";
 date_default_timezone_set("Europe/Berlin");
 $villageId = $_GET["village"];
