@@ -153,12 +153,17 @@ require "include/config.inc.php";
                 <?
                 // Weltkarte
                 if ($_GET["screen"] == "map") {
-                    require("include/menu/map.inc.php");
+                    require "include/menu/map.inc.php";
                 }
                 else {
-                    // Dorfübersicht
+                    // Hauptgebäude
+                    echo "<div class='buildingInfo' style='margin-top: 20%; margin-left: 22%;'>".$village["main"]."</div>";
                     echo "<a href='?village=$villageId&screen=main'><img style='margin: 25%; width: 10%; position: absolute;' src='graphic/buildings/main.png'></a>";
+                    // Kaserne
+                    echo "<div class='buildingInfo' style='margin-top: 45%; margin-left: 46%;'>".$village["barracks"]."</div>";
                     echo "<a href='?village=$villageId&screen=barracks'><img style='margin: 50%; width: 10%; position: absolute;' src='graphic/buildings/barracks.png'></a>";
+                    // Speicher
+                    echo "<div class='buildingInfo' style='margin-top: 45%; margin-left: 22%;'>".$village["store"]."</div>";
                     echo "<a href='?village=$villageId&screen=store'><img style='margin-left: 25%; margin-top: 50%; width: 10%; position: absolute;' src='graphic/buildings/store.png'></a>";
                 }
                 ?>

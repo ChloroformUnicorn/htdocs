@@ -82,3 +82,14 @@ body {
 	background: pink;
 	padding: 5px;
 }
+
+.buildingInfo {
+	border: 1px solid black;
+	background: white;
+	width: 3%;
+	height: 2%;
+	padding: 5px;
+	position: absolute;
+	vertical-align: middle;
+	text-align: center;
+}

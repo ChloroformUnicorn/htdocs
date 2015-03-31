@@ -10,7 +10,7 @@ capacity($village["store"]);
 
 echo "<table border=1>
 		<tr>
-			<td>Speicher-Kapazität</td><td>Speicher-Kapazität bei Stufe " . ($village["store"] + 1) ."</td>
+			<td><b>Speicher-Kapazität</b></td><td><b>Speicher-Kapazität bei Stufe " . ($village["store"] + 1) ."</b></td>
 		</tr>
 		<tr>
 			<td>
