@@ -57,14 +57,17 @@ while (true)
 			$now = time();
 			$unit = $order["unit"];
 			$villageId = $order["villageId"];
-			if (($order["beginTime"] + $order["duration"] * $order["amount"]) < $now)
+			if (($order["beginTime"] + $order["duration"]) < $now)
 			{
 				$getVillage = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
 				$village = mysqli_fetch_assoc($getVillage);
 				mysqli_query($db, "UPDATE villages SET `$unit` = `$unit` + 1 WHERE id = '$villageId'");
 				mysqli_query($db, "UPDATE recruitOrders SET amount = amount - 1 WHERE id = '$orderId'");
 				$newBeginTime = $order["beginTime"] + $order["duration"];
-				mysqli_query($db, "UPDATE recruitsOrders SET beginTime = '$newBeginTime' WHERE id = '$orderId'");
+
+				mysqli_query($db, "UPDATE recruitOrders SET beginTime = '$newBeginTime' WHERE id = '$orderId'");
+
+				$orders = mysqli_query($db, "SELECT * FROM recruitOrders");
 			}
 		}
 		else

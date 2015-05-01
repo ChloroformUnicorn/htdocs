@@ -106,10 +106,12 @@ function calculateDuration($village = null) {
 		];
 }
 
-// Rohstoff Kapazitäten in Abhängigkeit zur Stufe des Speichers berechnen
-function capacity($save) {
-	global $cap;
-	$cap = $save * 1000;
+// Rohstoff bzw. Bauernhof Kapazitäten in Abhängigkeit zur Stufe des Speichers berechnen
+# $cap ist die Rohstoff Kap., $farmCap die Bauernhof Kap., der Programmierer soll sich raussuchen was er will
+function capacity($level) {
+	global $cap, $farmCap;
+	$cap = $level * 1000;
+	$farmCap = $level * 500;
 }
 
 // Rohstoffproduktion (Formeln)

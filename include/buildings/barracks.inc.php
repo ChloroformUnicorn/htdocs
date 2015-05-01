@@ -11,18 +11,18 @@ $village = mysqli_fetch_assoc($res);
 
 // Rekrutier-Schleife
 echo "<div id='recruitQueue'>";
-$orders = mysqli_query($db, "SELECT * FROM recruitOrders WHERE villageId = '$villageId'");
-if (mysqli_num_rows($orders) > 0) {
+$recs = mysqli_query($db, "SELECT * FROM recruitOrders WHERE villageId = '$villageId'");
+if (mysqli_num_rows($recs) > 0) {
 	echo "<table border=1>
 		<tr><td><b>Rekrutierung</b></td><td><b>Dauer</b></td><td><b>Fertigstellung</b></td></tr>";
-	while ($rec = mysqli_fetch_assoc($orders))
+	while ($rec = mysqli_fetch_assoc($recs))
 	{
 		$unit = $rec["unit"];
 		$amount = $rec["amount"];
 		$timeUQueue = ($rec["amount"] - 1) * $rec["duration"];
 		$timeUCurrent = $rec["duration"] - (time() - (($rec["totalAmount"] - $rec["amount"]) * $rec["duration"] + $rec["beginTime"]));
 		// Dauer formatieren
-		$init = $timeUQueue + $timeUCurrent;
+		$init = ($rec["amount"] * $rec["duration"] + $rec["beginTime"]) - time();
 		$hours = str_pad(floor($init / 3600), 2, "0", STR_PAD_LEFT);
 		$minutes = str_pad(floor(($init / 60) % 60), 2, "0", STR_PAD_LEFT);
 		$seconds = str_pad($init % 60, 2, "0", STR_PAD_LEFT);
@@ -84,9 +84,9 @@ if (isset($_POST["troop1"]))
 		echo "Du hast nicht genügend Rohstoffe.";
 	}
 }
-?>
-<form method="post">
-<?
+
+echo "<form method='post'>";
+
 $recs = mysqli_query($db, "SELECT * FROM recruitOrders WHERE villageId = '$villageId'");
 if (mysqli_num_rows($recs) > 0)
 {

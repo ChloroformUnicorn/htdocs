@@ -22,7 +22,7 @@ require "include/config.inc.php";
     <title>Spiel</title>
     <link rel="stylesheet" type="text/css" href="game.css" charset="utf-8" />
     <meta charset="utf-8">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="jquery.min.js"></script>
     <script type="text/javascript">
         var woodSource = <? echo $village["res1"] ?>;
         var stoneSource = <? echo $village["res2"] ?>;
@@ -131,6 +131,11 @@ require "include/config.inc.php";
                 {
                     require "include/buildings/store.inc.php";
                 }
+                // Bauernhof
+                if ($_GET["screen"] == "farm")
+                {
+                    require "include/buildings/farm.inc.php";
+                }
             }
             ?>
         </div>
@@ -165,6 +170,10 @@ require "include/config.inc.php";
                     // Speicher
                     echo "<div class='buildingInfo' style='margin-top: 45%; margin-left: 22%;'>".$village["store"]."</div>";
                     echo "<a href='?village=$villageId&screen=store'><img style='margin-left: 25%; margin-top: 50%; width: 10%; position: absolute;' src='graphic/buildings/store.png'></a>";
+                    // Bauernhof
+                    echo "<div class='buildingInfo' style='margin-top: 15%; margin-left: 47%;'>".$village["farm"]."</div>";
+                    echo "<a href='?village=$villageId&screen=farm'><img style='margin-left: 50%; margin-top: 20%; width: 10%; position: absolute;' src='graphic/buildings/farm.png'></a>";
+
                 }
                 ?>
             </div>

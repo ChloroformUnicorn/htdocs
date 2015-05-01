@@ -1,7 +1,6 @@
 <?
 echo "<h2>Speicher</h2><br>";
 
-date_default_timezone_set('Europe/Berlin');
 $villageId = $_GET["village"];
 $res = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
 $village = mysqli_fetch_assoc($res);
