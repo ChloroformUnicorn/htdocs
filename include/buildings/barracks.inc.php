@@ -39,8 +39,9 @@ if (mysqli_num_rows($recs) > 0) {
 }
 echo "</div>";
 
+capacity($village["farm"]);
 function calculateMaxRecruitable() {
-	global $village, $price, $max;
+	global $village, $price, $max, $farmCap;
 	calculatePrice();
 	// Verfügbare Rohstoffe
 	$holzKap = $village["holz"];
@@ -51,6 +52,15 @@ function calculateMaxRecruitable() {
 	$steinMax = intval($steinKap / $price["troop1"]["stein"]);
 	$eisenMax = intval($eisenKap / $price["troop1"]["eisen"]);
 	$max = min($holzMax, $steinMax, $eisenMax);
+	// Berechne die Bauernhofkapazität
+	$farmMax = $farmCap - ($price["troop1"]["farmUnits"] + $village["troop1"]);
+	if ($max > $farmMax) {
+		if ($farmMax < 0) {
+			$max = 0;
+		} else {
+			$max = $farmMax;
+		}
+	}
 }
 
 calculateMaxRecruitable();

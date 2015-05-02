@@ -82,7 +82,8 @@ function calculatePrice() {
 		// Truppen
 		"troop1" => ["holz" => 10,
 					"stein" => 12,
-					"eisen" => 8]
+					"eisen" => 8,
+					"farmUnits" => 1]
 		];
 }
 
@@ -107,7 +108,7 @@ function calculateDuration($village = null) {
 }
 
 // Rohstoff bzw. Bauernhof Kapazitäten in Abhängigkeit zur Stufe des Speichers berechnen
-# $cap ist die Rohstoff Kap., $farmCap die Bauernhof Kap., der Programmierer soll sich raussuchen was er will
+// $cap ist die Rohstoff Kap., $farmCap die Bauernhof Kap., der Programmierer soll sich raussuchen was er will
 function capacity($level) {
 	global $cap, $farmCap;
 	$cap = $level * 1000;
