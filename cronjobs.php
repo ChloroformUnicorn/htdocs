@@ -57,7 +57,9 @@ while (true)
 			$now = time();
 			$unit = $order["unit"];
 			$villageId = $order["villageId"];
-			if (($order["beginTime"] + $order["duration"]) < $now)
+			$beginTime = $order["beginTime"];
+			$otherOrders = mysqli_query($db, "SELECT * FROM recruitOrders WHERE villageId = '$villageId' AND beginTime > '$beginTime'");
+			if ((($order["beginTime"] + $order["duration"]) < $now) && (mysqli_num_rows($otherOrders) < 1))
 			{
 				$getVillage = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
 				$village = mysqli_fetch_assoc($getVillage);

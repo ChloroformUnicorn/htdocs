@@ -6,8 +6,8 @@
 <h2>Kaserne</h2><br>
 <?
 $villageId = $_GET["village"];
-$res = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
-$village = mysqli_fetch_assoc($res);
+$getVillage = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
+$village = mysqli_fetch_assoc($getVillage);
 
 // Rekrutier-Schleife
 echo "<div id='recruitQueue'>";
@@ -61,14 +61,20 @@ if (isset($_POST["troop1"]))
 	if ($_POST["amount"] <= $max)
 	{
 		$unit = "troop1";
-		$now = time();
+		$otherOrders = mysqli_query($db, "SELECT * FROM recruitOrders WHERE villageId = '$villageId' ORDER BY beginTime DESC");
+		if (mysqli_num_rows($otherOrders) < 1) {
+			$beginTime = time();
+		} else {
+			$otherOrder = mysqli_fetch_assoc($otherOrders);
+			$beginTime = $otherOrder["beginTime"] + $otherOrder["totalAmount"] * $otherOrder["duration"];
+		}
 		$durationVar = $duration["troop1"];
 		$amount = $_POST["amount"];
 		// Rekrutierungsauftrag erstellen
 		mysqli_query($db, "INSERT INTO recruitOrders
 						(villageId, unit, beginTime, duration, amount, totalAmount)
 						VALUES
-						('$villageId', '$unit', '$now', '$durationVar', '$amount', '$amount')");
+						('$villageId', '$unit', '$beginTime', '$durationVar', '$amount', '$amount')");
 		// Ressourcen updaten
 		$update = $village["holz"] - $price["troop1"]["holz"] * $_POST["amount"];
 		mysqli_query($db, "UPDATE villages SET holz = '$update' WHERE id = '$villageId'");

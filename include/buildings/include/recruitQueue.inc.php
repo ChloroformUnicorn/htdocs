@@ -10,8 +10,14 @@ if (mysqli_num_rows($recs) > 0) {
 	{
 		$unit = $rec["unit"];
 		$amount = $rec["amount"];
+		$beginTime = $rec["beginTime"];
+		$otherOrders = mysqli_query($db, "SELECT * FROM recruitOrders WHERE villageId = '$villageId' AND beginTime < '$beginTime'");
+		if (mysqli_num_rows($otherOrders) > 0) {
+			$init = $rec["totalAmount"] * $rec["duration"];
+		} else {
+			$init = ($rec["amount"] * $rec["duration"] + $rec["beginTime"]) - time();
+		}
 		// Dauer formatieren
-		$init = ($rec["amount"] * $rec["duration"] + $rec["beginTime"]) - time();
 		$hours = str_pad(floor($init / 3600), 2, "0", STR_PAD_LEFT);
 		$minutes = str_pad(floor(($init / 60) % 60), 2, "0", STR_PAD_LEFT);
 		$seconds = str_pad($init % 60, 2, "0", STR_PAD_LEFT);
