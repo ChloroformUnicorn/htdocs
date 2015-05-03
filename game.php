@@ -12,9 +12,8 @@ $villageId = $_GET["village"];
 // Datensatz des Users
 $user = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM users WHERE id = '$userId'"));
 // Datensatz der Dörfer des eingeloggten User
-$usersVillages = "SELECT * FROM villages WHERE user = '$userId'";
-$res = mysqli_query($db, $usersVillages);
-$village = mysqli_fetch_assoc($res);
+$getVillage = mysqli_query($db, "SELECT * FROM villages WHERE user = '$userId'");
+$village = mysqli_fetch_assoc($getVillage);
 require "include/config.inc.php";
 ?>
 <html>
@@ -143,8 +142,8 @@ require "include/config.inc.php";
             <div id="topbar">
                 <table style="width: calc(100% - 472px)"><tr><td>
                     <?
-                    $res = mysqli_query($db, $usersVillages);
-                    $village = mysqli_fetch_assoc($res);
+                    $getVillage = mysqli_query($db, "SELECT * FROM villages WHERE user = '$userId'");
+                    $village = mysqli_fetch_assoc($getVillage);
                     echo $village["name"] . " (" . $village["points"] . " Punkte)";
                     ?>
                 </td><td align="right">
@@ -178,8 +177,10 @@ require "include/config.inc.php";
                 }
                 ?>
             </div>
-            <div id="footer">
-                Copyright by Marcel Gregoriadis & Hai Dang Nguyen
+            <div id="troops">
+                <?
+                echo $village["troop1"]." Höhlenmenschen";
+                ?>
             </div>
         </div>
     </div>
