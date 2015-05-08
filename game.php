@@ -151,7 +151,7 @@ require "include/config.inc.php";
                     <img src='graphic/stein.png' height='20' style='vertical-align: middle;'> <span id="stone"><? echo $village["stein"]; ?></span>
                     <img src='graphic/eisen.png' height='20' style='vertical-align: middle;'> <span id="iron"><? echo $village["eisen"]; ?></span> |
                     <img src='graphic/store.png' height='20' style='vertical-align: middle;'> <? capacity($village["store"]); echo $cap ?>
-                    <img src='graphic/farm.png' height='20' style='vertical-align: middle;'> <? capacity($village["farm"]); echo $village["troop1"]."/".$farmCap ?>
+                    <img src='graphic/farm.png' height='20' style='vertical-align: middle;'> <? capacity($village["farm"]); echo $village["phalanx"]."/".$farmCap ?>
                 </td></tr></table>
             </div>
             <div id="overview">
@@ -173,13 +173,23 @@ require "include/config.inc.php";
                     // Bauernhof
                     echo "<div class='buildingInfo' style='margin-top: 15%; margin-left: 47%;'>".$village["farm"]."</div>";
                     echo "<a href='?village=$villageId&screen=farm'><img style='margin-left: 50%; margin-top: 20%; width: 10%; position: absolute;' src='graphic/buildings/farm.png'></a>";
+                    // Holzfäller
+                    echo "<div class='buildingInfo' style='margin-top: 15%; margin-left: 47%;'>".$village["farm"]."</div>";
+                    echo "<a href='?village=$villageId&screen=farm'><img style='margin-left: 50%; margin-top: 20%; width: 10%; position: absolute;' src='graphic/buildings/farm.png'></a>";
+                    // Lehmgrube
+                    echo "<div class='buildingInfo' style='margin-top: 15%; margin-left: 47%;'>".$village["farm"]."</div>";
+                    echo "<a href='?village=$villageId&screen=farm'><img style='margin-left: 50%; margin-top: 20%; width: 10%; position: absolute;' src='graphic/buildings/farm.png'></a>";
+                    // Eisenmine
+                    echo "<div class='buildingInfo' style='margin-top: 15%; margin-left: 47%;'>".$village["farm"]."</div>";
+                    echo "<a href='?village=$villageId&screen=farm'><img style='margin-left: 50%; margin-top: 20%; width: 10%; position: absolute;' src='graphic/buildings/farm.png'></a>";
 
                 }
                 ?>
             </div>
             <div id="troops">
                 <?
-                echo $village["troop1"]." Höhlenmenschen";
+                echo "<img src='graphic/troops/phalanx.png' width='16'> ".$village["phalanx"]." Phalanx 
+                    <img src='graphic/troops/swordsman.png' width='16'> ".$village["swordsman"]." Schwertkämpfer";
                 ?>
             </div>
         </div>

@@ -80,7 +80,11 @@ function calculatePrice() {
 					"stein" => newLevel("wall")*2+100, 
 					"eisen" => newLevel("wall")*2+100],
 		// Truppen
-		"troop1" => ["holz" => 10,
+		"phalanx" => ["holz" => 10,
+					"stein" => 12,
+					"eisen" => 8,
+					"farmUnits" => 1],
+		"swordsman" => ["holz" => 10,
 					"stein" => 12,
 					"eisen" => 8,
 					"farmUnits" => 1]
@@ -103,7 +107,8 @@ function calculateDuration($village = null) {
 		"farm" => newLevel("farm")*2+10,
 		"wall" => newLevel("wall")*2+10,
 		// Truppen
-		"troop1" => $village["barracks"]*0.03
+		"phalanx" => $village["barracks"]*0.03,
+		"swordsman" => $village["barracks"]*0.04
 		];
 }
 

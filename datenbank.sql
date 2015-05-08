@@ -81,14 +81,14 @@ CREATE TABLE IF NOT EXISTS `villages` (
   `store` int(11) NOT NULL,
   `farm` int(11) NOT NULL,
   `wall` int(11) NOT NULL,
-  `troop1` int(11) NOT NULL
+  `phalanx` int(11) NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=155 ;
 
 --
 -- Daten für Tabelle `villages`
 --
 
-INSERT INTO `villages` (`id`, `user`, `name`, `points`, `x`, `y`, `holz`, `stein`, `eisen`, `main`, `barracks`, `smith`, `church`, `res1`, `res2`, `res3`, `store`, `farm`, `wall`, `troop1`) VALUES
+INSERT INTO `villages` (`id`, `user`, `name`, `points`, `x`, `y`, `holz`, `stein`, `eisen`, `main`, `barracks`, `smith`, `church`, `res1`, `res2`, `res3`, `store`, `farm`, `wall`, `phalanx`) VALUES
 (12, 90, 'marcels Dorf', 0, 0, 0, 115912643, 56334081, 33552191, 156, 52, 0, 0, 10, 6, 4, 0, 0, 0, 124223),
 (14, 90, 'sir lanzelord', 0, -2, -2, 93139956, 0, 0, 145, 40, 0, 0, 78, 0, 0, 0, 0, 0, 0),
 (15, 90, 'barbara', 0, 1, -2, 54784252, 0, 0, 145, 40, 0, 0, 46, 0, 0, 0, 0, 0, 0),

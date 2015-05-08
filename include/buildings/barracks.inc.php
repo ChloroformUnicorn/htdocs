@@ -40,20 +40,21 @@ if (mysqli_num_rows($recs) > 0) {
 echo "</div>";
 
 capacity($village["farm"]);
-function calculateMaxRecruitable() {
+calculatePrice();
+
+function calculateMaxRecruitable($unit) {
 	global $village, $price, $max, $farmCap;
-	calculatePrice();
 	// Verfügbare Rohstoffe
 	$holzKap = $village["holz"];
 	$steinKap = $village["stein"];
 	$eisenKap = $village["eisen"];
 	// Berechne die maximal bezahlbaren Einheiten
-	$holzMax = intval($holzKap / $price["troop1"]["holz"]);
-	$steinMax = intval($steinKap / $price["troop1"]["stein"]);
-	$eisenMax = intval($eisenKap / $price["troop1"]["eisen"]);
+	$holzMax = intval($holzKap / $price[$unit]["holz"]);
+	$steinMax = intval($steinKap / $price[$unit]["stein"]);
+	$eisenMax = intval($eisenKap / $price[$unit]["eisen"]);
 	$max = min($holzMax, $steinMax, $eisenMax);
 	// Berechne die Bauernhofkapazität
-	$farmMax = $farmCap - ($price["troop1"]["farmUnits"] + $village["troop1"]);
+	$farmMax = $farmCap - ($price[$unit]["farmUnits"] + $village[$unit]);
 	if ($max > $farmMax) {
 		if ($farmMax < 0) {
 			$max = 0;
@@ -63,41 +64,71 @@ function calculateMaxRecruitable() {
 	}
 }
 
-calculateMaxRecruitable();
 calculateDuration($village);
 
-if (isset($_POST["troop1"]))
+if (isset($_POST["recruit"]))
 {
-	if ($_POST["amount"] <= $max)
-	{
-		$unit = "troop1";
-		$otherOrders = mysqli_query($db, "SELECT * FROM recruitOrders WHERE villageId = '$villageId' ORDER BY beginTime DESC");
-		if (mysqli_num_rows($otherOrders) < 1) {
-			$beginTime = time();
+	$troops = ["phalanx" => $_POST["phalanx"],
+				"swordsman" => $_POST["swordsman"]];
+	$troopNames = ["phalanx", "swordsman"];
+
+	// Prüfen ob zu viele Truppen angefordert wurden
+	$error_troops = false;
+	for ($i = 0; $i < count($troopNames); $i++) {
+		calculateMaxRecruitable($troopNames[$i]);
+		$amount = $_POST[$troopNames[$i]];
+		if (is_numeric($amount)) {
+			if ($_POST[$troopNames[$i]] > $max) {
+				$error_troops = true;
+			}
 		} else {
-			$otherOrder = mysqli_fetch_assoc($otherOrders);
-			$beginTime = $otherOrder["beginTime"] + $otherOrder["totalAmount"] * $otherOrder["duration"];
+			$troops[$troopNames[$i]] = 0;
 		}
-		$durationVar = $duration["troop1"];
-		$amount = $_POST["amount"];
-		// Rekrutierungsauftrag erstellen
-		mysqli_query($db, "INSERT INTO recruitOrders
-						(villageId, unit, beginTime, duration, amount, totalAmount)
-						VALUES
-						('$villageId', '$unit', '$beginTime', '$durationVar', '$amount', '$amount')");
-		// Ressourcen updaten
-		$update = $village["holz"] - $price["troop1"]["holz"] * $_POST["amount"];
-		mysqli_query($db, "UPDATE villages SET holz = '$update' WHERE id = '$villageId'");
-		$update = $village["stein"] - $price["troop1"]["stein"] * $_POST["amount"];
-		mysqli_query($db, "UPDATE villages SET stein = '$update' WHERE id = '$villageId'");
-		$update = $village["eisen"] - $price["troop1"]["eisen"] * $_POST["amount"];
-		mysqli_query($db, "UPDATE villages SET eisen = '$update' WHERE id = '$villageId'");
-		echo "Rekrutierung durchgeführt.";
-		calculateMaxRecruitable();
+		if ($error_troops) {
+			break;
+		}
+	}
+
+	if (!$error_troops)
+	{
+		// Einheiten deklarieren
+		$troops = ["phalanx" => $_POST["phalanx"],
+					"swordsman" => $_POST["swordsman"]];
+		$troopNames = ["phalanx", "swordsman"];
+
+		for ($i = 0; $i < count($troopNames); $i++) {
+			calculateMaxRecruitable($troopNames[$i]);
+			$unit = $troopNames[$i];
+			$troops[$unit];
+
+			$otherOrders = mysqli_query($db, "SELECT * FROM recruitOrders WHERE villageId = '$villageId' ORDER BY beginTime DESC");
+			if (mysqli_num_rows($otherOrders) < 1) {
+				$beginTime = time();
+			} else {
+				$otherOrder = mysqli_fetch_assoc($otherOrders);
+				$beginTime = $otherOrder["beginTime"] + $otherOrder["totalAmount"] * $otherOrder["duration"];
+			}
+			$durationVar = $duration[$unit];
+			$amount = $_POST[$unit];
+			// Rekrutierungsauftrag erstellen
+			mysqli_query($db, "INSERT INTO recruitOrders
+							(villageId, unit, beginTime, duration, amount, totalAmount)
+							VALUES
+							('$villageId', '$unit', '$beginTime', '$durationVar', '$amount', '$amount')");
+			// Ressourcen updaten
+			$update = $village["holz"] - $price[$unit]["holz"] * $troops[$unit];
+			mysqli_query($db, "UPDATE villages SET holz = '$update' WHERE id = '$villageId'");
+			$update = $village["stein"] - $price[$unit]["stein"] * $troops[$unit];
+			mysqli_query($db, "UPDATE villages SET stein = '$update' WHERE id = '$villageId'");
+			$update = $village["eisen"] - $price[$unit]["eisen"] * $troops[$unit];
+			mysqli_query($db, "UPDATE villages SET eisen = '$update' WHERE id = '$villageId'");
+			calculateMaxRecruitable($unit);
+		}	
+		echo "Rekrutierung durchgeführt.";	
 	}
 	else
 	{
-		echo "Du hast nicht genügend Rohstoffe.";
+		echo "Du hast nicht genügend Rohstoffe. ";
 	}
 }
 
@@ -115,12 +146,20 @@ if (mysqli_num_rows($recs) > 0)
 ?>
 <table border=1>
 	<tr><td><b>Einheit</b></td><td><b>Kosten</b></td><td><b>Dauer</b></td><td><b>Vorh.</b></td><td><b>Rekrutieren</b></td></tr>
-	<!-- Einheit: Höhlenmensch -->
-	<tr><td>Höhlenmensch</td>
-		<td><img src="graphic/holz.png" width="16"><? echo $price["troop1"]["holz"]; ?> <img src="graphic/stein.png" width="16"><? echo $price["troop1"]["stein"]; ?> <img src="graphic/eisen.png" width="16"><? echo $price["troop1"]["eisen"]; ?></td>
-		<td><? echo date("i:s", $duration["troop1"]); ?></td>
-		<td><? echo $village["troop1"] ?></td>
-		<td><input size=5 id="amount" name="amount"> <span onclick="javascript:maxEintragen(<? echo $max; ?>);">(max. <? echo $max; ?>)</span></td></tr>
-	<tr><td></td><td></td><td></td><td></td><td><input type="submit" value="Rekrutieren" name="troop1"></td></tr>
+	<!-- Einheit: Phalanx -->
+	<tr><td><img src="graphic/troops/phalanx.png" width="16">Phalanx</td>
+		<td><img src="graphic/holz.png" width="16"><? echo $price["phalanx"]["holz"]; ?> <img src="graphic/stein.png" width="16"><? echo $price["phalanx"]["stein"]; ?> <img src="graphic/eisen.png" width="16"><? echo $price["phalanx"]["eisen"]; ?></td>
+		<td><? echo date("i:s", $duration["phalanx"]); ?></td>
+		<td><? echo $village["phalanx"] ?></td>
+		<td><input size=5 id="amount" name="phalanx"> <span onclick="maxEintragen(<? calculateMaxRecruitable("swordsman"); echo $max; ?>);">(max. <? echo $max; ?>)</span></td>
+	</tr>
+	<!-- Einheit: Schwertkämpfer -->
+	<tr><td><img src="graphic/troops/swordsman.png" width="16">Schwertkämpfer</td>
+		<td><img src="graphic/holz.png" width="16"><? echo $price["swordsman"]["holz"]; ?> <img src="graphic/stein.png" width="16"><? echo $price["swordsman"]["stein"]; ?> <img src="graphic/eisen.png" width="16"><? echo $price["swordsman"]["eisen"]; ?></td>
+		<td><? echo date("i:s", $duration["swordsman"]); ?></td>
+		<td><? echo $village["swordsman"] ?></td>
+		<td><input size=5 id="amount" name="swordsman"> <span onclick="maxEintragen(<? echo calculateMaxRecruitable("swordsman"); echo $max; ?>);">(max. <? echo $max; ?>)</span></td>
+	</tr>
+	<tr><td></td><td></td><td></td><td></td><td><input type="submit" value="Rekrutieren" name="recruit"></td></tr>
 </table>
 </form>
