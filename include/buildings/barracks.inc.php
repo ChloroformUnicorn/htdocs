@@ -166,7 +166,7 @@ if (mysqli_num_rows($recs) > 0)
 		<td><input size=5 id="amount" name="swordsman"> <span onclick="maxEintragen(<? echo calculateMaxRecruitable("swordsman"); echo $max; ?>);">(max. <? echo $max; ?>)</span></td>
 	</tr>
 	<!-- Einheit: Bogenschütze -->
-	<tr><td><img src="graphic/troops/swordsman.png" width="16">Bogenschütze</td>
+	<tr><td><img src="graphic/troops/archer.png" width="16">Bogenschütze</td>
 		<td><img src="graphic/holz.png" width="16"><? echo $price["archer"]["holz"]; ?> <img src="graphic/stein.png" width="16"><? echo $price["archer"]["stein"]; ?> <img src="graphic/eisen.png" width="16"><? echo $price["archer"]["eisen"]; ?></td>
 		<td><? echo date("i:s", $duration["archer"]); ?></td>
 		<td><? echo $village["archer"] ?></td>

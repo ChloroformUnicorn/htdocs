@@ -61,7 +61,7 @@ body {
     background-position: center;
 }
 
-#overview td {
+#map td {
 	height: 50px;
 	width: 50px;
 	border: 1px solid #0B610B;
@@ -93,4 +93,11 @@ body {
 	position: absolute;
 	vertical-align: middle;
 	text-align: center;
+}
+
+#villageInfo {
+	width: 200px;
+	background-color: white;
+	position: absolute;
+	display: none;
 }
