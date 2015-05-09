@@ -2,7 +2,7 @@
 	var mouseX;
 	var mouseY;
 	$(function() {
-		$("td").hover(function(e) {
+		$("#map td").hover(function(e) {
 			var td = $(this);
 			if (td.attr("name") != "") {
 				mouseX = e.pageX - 450;
@@ -15,10 +15,12 @@
 		}, function() {
 			$("#villageInfo").hide();
 		});
-		$("td").click(function() {
+		$("#map td").click(function() {
 			var targetId = $(this).attr("id");
-			var villageId = 12;
-			window.location = "game.php?village="+villageId+"&screen=map&target="+targetId;
+			if (targetId != "") {
+				var villageId = <? echo $villageId; ?>;
+				window.location = "game.php?village="+villageId+"&screen=map&target="+targetId;
+			}
 		});
 	});
 </script>
