@@ -8,14 +8,19 @@
 				mouseX = e.pageX - 450;
 				mouseY = e.pageY;
 				$("#villageName").text(td.attr("name"));
-				$("#villageOwner").text(td.attr("owner"));
+				$("#villageOwner").text(td.attr("owner") + " (" + td.attr("ownerPoints") + ")");
 				$("#villagePoints").text(td.attr("points"));
 				$("#villageInfo").css({'top':mouseY,'left':mouseX}).show();
 			}
 		}, function() {
 			$("#villageInfo").hide();
 		});
-	})
+		$("td").click(function() {
+			var targetId = $(this).attr("id");
+			var villageId = 12;
+			window.location = "game.php?village="+villageId+"&screen=map&target="+targetId;
+		});
+	});
 </script>
 <div id="villageInfo">
 	<table>
@@ -38,7 +43,7 @@ function village($x, $y) {
 	$ownerId = $village["user"];
 	$getUser = mysqli_query($db, "SELECT * FROM users WHERE id = '$ownerId'");
 	$user = mysqli_fetch_assoc($getUser);
-	echo "<td name='".$village["name"]."' owner='".$user["name"]."' points='".$village["points"]."'>".$village["name"]."</td>";
+	echo "<td name='".$village["name"]."' owner='".$user["name"]."' points='".$village["points"]."' id='".$village["id"]."' ownerPoints='".getTotalPoints($user["id"])."'>".$village["name"]."</td>";
 }
 
 $x0 = $village["x"];

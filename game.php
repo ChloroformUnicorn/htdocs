@@ -96,6 +96,13 @@ require "include/config.inc.php";
         </div>
         <div id="menu">
             <?
+            function getTotalPoints($userId) {
+                global $db;
+                $totalPointsOfUser = mysqli_query($db, "SELECT SUM(points) AS total FROM villages WHERE user = '$userId'");
+                $points = mysqli_fetch_assoc($totalPointsOfUser);
+                return $points["total"];
+            }
+
             // Kein Dorf gefunden?
             if (!$village)
             {
@@ -134,6 +141,11 @@ require "include/config.inc.php";
                 if ($_GET["screen"] == "farm")
                 {
                     require "include/buildings/farm.inc.php";
+                }
+                // Karte
+                if ($_GET["screen"] == "map")
+                {
+                    require "include/menu/map2.inc.php";
                 }
             }
             ?>
