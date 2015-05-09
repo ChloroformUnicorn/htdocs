@@ -69,8 +69,9 @@ calculateDuration($village);
 if (isset($_POST["recruit"]))
 {
 	$troops = ["phalanx" => $_POST["phalanx"],
-				"swordsman" => $_POST["swordsman"]];
-	$troopNames = ["phalanx", "swordsman"];
+				"swordsman" => $_POST["swordsman"],
+				"archer" => $_POST["archer"]];
+	$troopNames = ["phalanx", "swordsman", "archer"];
 
 	// Prüfen ob zu viele Truppen angefordert wurden
 	$error_troops = false;
@@ -93,8 +94,9 @@ if (isset($_POST["recruit"]))
 	{
 		// Einheiten deklarieren
 		$troops = ["phalanx" => $_POST["phalanx"],
-					"swordsman" => $_POST["swordsman"]];
-		$troopNames = ["phalanx", "swordsman"];
+					"swordsman" => $_POST["swordsman"],
+					"archer" => $_POST["archer"]];
+		$troopNames = ["phalanx", "swordsman", "archer"];
 
 		for ($i = 0; $i < count($troopNames); $i++) {
 			calculateMaxRecruitable($troopNames[$i]);
@@ -151,7 +153,7 @@ if (mysqli_num_rows($recs) > 0)
 		<td><img src="graphic/holz.png" width="16"><? echo $price["phalanx"]["holz"]; ?> <img src="graphic/stein.png" width="16"><? echo $price["phalanx"]["stein"]; ?> <img src="graphic/eisen.png" width="16"><? echo $price["phalanx"]["eisen"]; ?></td>
 		<td><? echo date("i:s", $duration["phalanx"]); ?></td>
 		<td><? echo $village["phalanx"] ?></td>
-		<td><input size=5 id="amount" name="phalanx"> <span onclick="maxEintragen(<? calculateMaxRecruitable("swordsman"); echo $max; ?>);">(max. <? echo $max; ?>)</span></td>
+		<td><input size=5 id="amount" name="phalanx"> <span onclick="maxEintragen(<? calculateMaxRecruitable("phalanx"); echo $max; ?>);">(max. <? echo $max; ?>)</span></td>
 	</tr>
 	<!-- Einheit: Schwertkämpfer -->
 	<tr><td><img src="graphic/troops/swordsman.png" width="16">Schwertkämpfer</td>
@@ -159,6 +161,13 @@ if (mysqli_num_rows($recs) > 0)
 		<td><? echo date("i:s", $duration["swordsman"]); ?></td>
 		<td><? echo $village["swordsman"] ?></td>
 		<td><input size=5 id="amount" name="swordsman"> <span onclick="maxEintragen(<? echo calculateMaxRecruitable("swordsman"); echo $max; ?>);">(max. <? echo $max; ?>)</span></td>
+	</tr>
+	<!-- Einheit: Bogenschütze -->
+	<tr><td><img src="graphic/troops/swordsman.png" width="16">Bogenschütze</td>
+		<td><img src="graphic/holz.png" width="16"><? echo $price["archer"]["holz"]; ?> <img src="graphic/stein.png" width="16"><? echo $price["archer"]["stein"]; ?> <img src="graphic/eisen.png" width="16"><? echo $price["archer"]["eisen"]; ?></td>
+		<td><? echo date("i:s", $duration["archer"]); ?></td>
+		<td><? echo $village["archer"] ?></td>
+		<td><input size=5 id="amount" name="archer"> <span onclick="maxEintragen(<? echo calculateMaxRecruitable("archer"); echo $max; ?>);">(max. <? echo $max; ?>)</span></td>
 	</tr>
 	<tr><td></td><td></td><td></td><td></td><td><input type="submit" value="Rekrutieren" name="recruit"></td></tr>
 </table>

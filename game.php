@@ -189,7 +189,8 @@ require "include/config.inc.php";
             <div id="troops">
                 <?
                 echo "<img src='graphic/troops/phalanx.png' width='16'> ".$village["phalanx"]." Phalanx 
-                    <img src='graphic/troops/swordsman.png' width='16'> ".$village["swordsman"]." Schwertkämpfer";
+                    <img src='graphic/troops/swordsman.png' width='16'> ".$village["swordsman"]." Schwertkämpfer
+                    <img src='graphic/troops/swordsman.png' width='16'> ".$village["archer"]." Bogenschütze";
                 ?>
             </div>
         </div>
