@@ -136,12 +136,15 @@ if (isset($_POST["recruit"]))
 
 echo "<form method='post'>";
 
-$recs = mysqli_query($db, "SELECT * FROM recruitOrders WHERE villageId = '$villageId'");
+$recs = mysqli_query($db, "SELECT * FROM recruitOrders WHERE villageId = '$villageId' ORDER BY beginTime DESC");
 if (mysqli_num_rows($recs) > 0)
 {
 	$rec = mysqli_fetch_assoc($recs);
 	$fertigstellung = $rec["amount"] * $rec["duration"] + $rec["beginTime"];
 	$nextUnit = ($rec["beginTime"] - time()) % $duration[$rec["unit"]];
+
+	$nextUnit = time() - ($rec["beginTime"] + ($rec["totalAmount"] - $rec["amount"]) * $rec["duration"]);
+
 	echo "<table border=1><tr><td><b>Rekrutierung der nächsten Einheit in</b></td><td>"
 		. date("i:s", $nextUnit) . "</td></tr></table>";
 }
