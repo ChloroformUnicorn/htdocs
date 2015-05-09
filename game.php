@@ -5,14 +5,14 @@ if ($_SESSION["id"]=="")
 {
     header("Location: logout.php");
 }
-// Datenbankverbindung aufbauen
 require "db.inc.php";
 $userId = $_SESSION["id"];
 $villageId = $_GET["village"];
 // Datensatz des Users
-$user = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM users WHERE id = '$userId'"));
+$getUser = mysqli_query($db, "SELECT * FROM users WHERE id = '$userId'");
+$user = mysqli_fetch_assoc($getUser);
 // Datensatz der Dörfer des eingeloggten User
-$getVillage = mysqli_query($db, "SELECT * FROM villages WHERE user = '$userId'");
+$getVillage = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
 $village = mysqli_fetch_assoc($getVillage);
 require "include/config.inc.php";
 ?>
@@ -154,9 +154,23 @@ require "include/config.inc.php";
             <div id="topbar">
                 <table style="width: calc(100% - 472px)"><tr><td>
                     <?
-                    $getVillage = mysqli_query($db, "SELECT * FROM villages WHERE user = '$userId'");
-                    $village = mysqli_fetch_assoc($getVillage);
-                    echo $village["name"] . " (" . $village["points"] . " Punkte)";
+                    if (mysqli_num_rows(mysqli_query($db, "SELECT * FROM villages WHERE user = '$userId'")) > 1) {
+                        // Vorheriges Dorf finden
+                        $getPrevious = mysqli_query($db, "SELECT id FROM villages WHERE user = '$userId' AND id < '$villageId' ORDER BY id DESC");
+                        if (mysqli_num_rows($getPrevious) < 1) {
+                            $getPrevious = mysqli_query($db, "SELECT id FROM villages WHERE user = '$userId' AND id > '$villageId' ORDER BY id DESC");
+                        }
+                        $previous = mysqli_fetch_assoc($getPrevious);
+                        $previous = $previous["id"];
+                        // Nachfolgendes Dorf finden
+                        $getNext = mysqli_query($db, "SELECT id FROM villages WHERE user = '$userId' AND id > '$villageId'");
+                        if (mysqli_num_rows($getNext) < 1) {
+                            $getNext = mysqli_query($db, "SELECT id FROM villages WHERE user = '$userId' AND id < '$villageId'");
+                        }
+                        $next = mysqli_fetch_assoc($getNext);
+                        $next = $next["id"];
+                    }
+                    echo $village["name"]." (".$village["points"]." Punkte) <a href='?village=$previous'><img src='graphic/arrow-left.png'></a> <a href='?village=$next'><img src='graphic/arrow-right.png'></a>";
                     ?>
                 </td><td align="right">
                     <img src='graphic/holz.png' height='20' style='vertical-align: middle;'> <span id="wood"><? echo $village["holz"]; ?></span>
