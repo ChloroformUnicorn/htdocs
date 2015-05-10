@@ -41,8 +41,7 @@ while (true)
 		$villageId = $order["villageId"];
 		$getVillage = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
 		$village = mysqli_fetch_assoc($getVillage);
-		$newLevel = $village[$building] + 1;
-		mysqli_query($db, "UPDATE villages SET `$building` = '$newLevel' WHERE id = '$villageId'");
+		mysqli_query($db, "UPDATE villages SET `$building` = `$building` + 1, points = '".getVillagePoints($village)."' WHERE id = '$villageId'");
 		$orderId = $order["id"];
 		mysqli_query($db, "DELETE FROM buildOrders WHERE id = '$orderId'");
 	}

@@ -6,7 +6,7 @@ echo "<h3>Deine Dörfer (".mysqli_num_rows($getVillages).")</h3><br/>
 <tr><td>Dorfname</td><td>Punkte</td></tr>";
 while ($village2 = mysqli_fetch_assoc($getVillages))
 {
-    echo "<tr><td>" . $village2["name"] . "</td><td>" . getVillagePoints($village2) . "</td></tr>";
+    echo "<tr><td>" . $village2["name"] . "</td><td>" . $village2["points"] . "</td></tr>";
 }
 echo "</table>
 	Du hast insgesamt " . getTotalUserPoints($userId) . " Punkte";
