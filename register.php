@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title>Registrierung</title>
-	<link rel="stylesheet" type="text/css" href="style.css" charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="index.css" charset="utf-8" />
 	<meta charset="utf-8">
 	<!-- AGB Popup -->
 	<script type="text/javascript">

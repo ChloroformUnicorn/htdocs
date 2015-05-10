@@ -170,7 +170,7 @@ require "include/config.inc.php";
                         $next = mysqli_fetch_assoc($getNext);
                         $next = $next["id"];
                     }
-                    echo $village["name"]." (".$village["points"]." Punkte) <a href='?village=$previous'><img src='graphic/arrow-left.png'></a> <a href='?village=$next'><img src='graphic/arrow-right.png'></a>";
+                    echo $village["name"]." (".$village["points"]." Punkte) <a href='?village=$previous&screen=".$_GET["screen"]."'><img src='graphic/arrow-left.png'></a> <a href='?village=$next&screen=".$_GET["screen"]."'><img src='graphic/arrow-right.png'></a>";
                     ?>
                 </td><td align="right">
                     <img src='graphic/holz.png' height='20' style='vertical-align: middle;'> <span id="wood"><? echo $village["holz"]; ?></span>
