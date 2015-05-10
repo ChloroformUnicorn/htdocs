@@ -8,7 +8,7 @@ function newLevel($building) {
 	return $village[$building] + $amountOfOrders + 1;
 }
 
-// Übersetzungen bzw. Namen der Gebäude
+// Übersetzungen der Daten
 function getName($param) {
 	switch ($param) {
 		// Gebäude
@@ -129,6 +129,51 @@ function calculateDuration($village = null) {
 		"swordsman" => $village["barracks"]*0.04,
 		"archer" => $village["barracks"]*0.05
 		];
+}
+
+function getVillagePoints($village) {
+	global $db;
+	$points =
+		["main" => [1=>20, 2=>1, 3=>2, 4=>2, 5=>3, 6=>4, 7=>4, 8=>4, 9=>3, 10=>5, 
+					11=>5, 12=>6, 13=>6, 14=>7, 15=>8, 16=>8, 17=>9, 18=>9, 19=>8, 20=>10], 
+		"barracks" => [1=>20, 2=>1, 3=>2, 4=>2, 5=>3, 6=>4, 7=>4, 8=>4, 9=>3, 10=>5, 
+					11=>5, 12=>6, 13=>6, 14=>7, 15=>8, 16=>8, 17=>9, 18=>9, 19=>8, 20=>10], 
+		"smith" => [1=>20, 2=>1, 3=>2, 4=>2, 5=>3, 6=>4, 7=>4, 8=>4, 9=>3, 10=>5, 
+					11=>5, 12=>6, 13=>6, 14=>7, 15=>8, 16=>8, 17=>9, 18=>9, 19=>8, 20=>10], 
+		"church" => [1=>20, 2=>1, 3=>2, 4=>2, 5=>3, 6=>4, 7=>4, 8=>4, 9=>3, 10=>5, 
+					11=>5, 12=>6, 13=>6, 14=>7, 15=>8, 16=>8, 17=>9, 18=>9, 19=>8, 20=>10], 
+		"res1" => [1=>20, 2=>1, 3=>2, 4=>2, 5=>3, 6=>4, 7=>4, 8=>4, 9=>3, 10=>5, 
+					11=>5, 12=>6, 13=>6, 14=>7, 15=>8, 16=>8, 17=>9, 18=>9, 19=>8, 20=>10],  
+		"res2" => [1=>20, 2=>1, 3=>2, 4=>2, 5=>3, 6=>4, 7=>4, 8=>4, 9=>3, 10=>5, 
+					11=>5, 12=>6, 13=>6, 14=>7, 15=>8, 16=>8, 17=>9, 18=>9, 19=>8, 20=>10],  
+		"res3" => [1=>20, 2=>1, 3=>2, 4=>2, 5=>3, 6=>4, 7=>4, 8=>4, 9=>3, 10=>5, 
+					11=>5, 12=>6, 13=>6, 14=>7, 15=>8, 16=>8, 17=>9, 18=>9, 19=>8, 20=>10], 
+		"store" => [1=>20, 2=>1, 3=>2, 4=>2, 5=>3, 6=>4, 7=>4, 8=>4, 9=>3, 10=>5, 
+					11=>5, 12=>6, 13=>6, 14=>7, 15=>8, 16=>8, 17=>9, 18=>9, 19=>8, 20=>10], 
+		"farm" => [1=>20, 2=>1, 3=>2, 4=>2, 5=>3, 6=>4, 7=>4, 8=>4, 9=>3, 10=>5, 
+					11=>5, 12=>6, 13=>6, 14=>7, 15=>8, 16=>8, 17=>9, 18=>9, 19=>8, 20=>10], 
+		"wall" => [1=>20, 2=>1, 3=>2, 4=>2, 5=>3, 6=>4, 7=>4, 8=>4, 9=>3, 10=>5, 
+					11=>5, 12=>6, 13=>6, 14=>7, 15=>8, 16=>8, 17=>9, 18=>9, 19=>8, 20=>10]
+		];
+	$buildings = ["main", "barracks", "smith", "church", "res1", "res2", "res3", "store", "farm", "wall"];
+	$total = ["main" => 0, "barracks" => 0, "smith" => 0, "church" => 0, "res1" => 0, "res2" => 0, "res3" => 0, "store" => 0, "farm" => 0, "wall" => 0];
+	for ($i = 0; $i < count($buildings); $i++) {
+		$building = $buildings[$i];
+		for ($j = 1; $j <= $village[$building]; $j++) {
+			$total[$building] += $points[$building][$j];
+		}
+	}
+	return array_sum($total);
+}
+
+function getTotalUserPoints($userId) {
+	global $db;
+	$getVillages = mysqli_query($db, "SELECT * FROM villages WHERE user = '$userId'");
+	$total = 0;
+	while ($village = mysqli_fetch_assoc($getVillages)) {
+		$total += getVillagePoints($village);
+	}
+	return $total;
 }
 
 // Rohstoff bzw. Bauernhof Kapazitäten in Abhängigkeit zur Stufe des Speichers berechnen

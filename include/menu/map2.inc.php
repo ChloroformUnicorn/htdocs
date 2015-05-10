@@ -129,7 +129,7 @@ if (isset($_POST["confirm"])) {
 				$getUser = mysqli_query($db, "SELECT * FROM users WHERE id = '$userId'");
 				$user = mysqli_fetch_assoc($getUser);
 				echo "<h2>".$target["name"]."</h2>
-					Besitzer: ".$target["name"]." (".getTotalPoints($user["id"]).")<br>
+					Besitzer: ".$target["name"]." (".getTotalUserPoints($user["id"]).")<br>
 					Punkte: ".$target["points"]."<br><br>
 					<div id='sendTroops'>
 						<img src='graphic/troops/phalanx.png'> <input type='text' id='phalanx' name='phalanx' value=''> <span onclick= \"setToMax(false, 0)\" >(".$village["phalanx"].")</span> 

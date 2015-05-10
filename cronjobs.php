@@ -54,20 +54,16 @@ while (true)
 		$orderId = $order["id"];
 		if ($order["amount"] > 0)
 		{
-			$now = time();
 			$unit = $order["unit"];
 			$villageId = $order["villageId"];
 			$beginTime = $order["beginTime"];
-			$otherOrders = mysqli_query($db, "SELECT * FROM recruitOrders WHERE villageId = '$villageId' AND beginTime > '$beginTime'");
-			if ((($order["beginTime"] + $order["duration"]) < $now) && (mysqli_num_rows($otherOrders) < 1))
+			$olderOrders = mysqli_query($db, "SELECT * FROM recruitOrders WHERE villageId = '$villageId' AND beginTime > '$beginTime'");
+			if ((($order["beginTime"] + $order["duration"]) < $now) && (mysqli_num_rows($olderOrders) < 1))
 			{
 				$getVillage = mysqli_query($db, "SELECT * FROM villages WHERE id = '$villageId'");
 				$village = mysqli_fetch_assoc($getVillage);
 				mysqli_query($db, "UPDATE villages SET `$unit` = `$unit` + 1 WHERE id = '$villageId'");
-				mysqli_query($db, "UPDATE recruitOrders SET amount = amount - 1 WHERE id = '$orderId'");
-				$newBeginTime = $order["beginTime"] + $order["duration"];
-
-				mysqli_query($db, "UPDATE recruitOrders SET beginTime = '$newBeginTime' WHERE id = '$orderId'");
+				mysqli_query($db, "UPDATE recruitOrders SET amount = amount - 1, beginTime = beginTime + duration WHERE id = '$orderId'");
 
 				$orders = mysqli_query($db, "SELECT * FROM recruitOrders");
 			}

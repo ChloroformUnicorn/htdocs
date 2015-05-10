@@ -45,7 +45,7 @@ function village($x, $y) {
 	$ownerId = $village["user"];
 	$getUser = mysqli_query($db, "SELECT * FROM users WHERE id = '$ownerId'");
 	$user = mysqli_fetch_assoc($getUser);
-	echo "<td name='".$village["name"]."' owner='".$user["name"]."' points='".$village["points"]."' id='".$village["id"]."' ownerPoints='".getTotalPoints($user["id"])."'>".$village["name"]."</td>";
+	echo "<td name='".$village["name"]."' owner='".$user["name"]."' points='".$village["points"]."' id='".$village["id"]."' ownerPoints='".getTotalUserPoints($user["id"])."'>".$village["name"]."</td>";
 }
 
 $x0 = $village["x"];
