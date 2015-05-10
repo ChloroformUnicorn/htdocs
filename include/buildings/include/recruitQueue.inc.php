@@ -1,5 +1,6 @@
 <?
 require "../../../db.inc.php";
+require "../../config.inc.php";
 date_default_timezone_set("Europe/Berlin");
 $villageId = $_GET["village"];
 $recs = mysqli_query($db, "SELECT * FROM recruitOrders WHERE villageId = '$villageId'");
@@ -28,7 +29,7 @@ if (mysqli_num_rows($recs) > 0) {
 		// Wann ist es fertig?
 		$builtOnD = date("d.m.", $fertigstellung);
 		$builtOnT = date("H:i:s", $fertigstellung);
-		echo "<tr><td>$amount $unit</td><td>$duration</td><td>am $builtOnD, um $builtOnT Uhr</td></tr>";
+		echo "<tr><td>$amount ".getName($unit)."</td><td>$duration</td><td>am $builtOnD, um $builtOnT Uhr</td></tr>";
 	}
 	echo "</table><br>";
 }

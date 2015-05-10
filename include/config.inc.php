@@ -9,8 +9,9 @@ function newLevel($building) {
 }
 
 // Übersetzungen bzw. Namen der Gebäude
-function getName($building) {
-	switch ($building) {
+function getName($param) {
+	switch ($param) {
+		// Gebäude
 		case "main":
 			return "Hauptgebäude";
 			break;
@@ -40,6 +41,16 @@ function getName($building) {
 			break;
 		case "wall":
 			return "Wall";
+			break;
+		// Truppen
+		case "phalanx":
+			return "Phalanx";
+			break;
+		case "swordsman":
+			return "Schwertkämpfer";
+			break;
+		case "archer":
+			return "Bogenschütze";
 			break;
 	}
 }
@@ -83,15 +94,18 @@ function calculatePrice() {
 		"phalanx" => ["holz" => 10,
 					"stein" => 12,
 					"eisen" => 8,
-					"farmUnits" => 1],
+					"farmUnits" => 1,
+					"speed" => 1],
 		"swordsman" => ["holz" => 10,
 					"stein" => 12,
 					"eisen" => 8,
-					"farmUnits" => 1],
+					"farmUnits" => 1,
+					"speed" => 2],
 		"archer" => ["holz" => 10,
 					"stein" => 12,
 					"eisen" => 8,
-					"farmUnits" => 1]
+					"farmUnits" => 1,
+					"speed" => 3]
 		];
 }
 

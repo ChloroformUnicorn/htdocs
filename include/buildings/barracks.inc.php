@@ -33,7 +33,7 @@ if (mysqli_num_rows($recs) > 0) {
 		// Wann ist es fertig?
 		$builtOnD = date("d.m.", $fertigstellung);
 		$builtOnT = date("H:i:s", $fertigstellung);
-		echo "<tr><td>$amount $unit</td><td>$duration</td><td>am $builtOnD, um $builtOnT Uhr</td></tr>";
+		echo "<tr><td>$amount ".getName($unit)."</td><td>$duration</td><td>am $builtOnD, um $builtOnT Uhr</td></tr>";
 	}
 	echo "</table><br>";
 }
@@ -112,19 +112,21 @@ if (isset($_POST["recruit"]))
 			}
 			$durationVar = $duration[$unit];
 			$amount = $_POST[$unit];
-			// Rekrutierungsauftrag erstellen
-			mysqli_query($db, "INSERT INTO recruitOrders
-							(villageId, unit, beginTime, duration, amount, totalAmount)
-							VALUES
-							('$villageId', '$unit', '$beginTime', '$durationVar', '$amount', '$amount')");
-			// Ressourcen updaten
-			$update = $village["holz"] - $price[$unit]["holz"] * $troops[$unit];
-			mysqli_query($db, "UPDATE villages SET holz = '$update' WHERE id = '$villageId'");
-			$update = $village["stein"] - $price[$unit]["stein"] * $troops[$unit];
-			mysqli_query($db, "UPDATE villages SET stein = '$update' WHERE id = '$villageId'");
-			$update = $village["eisen"] - $price[$unit]["eisen"] * $troops[$unit];
-			mysqli_query($db, "UPDATE villages SET eisen = '$update' WHERE id = '$villageId'");
-			calculateMaxRecruitable($unit);
+			if ($amount > 0) {
+				// Rekrutierungsauftrag erstellen
+				mysqli_query($db, "INSERT INTO recruitOrders
+								(villageId, unit, beginTime, duration, amount, totalAmount)
+								VALUES
+								('$villageId', '$unit', '$beginTime', '$durationVar', '$amount', '$amount')");
+				// Ressourcen updaten
+				$update = $village["holz"] - $price[$unit]["holz"] * $troops[$unit];
+				mysqli_query($db, "UPDATE villages SET holz = '$update' WHERE id = '$villageId'");
+				$update = $village["stein"] - $price[$unit]["stein"] * $troops[$unit];
+				mysqli_query($db, "UPDATE villages SET stein = '$update' WHERE id = '$villageId'");
+				$update = $village["eisen"] - $price[$unit]["eisen"] * $troops[$unit];
+				mysqli_query($db, "UPDATE villages SET eisen = '$update' WHERE id = '$villageId'");
+				calculateMaxRecruitable($unit);
+			}
 		}	
 		echo "Rekrutierung durchgeführt.";	
 	}
