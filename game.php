@@ -210,9 +210,9 @@ require "include/config.inc.php";
                 // Truppen Inventar
                 echo "</div>
                     <div id='troops'>
-                        <img src='graphic/troops/phalanx.png' width='16'> ".$village["phalanx"]." Phalanx 
-                        <img src='graphic/troops/swordsman.png' width='16'> ".$village["swordsman"]." Schwertkämpfer
-                        <img src='graphic/troops/archer.png' width='16'> ".$village["archer"]." Bogenschütze
+                        <img src='graphic/troops/phalanx.png' width='16'> ".getAvailableTroops("phalanx")." Phalanx 
+                        <img src='graphic/troops/swordsman.png' width='16'> ".getAvailableTroops("swordsman")." Schwertkämpfer
+                        <img src='graphic/troops/archer.png' width='16'> ".getAvailableTroops("archer")." Bogenschütze
                     </div>";
                 ?>
             </div>

@@ -191,3 +191,13 @@ function resourceProduction($source1, $source2, $source3, $resource1, $resource2
 	$update2 = $source2 * 20 + $resource2;
 	$update3 = $source3 * 20 + $resource3;
 }
+
+function getAvailableTroops($unit) {
+	global $db, $village;
+	$availableTroops = $village[$unit];
+	$walkingTroops = mysqli_query($db, "SELECT `$unit` FROM walkingTroops WHERE villageId = '".$village["id"]."'");
+	foreach ($walkingTroops as $walkingTroops) {
+		$availableTroops -= $walkingTroops[$unit];
+	}
+	return $availableTroops;
+}

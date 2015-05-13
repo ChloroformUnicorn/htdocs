@@ -66,6 +66,11 @@ if (isset($_POST["confirm"])) {
 	$phalanx = $_POST["phalanx"];
 	$swordsman = $_POST["swordsman"];
 	$archer = $_POST["archer"];
+	// Ausgehende Truppen werden eingetragen
+	mysqli_query($db, "INSERT INTO walkingTroops 
+						(villageId, targetId, mode, beginTime, phalanx, swordsman, archer)
+						VALUES
+						('$villageId', '$targetId', '$mode', '".time()."', '$phalanx', '$swordsman', '$archer')");
 	echo "Truppen wurden versendet.";
 } else {
 	if (isset($_GET["mode"])) {
