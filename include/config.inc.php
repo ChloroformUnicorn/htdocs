@@ -110,7 +110,7 @@ function calculatePrice() {
 }
 
 // Dauer für den Gebäudeausbau (Formeln)
-function calculateDuration($village = null) {
+function calculateDuration($village) {
 	global $duration;
 	$duration =
 		// Gebäude

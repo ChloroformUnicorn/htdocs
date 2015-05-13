@@ -41,7 +41,6 @@ if (mysqli_num_rows($orders) > 0) {
 		$newLevel = $village[$building] + mysqli_num_rows($ordersB) - $x + 2;
 		$x--;
 
-
 		$time = $order["time"];
 		$otherOrders = mysqli_query($db, "SELECT * FROM buildOrders WHERE villageId = '$villageId' AND time < '$time'");
 		if (mysqli_num_rows($otherOrders) > 0) {
